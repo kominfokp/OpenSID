@@ -52,7 +52,7 @@ class Rtm extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['header_model', 'rtm_model', 'config_model', 'wilayah_model', 'program_bantuan_model']);
+		$this->load->model(['header_model', 'rtm_model', 'config_model', 'wilayah_model', 'program_bantuan_model','penduduk_model','biodata_model']);
 		$this->_header = $this->header_model->get_data();
 		$this->_set_page = ['50', '100', '200'];
 		$this->_list_session = ['cari', 'dusun', 'rw', 'rt', 'order_by', 'id_bos', 'kelas']; // Session id_bos
@@ -180,6 +180,7 @@ class Rtm extends Admin_Controller {
 
 	public function insert()
 	{
+
 		$this->rtm_model->insert();
 		$this->session->order_by = 6;
 
@@ -266,11 +267,11 @@ class Rtm extends Admin_Controller {
 		$this->load->view("sid/kependudukan/ajax_add_anggota_rtm_form", $data);
 	}
 
-	public function edit_anggota($id_rtm = 0, $id = 0)
+	public function edit_anggota($id_kk = 0, $id = 0)
 	{
 		$data['hubungan'] = $this->rtm_model->list_hubungan();
 		$data['main'] = $this->rtm_model->get_anggota($id);
-		$data['form_action'] = site_url("rtm/update_anggota/$id_rtm/$id");
+		$data['form_action'] = site_url("rtm/update_anggota/$id_kk/$id");
 		$this->load->view("sid/kependudukan/ajax_edit_anggota_rtm", $data);
 	}
 
@@ -314,10 +315,10 @@ class Rtm extends Admin_Controller {
 		redirect("rtm/anggota/$id");
 	}
 
-	public function update_anggota($id_rtm = 0, $id = 0)
+	public function update_anggota($id_kk = 0, $id = 0)
 	{
-		$this->rtm_model->update_anggota($id, $id_rtm);
-		redirect("rtm/anggota/$id_rtm");
+		$this->rtm_model->update_anggota($id, $id_kk);
+		redirect("rtm/anggota/$id_kk");
 	}
 
 	public function delete_anggota($kk = 0, $id = 0)

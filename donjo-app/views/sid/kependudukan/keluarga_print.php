@@ -56,7 +56,7 @@
 								<td><?= strtoupper($data['kepala_kk'])?></td>
 								<td><?= strtoupper($data['nik'])?></td>
 								<td><?= $data['jumlah_anggota']?></td>
-								<td><?= $data['sex']?></td>
+								<td><?= $data['jenis_klmin']?></td>
 								<td><?= strtoupper($data['alamat'])?></td>
 								<td><?= strtoupper($data['dusun'])?></td>
 								<td><?= strtoupper($data['rw'])?></td>

@@ -97,6 +97,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$this->load->view('nav',$nav);
 		$this->load->view('dokumen/form', $data);
 		$this->load->view('footer');
+
 	}
 
 	public function search()
@@ -125,6 +126,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$kat = $this->input->post('kategori');
 		$outp = $this->web_dokumen_model->insert();
 		if (!$outp) $_SESSION['success'] = -1;
+
 		redirect("dokumen_sekretariat/peraturan_desa/$kat");
 	}
 

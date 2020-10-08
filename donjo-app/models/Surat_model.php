@@ -201,7 +201,8 @@
 		return trim($alamat_wilayah);
 	}
 
-	public function get_penduduk($id=0)
+
+	/*public function get_penduduk($id=0)
 	{
 		$sql   = "SELECT u.id AS id, u.nama AS nama, u.sex as sex_id, x.nama AS sex, u.id_kk AS id_kk, u.tempatlahir AS tempatlahir, u.tanggallahir AS tanggallahir, u.no_kk_sebelumnya, s.nama as status, u.waktu_lahir, u.tempat_dilahirkan, u.jenis_kelahiran, u.kelahiran_anak_ke, u.penolong_kelahiran, u.berat_lahir, u.panjang_lahir, u.id_cluster,
 		(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
@@ -218,13 +219,44 @@
 		left join tweb_keluarga k on u.id_kk = k.id
 		left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
 		left join tweb_penduduk_status s on u.status = s.id
-		WHERE u.id = ?";
+		WHERE u.nik = ?";
 		$query = $this->db->query($sql, $id);
 		$data  = $query->row_array();
 		$data['nama'] = addslashes($data['nama']);
 		$data['alamat_wilayah']= $this->get_alamat_wilayah($data);
 		return $data;
+	}*/
+
+	function get_penduduk($id=0)
+	{
+		$nik = get_penduduk($id);
+
+
+		if ($nik) {
+			$detil_nik = $nik['detil_nik'];
+
+			$data_new = [
+				'status_data'=>null,
+				'nama'=>$detil_nik['NAMA_LGKP'],
+				'tempatlahir'=>$detil_nik['TMPT_LHR'],
+				'tanggallahir'=>$detil_nik['TGL_LHR'],
+				'umur'=>hitung_umur($detil_nik['TGL_LHR']),
+				'alamat_wilayah'=>$detil_nik['ALAMAT'],
+				'pendidikan'=>$detil_nik['PDDK_AKH'],
+				'warganegara'=>'WNI',
+				'agama'=>$detil_nik['AGAMA'],
+				'id'=>$detil_nik['NIK'],
+				'no_kk'=>$detil_nik['NO_KK'],
+			];
+		} else {
+			$data_new = null;
+		}
+
+		// return $data_new;
+		return $data_new;
 	}
+
+
 
 	function pengikut()
 	{
@@ -262,10 +294,26 @@
 
 	public function list_pamong()
 	{
+		/*
 		$sql = "SELECT u.*, p.nama as nama
 			FROM tweb_desa_pamong u
-			LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
+			LEFT JOIN tweb_biodata_penduduk p ON u.id_pend = p.nik
 			WHERE pamong_status = 1";
+		*/
+		//18.12
+		// $sql = "SELECT u.*, u.pamong_nama as nama
+		// 	FROM tweb_desa_pamong u
+		// 	WHERE pamong_status = 1";
+		$sql = "SELECT u.*, u.pamong_nama as nama
+		FROM tweb_desa_pamong u
+		WHERE jabatan = 'Lurah' or jabatan = 'Carik' ";
+
+		//19.01
+		/*$sql = "SELECT u.*, p.nama as nama
+			FROM tweb_desa_pamong u
+			LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
+			WHERE pamong_status = 1";*/
+
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
 		for ($i=0; $i<count($data); $i++)
@@ -283,7 +331,7 @@
 	public function get_data_surat($id=0)
 	{
 		$sql = "SELECT u.*, g.nama AS gol_darah, x.nama AS sex, u.sex as sex_id,
-			(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(``tweb_penduduk``.``tanggallahir``))),'%Y') + 0)` from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
+			0 AS umur,
 			w.nama AS status_kawin, u.status_kawin as status_kawin_id, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, h.nama AS hubungan, j.nama AS pekerjaan, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk, k.alamat, m.nama as cacat,
 			(select tweb_penduduk.nik from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS nik_kk,
 			(select tweb_penduduk.telepon from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS telepon_kk,
@@ -300,13 +348,70 @@
 			left join tweb_keluarga k on u.id_kk = k.id
 			left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
 			left join tweb_golongan_darah g on u.golongan_darah_id = g.id
-			WHERE u.id = ?";
+			WHERE u.nik = ?";
+
 		$query = $this->db->query($sql,$id);
 		$data  = $query->row_array();
 		$data['alamat_wilayah'] = $this->get_alamat_wilayah($data);
 		$this->format_data_surat($data);
 		return $data;
 	}
+
+	public function get_detil_penduduk($id=0) {
+		$this->db->where('a.nik', $id);
+		$this->db->select('
+			a.*,
+			l.nama AS gol_darah, 
+			b.nama AS sex, 
+			0 AS umur,
+			c.nama AS status_kawin, 
+			k.nama AS warganegara, 
+			e.nama AS agama, 
+			f.nama AS pendidikan, 
+			h.nama AS hubungan, 
+			g.nama AS pekerjaan, 
+			h.nama as cacat
+		');
+		$this->db->join('tweb_penduduk_sex b', 'a.sex = b.id', 'left');
+		$this->db->join('tweb_penduduk_kawin c', 'a.status_kawin = c.id', 'left');
+		$this->db->join('tweb_penduduk_hubungan d', 'a.kk_level = d.id', 'left');
+		$this->db->join('tweb_penduduk_agama e', 'a.agama_id = e.id', 'left');
+		$this->db->join('tweb_penduduk_pendidikan_kk f', 'a.pendidikan_kk_id = f.id', 'left');
+		$this->db->join('tweb_penduduk_pekerjaan g', 'a.pekerjaan_id = g.id', 'left');
+		$this->db->join('tweb_cacat h', 'a.cacat_id = h.id', 'left');
+		$this->db->join('tweb_wil_clusterdesa i', 'a.id_cluster = i.id', 'left');
+		$this->db->join('tweb_keluarga j', 'a.id_kk = j.id', 'left');
+		$this->db->join('tweb_penduduk_warganegara k', 'a.warganegara_id = k.id', 'left');
+		$this->db->join('tweb_golongan_darah l', 'a.golongan_darah_id = l.id', 'left');
+		$get_penduduk = $this->db->get('tweb_penduduk a')->row_array();
+
+		return $get_penduduk;
+
+		/*$sql = "SELECT u.*, g.nama AS gol_darah, x.nama AS sex, u.sex as sex_id,
+			0 AS umur,
+			w.nama AS status_kawin, u.status_kawin as status_kawin_id, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, h.nama AS hubungan, j.nama AS pekerjaan, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk, k.alamat, m.nama as cacat,
+			(select tweb_penduduk.nik from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS nik_kk,
+			(select tweb_penduduk.telepon from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS telepon_kk,
+			(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
+			from tweb_penduduk u
+			left join tweb_penduduk_sex x on u.sex = x.id
+			left join tweb_penduduk_kawin w on u.status_kawin = w.id
+			left join tweb_penduduk_hubungan h on u.kk_level = h.id
+			left join tweb_penduduk_agama a on u.agama_id = a.id
+			left join tweb_penduduk_pendidikan_kk d on u.pendidikan_kk_id = d.id
+			left join tweb_penduduk_pekerjaan j on u.pekerjaan_id = j.id
+			left join tweb_cacat m on u.cacat_id = m.id
+			left join tweb_wil_clusterdesa c on u.id_cluster = c.id
+			left join tweb_keluarga k on u.id_kk = k.id
+			left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
+			left join tweb_golongan_darah g on u.golongan_darah_id = g.id
+			WHERE u.nik = ?";
+
+		$query = $this->db->query($sql,$id);
+		$data  = $query->row_array();
+		return $this->db->last_query();*/
+	}
+
 
 	public function format_data_surat(&$data)
 	{
@@ -349,9 +454,24 @@
 
 	public function get_data_pribadi($id=0)
 	{
+		//from kp19.02
+		/*
+		$sql = "SELECT u.*, golongan_darah as gol_darah, jenis_klmin AS sex,
+		(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(``tweb_penduduk``.``tanggallahir``))),'%Y') + 0)` from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
+		stat_kwn  AS status_kawin,
+		 warganegara,
+		 agama,
+		 pendidikan,
+		 pekerjaan, no_rt AS rt, no_rw AS rw, no_kk, alamat, kel_name, kec_name, kab_name,
+		kepala_kk kepala_kk
+		from tweb_biodata_penduduk u
+		WHERE u.nik = ?";
+		$query = $this->db->query($sql,$id);*/
+
+		//from opensid19.03 tapi tweb_penduduk diganti dengan tweb_biodata_penduduk
 		$sql = "SELECT u.*, h.nama as hubungan, p.nama as kepala_kk, g.nama as gol_darah, d.nama as pendidikan, s.nama as status, r.nama as pek, m.nama as men, w.nama as wn, n.nama as agama, c.rw, c.rt, c.dusun, (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( u.tanggallahir ) ) , '%Y' ) +0) as umur, sex.nama as sex, k.alamat,
     	CONCAT('NIK: ', u.nik, ' - ', u.nama, '\nAlamat : RT-', c.rt, ', RW-', c.rw, ' ', c.dusun) AS info_pilihan_penduduk
-			FROM tweb_penduduk u
+			FROM tweb_biodata_penduduk u
 			left join tweb_penduduk_hubungan h on u.kk_level = h.id
 			left join tweb_keluarga k on u.id_kk = k.id
 			left join tweb_penduduk p on k.nik_kepala = p.id
@@ -937,8 +1057,8 @@
 
 	// Kode isian nomor_surat bisa ditentukan panjangnya, diisi dengan '0' di sebelah kiri
 	// Misalnya [nomor_surat, 3] akan menghasilkan seperti '012'
-  public function substitusi_nomor_surat($nomor, &$buffer)
-  {
+	public function substitusi_nomor_surat($nomor, &$buffer)
+	{
 		$buffer = str_replace("[nomor_surat]","$nomor", $buffer);
 		if (preg_match_all('/\[nomor_surat,\s*\d+\]/', $buffer, $matches))
 		{
@@ -950,23 +1070,23 @@
 				$buffer = str_replace($match, $nomor_panjang, $buffer);
 			}
 		}
-  }
+	}
 
-  private function get_file_data_lampiran($url_surat, $lokasi_rtf)
-  {
-  	$file = FCPATH.$lokasi_rtf.'get_data_lampiran.php';
-  	if (!file_exists($file))
-  		$file = FCPATH.'template-surat/'.$url_surat.'/get_data_lampiran.php';
-  	return $file;
-  }
+	private function get_file_data_lampiran($url_surat, $lokasi_rtf)
+	{
+		$file = FCPATH.$lokasi_rtf.'get_data_lampiran.php';
+		if (!file_exists($file))
+			$file = FCPATH.'template-surat/'.$url_surat.'/get_data_lampiran.php';
+		return $file;
+	}
 
-  private function get_file_lampiran($url_surat, $lokasi_rtf, $format_lampiran)
-  {
-  	$file = FCPATH.$lokasi_rtf.$format_lampiran;
-  	if (!file_exists($file))
-  		$file = FCPATH.'template-surat/'.$url_surat.'/'.$format_lampiran;
-  	return $file;
-  }
+	private function get_file_lampiran($url_surat, $lokasi_rtf, $format_lampiran)
+	{
+		$file = FCPATH.$lokasi_rtf.$format_lampiran;
+		if (!file_exists($file))
+			$file = FCPATH.'template-surat/'.$url_surat.'/'.$format_lampiran;
+		return $file;
+	}
 
 	public function lampiran($data, $nama_surat, &$lampiran)
 	{
@@ -978,33 +1098,33 @@
 		$input = $data['input'];
 		// $lampiran_surat dalam bentuk seperti "f-1.08.php,f-1.25.php"
 		$daftar_lampiran = explode(",", $surat['lampiran']);
-    include($this->get_file_data_lampiran($surat['url_surat'], $surat['lokasi_rtf']));
+    	include($this->get_file_data_lampiran($surat['url_surat'], $surat['lokasi_rtf']));
 		$lampiran = pathinfo($nama_surat, PATHINFO_FILENAME)."_lampiran.pdf";
 
-    // get the HTML using output buffer
-    ob_start();
-    foreach($daftar_lampiran as $format_lampiran)
-    {
-	    include($this->get_file_lampiran($surat['url_surat'], $surat['lokasi_rtf'], $format_lampiran));
-    }
-    $content = ob_get_clean();
+    	// get the HTML using output buffer
+	    ob_start();
+	    foreach($daftar_lampiran as $format_lampiran)
+	    {
+		    include($this->get_file_lampiran($surat['url_surat'], $surat['lokasi_rtf'], $format_lampiran));
+	    }
+    	$content = ob_get_clean();
 
-    // convert in PDF
-    require_once(FCPATH.'vendor/html2pdf/html2pdf.class.php');
-    try
-    {
-      $html2pdf = new HTML2PDF();
-//      $html2pdf->setModeDebug();
-      $html2pdf->setDefaultFont('Arial');
-      $html2pdf->writeHTML($content, isset($_GET['vuehtml']));
-			ob_end_clean();
-      $html2pdf->Output(LOKASI_ARSIP.$lampiran, 'F');
-    }
-    catch(HTML2PDF_exception $e)
-    {
-      echo $e;
-      exit;
-    }
+    	// convert in PDF
+    	require_once(FCPATH.'vendor/html2pdf/html2pdf.class.php');
+	    try
+	    {
+			$html2pdf = new HTML2PDF();
+			//      $html2pdf->setModeDebug();
+			$html2pdf->setDefaultFont('Arial');
+			$html2pdf->writeHTML($content, isset($_GET['vuehtml']));
+				ob_end_clean();
+			$html2pdf->Output(LOKASI_ARSIP.$lampiran, 'F');
+	    }
+	    catch(HTML2PDF_exception $e)
+	    {
+	      echo $e;
+	      exit;
+	    }
 	}
 
 	public function get_data_untuk_surat($url)
@@ -1019,6 +1139,7 @@
 			default:
 				$id = $data['input']['nik'];
 				$data['individu'] = $this->get_data_surat($id);
+				//$data['individu'] = $this->get_penduduk($id);
 				$data['ayah'] = $this->get_data_ayah($id);
 				$data['ibu'] = $this->get_data_ibu($id);
 				break;
@@ -1029,8 +1150,10 @@
 	public function buat_surat($url='', &$nama_surat, &$lampiran)
 	{
 		$data = $this->get_data_untuk_surat($url);
-		$this->lampiran($data, $nama_surat, $lampiran);
-		$this->surat_utama($data, $nama_surat);
+		// $this->lampiran($data, $nama_surat, $lampiran);
+		// $this->surat_utama($data, $nama_surat);
+		// 
+		return $data;
 	}
 
 	public function surat_utama($data, &$nama_surat)

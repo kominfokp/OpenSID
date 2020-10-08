@@ -96,11 +96,13 @@
 
 	private function list_data_sql()
 	{
+		// tweb_penduduk 20.08
+		//change to nik candra
 		$sql = " FROM log_surat u
-			LEFT JOIN tweb_penduduk n ON u.id_pend = n.id
+			LEFT JOIN tweb_biodata_penduduk n ON u.id_pend = n.nik
 			LEFT JOIN tweb_surat_format k ON u.id_format_surat = k.id
 			LEFT JOIN tweb_desa_pamong s ON u.id_pamong = s.pamong_id
-			LEFT JOIN tweb_penduduk p ON s.id_pend = p.id
+			LEFT JOIN tweb_biodata_penduduk p ON s.id_pend = p.nik
 			LEFT JOIN user w ON u.id_user = w.id
 			WHERE 1 ";
 		$sql .= $this->search_sql();
@@ -313,14 +315,22 @@
 		}
 		if ($log_id)
 		{
+
 			$this->db->where('id', $log_id);
-			$this->db->update('log_surat', $data);
+			$queri = $this->db->update('log_surat', $data);
+			$status['s'] = "edit";
+			$status['lq'] = $this->db->last_query();
+			$status['stat'] = $queri;
 		}
 		else
 		{
-			$this->db->insert('log_surat',$data);
+			$queri = $this->db->insert('log_surat',$data);
+			$status['s'] = "add";
+			$status['lq'] = $this->db->last_query();
+			$status['stat'] = $queri;
 		}
 
+		return $status;
 	}
 
 	public function grafik()

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * File ini:
  *
@@ -209,15 +208,13 @@ class Admin_Controller extends MY_Controller {
 	public $grup;
 	public $CI = NULL;
 	public $pengumuman = NULL;
-	public $header;
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->CI = CI_Controller::get_instance();
 		$this->controller = strtolower($this->router->fetch_class());
-		$this->load->model(['header_model', 'user_model', 'notif_model']);
-		$this->header = $this->header_model->get_data();
+		$this->load->model(['user_model', 'notif_model']);
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 
 		$this->load->model('modul_model');
@@ -251,7 +248,7 @@ class Admin_Controller extends MY_Controller {
 			$notifikasi = $this->notif_model->get_semua_notif();
 			foreach($notifikasi as $notif)
 			{
-				$this->pengumuman = $this->notif_model->notifikasi($notif);
+				$this->pengumuman = $this->notif_model->notifikasi($notif['kode']);
 				if ($notif['jenis'] == 'persetujuan') break;
 			}
 		}

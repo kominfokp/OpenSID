@@ -52,7 +52,8 @@ class Sid_Core extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['wilayah_model', 'config_model', 'header_model']);
+
+		$this->load->model(['wilayah_model', 'config_model', 'header_model','biodata_model']);
 		$this->load->library('form_validation');
 		$this->modul_ini = 200;
 		$this->sub_modul_ini = 20;
@@ -110,8 +111,91 @@ class Sid_Core extends Admin_Controller {
 		$this->load->view('sid/wilayah/wilayah_excel', $data);
 	}
 
+	public function cek_nik() {
+		$desa = $this->get_data_desa();
+		$kodeProp = intval($desa['kode_propinsi']);
+		$kodeKab = intval($desa['kode_kabupaten']);
+		$kodeKec = intval($desa['kode_kecamatan']);
+		$kodeKel = intval($desa['kode_desa']);
+
+		$p = $this->input->post();
+		if (!empty($p)) {
+			$nik = $p['nik'];
+			$data['individu'] = $this->biodata_model->get_penduduk($nik);
+
+			if($data['individu']['nik'] == NULL) {
+				// $data['individu']['status_data'] = "Data Tidak ditemukan";
+				$ret['status'] = false;
+				$ret['htm'] = '<div class="alert alert-danger">Data tidak ditemukan</div>';
+			} else {
+				if(
+					$data['individu']['no_prop'] == $kodeProp
+					&& $data['individu']['no_kab'] == $kodeKab
+					&& $data['individu']['no_kec'] == $kodeKec
+					&& $data['individu']['no_kel'] == $kodeKel
+				) {
+					$this->biodata_model->save_biodata($data['individu']);
+
+					$ret['status'] = true;
+					$ret['htm'] = '
+												<div class="alert alert-success">
+												<table class="table table-bordered">
+													<tr><td width="30%">NIK</td><td width="70%">'.$data['individu']['nik'].'</td></tr>
+													<tr><td>Nama</td><td>'.$data['individu']['nama'].'</td></tr>
+												</table>
+												</div>';
+				} else {
+					// $data['individu']['status_data'] = "Mohon Maaf Biodata Penduduk desa ".$data['individu']['kel_name'];
+					$ret['status'] = false;
+					$ret['htm'] = '<div class="alert alert-danger">Bukan penduduk desa ini</div>';
+				}
+			}
+			j($ret);
+		}
+
+		exit;
+	}
+
 	public function form($id = '')
 	{
+
+
+		$desa = $this->get_data_desa();
+		$kodeProp = intval($desa['kode_propinsi']);
+		$kodeKab = intval($desa['kode_kabupaten']);
+		$kodeKec = intval($desa['kode_kecamatan']);
+		$kodeKel = intval($desa['kode_desa']);
+
+		if (!empty($_POST['id_kepala']))
+		{
+
+			$data['individu'] = $this->biodata_model->get_penduduk($_POST['id_kepala']);
+
+			if($data['individu']['nik'] == NULL) {
+				$data['individu']['status_data'] = "Data Tidak ditemukan";
+			} else {
+				if(
+					$data['individu']['no_prop'] == $kodeProp
+					&& $data['individu']['no_kab'] == $kodeKab
+					&& $data['individu']['no_kec'] == $kodeKec
+					&& $data['individu']['no_kel'] == $kodeKel
+				) {
+					$this->biodata_model->save_biodata($data['individu']);
+
+				} else {
+					$data['individu']['status_data'] = "Mohon Maaf Biodata Penduduk desa ".$data['individu']['kel_name'];
+				}
+			}
+
+			$data['individu']['alamat_wilayah']= $data['individu']['alamat'];
+
+
+		}
+		else
+		{
+			$data['individu'] = NULL;
+			$data['anggota'] = NULL;
+		}
 		$data['penduduk'] = $this->wilayah_model->list_penduduk();
 
 		if ($id)
@@ -119,6 +203,14 @@ class Sid_Core extends Admin_Controller {
 			$temp = $this->wilayah_model->cluster_by_id($id);
 			$data['dusun'] = $temp['dusun'];
 			$data['individu'] = $this->wilayah_model->get_penduduk($temp['id_kepala']);
+
+			if (empty($data['individu']))
+				$data['individu'] = NULL;
+			else
+			{
+				$ex = $data['individu'];
+				$data['penduduk'] = $this->wilayah_model->list_penduduk_ex($ex['id']);
+			}
 			$data['form_action'] = site_url("sid_core/update/$id");
 		}
 		else
@@ -296,6 +388,18 @@ class Sid_Core extends Admin_Controller {
 		$this->load->view('sid/wilayah/wilayah_rt_excel', $data);
 	}
 
+	public function list_dusun_rt($dusun = '', $rw = '')
+	{
+		$data['dusun'] = $dusun;
+		$data['rw'] = $rw;
+		$data['main'] = $this->wilayah_model->list_data_rt($dusun, $rw);
+
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
+		$this->load->view('sid/wilayah/list_dusun_rt', $data);
+		$this->load->view('footer');
+	}
+
 	public function form_rt($id_dusun = '', $id_rw = '', $rt = '')
 	{
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
@@ -382,6 +486,13 @@ class Sid_Core extends Admin_Controller {
 		$_SESSION['dusun'] = $dusun;
 		$_SESSION['sex'] = 2;
 		redirect("penduduk/index/1/0");
+	}
+
+	public function get_data_desa()
+	{
+		$sql = "SELECT * FROM config WHERE 1";
+		$query = $this->db->query($sql);
+		return $query->row_array();
 	}
 
 	public function ajax_kantor_dusun_maps($id = '')

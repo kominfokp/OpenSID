@@ -1,55 +1,9 @@
-<?php
-
-/**
- * File ini:
- *
- * Model untuk modul Wilayah Administratif
- *
- * donjo-app/models/Wilayah_model.php,
- *
- */
-
-/**
- *
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
- */
-
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-class Wilayah_model extends MY_Model {
+<?php class Wilayah_model extends MY_Model {
 
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('biodata_model');
 	}
 
 	public function autocomplete()
@@ -87,8 +41,9 @@ class Wilayah_model extends MY_Model {
 
 	private function list_data_sql()
 	{
+		//opensid 20.08 LEFT JOIN penduduk_hidup a
 		$sql = " FROM tweb_wil_clusterdesa u
-			LEFT JOIN penduduk_hidup a ON u.id_kepala = a.id
+			LEFT JOIN tweb_penduduk a ON u.id_kepala = a.id
 			WHERE u.rt = '0' AND u.rw = '0'  ";
 		$sql .= $this->search_sql();
 		return $sql;
@@ -158,6 +113,10 @@ class Wilayah_model extends MY_Model {
 		}
 		$this->db->insert('tweb_wil_clusterdesa', $data);
 
+		$biodata= $this->biodata_model->get_penduduk($data['id_kepala']);
+		$this->db->insert('tweb_wil_pamong', $biodata);
+
+
 		$rw = $data;
 		$rw['rw'] = "-";
 		$this->db->insert('tweb_wil_clusterdesa', $rw);
@@ -184,6 +143,19 @@ class Wilayah_model extends MY_Model {
 		$this->db->where('rw', '0');
 		$this->db->where('rt', '0');
 		$outp1 = $this->db->update('tweb_wil_clusterdesa', $data);
+
+
+		$biodata= $this->biodata_model->get_penduduk($data['id_kepala']);
+		$log_id = $this->db->select('nik')->from('tweb_wil_pamong')->
+				where('nik', $biodata['nik'])->
+				limit(1)->get()->row()->nik;
+
+		if($log_id) {
+			$this->db->where('nik', $log_id);
+			$this->db->update('tweb_wil_pamong',$biodata);
+		} else {
+			$this->db->insert('tweb_wil_pamong', $biodata);
+		}
 
 		// Ubah nama dusun di semua baris rw/rt untuk dusun ini
 		$outp2 = $this->db->where('dusun', $temp['dusun'])->
@@ -232,9 +204,11 @@ class Wilayah_model extends MY_Model {
 		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.sex = 1) AS jumlah_warga_l,
 		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.sex = 2) AS jumlah_warga_p,
 		(SELECT COUNT(p.id) FROM keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala=p.id  WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.kk_level = 1) AS jumlah_kk
-		FROM tweb_wil_clusterdesa u
-		LEFT JOIN penduduk_hidup a ON u.id_kepala = a.id
-		WHERE u.rt = '0' AND u.rw <> '0' AND u.dusun = '$dusun'";
+		FROM tweb_wil_clusterdesa u LEFT JOIN penduduk_hidup a ON u.id_kepala = a.id WHERE u.rt = '0' AND u.rw <> '0' AND u.dusun = '$dusun'";
+
+		//19.02
+		//FROM tweb_wil_clusterdesa u LEFT JOIN tweb_penduduk a ON u.id_kepala = a.id WHERE u.rt = '0' AND u.rw <> '0' AND u.dusun = '$dusun'";
+
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 
@@ -260,6 +234,15 @@ class Wilayah_model extends MY_Model {
 		}
 		$outp1 = $this->db->insert('tweb_wil_clusterdesa', $data);
 
+		$biodata= $this->biodata_model->get_penduduk($data['id_kepala']);
+
+
+		$cek = $this->db->query("SELECT * FROM tweb_wil_pamong WHERE nik = '".$biodata['nik']."'")->num_rows();
+
+		if ($cek < 1) {
+			$this->db->insert('tweb_wil_pamong', $biodata);
+		}
+
 		$rt = $data;
 		$rt['rt'] = "-";
 		$outp2 = $this->db->insert('tweb_wil_clusterdesa', $rt);
@@ -279,6 +262,19 @@ class Wilayah_model extends MY_Model {
 			$_SESSION['success'] = -2;
 			return;
 		}
+
+		$biodata= $this->biodata_model->get_penduduk($data['id_kepala']);
+		$log_id = $this->db->select('nik')->from('tweb_wil_pamong')->
+				where('nik', $biodata['nik'])->
+				limit(1)->get()->row()->nik;
+
+		if($log_id) {
+			$this->db->where('nik', $log_id);
+			$this->db->update('tweb_wil_pamong',$biodata);
+		} else {
+			$this->db->insert('tweb_wil_pamong', $biodata);
+		}
+
 		// Update data RW
 		$data['dusun'] = $temp['dusun'];
 		$outp1 = $this->db->where('id', $id_rw)
@@ -297,13 +293,16 @@ class Wilayah_model extends MY_Model {
 		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.sex = 1) AS jumlah_warga_l,(
 		SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.sex = 2) AS jumlah_warga_p,
 		(SELECT COUNT(p.id) FROM keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala=p.id  WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.kk_level = 1) AS jumlah_kk
-		FROM tweb_wil_clusterdesa u
-		LEFT JOIN penduduk_hidup a ON u.id_kepala = a.id
-		WHERE u.rt <> '0' AND u.rw = '$rw' AND u.dusun = '$dusun'
-		ORDER BY u.rt";
+		FROM tweb_wil_clusterdesa u LEFT JOIN penduduk_hidup a ON u.id_kepala = a.id WHERE u.rt <> '0' AND u.rw = '$rw' AND u.dusun = '$dusun' AND u.rt <> '-'";
 
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
+
+		//Formating Output
+		for ($i=0; $i<count($data); $i++)
+		{
+			$data[$i]['no'] = $i + 1;
+		}
 		return $data;
 	}
 
@@ -320,6 +319,14 @@ class Wilayah_model extends MY_Model {
 		{
 			$_SESSION['success'] = -2;
 			return;
+		}
+
+		$biodata= $this->biodata_model->get_penduduk($data['id_kepala']);
+
+		$cek = $this->db->query("SELECT * FROM tweb_wil_pamong WHERE nik = '".$biodata['nik']."'")->num_rows();
+
+		if ($cek < 1) {
+			$this->db->insert('tweb_wil_pamong', $biodata);
 		}
 
 		$outp = $this->db->insert('tweb_wil_clusterdesa', $data);
@@ -342,6 +349,19 @@ class Wilayah_model extends MY_Model {
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
+		$biodata= $this->biodata_model->get_penduduk($data['id_kepala']);
+		$log_id = $this->db->select('nik')->from('tweb_wil_pamong')->
+				where('nik', $biodata['nik'])->
+				limit(1)->get()->row()->nik;
+
+		if($log_id) {
+			$this->db->where('nik', $log_id);
+			$this->db->update('tweb_wil_pamong',$biodata);
+		} else {
+			$this->db->insert('tweb_wil_pamong', $biodata);
+		}
+
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -352,6 +372,14 @@ class Wilayah_model extends MY_Model {
 			->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
 			->where('p.id NOT IN (SELECT c.id_kepala FROM tweb_wil_clusterdesa c WHERE c.id_kepala != 0)')
 			->get()->result_array();
+		return $data;
+	}
+
+	public function list_dusun_rt($dusun = '')
+	{
+		$sql = "SELECT * FROM tweb_clusterdesa WHERE dusun = ? AND rt <> '' ";
+		$query = $this->db->query($sql, $id);
+		$data = $query->row_array();
 		return $data;
 	}
 
@@ -581,41 +609,11 @@ class Wilayah_model extends MY_Model {
 		return $data;
 	}
 
-	// TO DO : Gunakan untuk get_alamat mendapatkan alamat penduduk
 	public function get_alamat_wilayah($data)
 	{
 		$alamat_wilayah= "$data[alamat] RT $data[rt] / RW $data[rw] ".ucwords(strtolower($this->setting->sebutan_dusun))." ".ucwords(strtolower($data['dusun']));
 
 		return trim($alamat_wilayah);
-	}
-
-	public function get_alamat($id_penduduk)
-	{
-		$sebutan_dusun = ucwords($this->setting->sebutan_dusun);
-
-		$data = $this->db
-			->select("(
-				case when (p.id_kk IS NULL or p.id_kk = 0)
-					then
-						case when (cp.dusun = '-' or cp.dusun = '')
-							then CONCAT(COALESCE(p.alamat_sekarang, ''), ' RT ', cp.rt, ' / RW ', cp.rw)
-							else CONCAT(COALESCE(p.alamat_sekarang, ''), ' {$sebutan_dusun} ', cp.dusun, ' RT ', cp.rt, ' / RW ', cp.rw)
-						end
-					else
-						case when (ck.dusun = '-' or ck.dusun = '')
-							then CONCAT(COALESCE(k.alamat, ''), ' RT ', ck.rt, ' / RW ', ck.rw)
-							else CONCAT(COALESCE(k.alamat, ''), ' {$sebutan_dusun} ', ck.dusun, ' RT ', ck.rt, ' / RW ', ck.rw)
-						end
-				end) AS alamat")
-			->from('tweb_penduduk p')
-			->join('tweb_wil_clusterdesa cp', 'p.id_cluster = cp.id', 'left')
-			->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
-			->join('tweb_wil_clusterdesa ck', 'k.id_cluster = ck.id', 'left')
-			->where('p.id', $id_penduduk)
-			->get()
-			->row_array();
-
-		return $data['alamat'];
 	}
 
 }

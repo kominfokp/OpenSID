@@ -44,9 +44,9 @@
 							</tr>
 						</thead>
 						<tbody>
-							<?php foreach ($main as $indeks => $data): ?>
+							<?php foreach ($main as $data): ?>
 								<tr>
-									<td align="center"><?= $indeks + 1 ?></td>
+									<td align="center"><?= $data['no']?></td>
 									<td align="center" class="textx"><?= $data['rt']?></td>
 									<td class="textx"><?= $data['nik_ketua']?></td>
 									<td><?= $data['nama_ketua']?></td>

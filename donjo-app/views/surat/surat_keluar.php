@@ -113,6 +113,8 @@
 																<tr>
 																	<td><?= $data['no']?></td>
 																	<td nowrap>
+																		<a href="<?= site_url("keluar/surat_keluar_cetak/$data[id]")?>" target="_blank" class="btn btn-success btn-flat btn-sm"  title="View"><i class="fa fa-file"></i></a>
+
 																		<?php
 																			if (is_file($theFile)): ?>
 																				<a href="<?= base_url(LOKASI_ARSIP.$berkas)?>" class="btn btn-social btn-flat bg-purple btn-sm" title="Unduh Surat" target="_blank"><i class="fa fa-file-word-o"></i> Surat</a>

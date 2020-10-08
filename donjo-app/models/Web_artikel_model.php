@@ -259,6 +259,15 @@
 			$outp = $this->db->insert('artikel', $data);
 		}
 		if (!$outp) $_SESSION['success'] = -1;
+
+		// start api
+		$data = $data;
+		$data['desa_id'] = $this->db->database;
+		$data['mode'] = "insert";
+		$data['desa_data_id'] = $this->db->insert_id();
+
+		$ret = cpost('artikel', $data);
+		// end api
 	}
 
 	//Buat slug unik
@@ -410,6 +419,15 @@
 			$outp = $this->db->update('artikel', $data);
 		}
 		if (!$outp) $_SESSION['success'] = -1;
+
+		// start api
+		$data = $data;
+		$data['desa_id'] = $this->db->database;
+		$data['mode'] = "update";
+		$data['desa_data_id'] = $id;
+
+		$ret = cpost('artikel', $data);
+		// end api
 	}
 
 	private function update_agenda($id_artikel, $data)
@@ -451,8 +469,16 @@
 			HapusArtikel($gambar);
 		}
 
-		$outp = $this->db->where('id', $id)->delete('artikel');
+		// start api
+		$data = $data;
+		$data['desa_id'] = $this->db->database;
+		$data['mode'] = "delete";
+		$data['desa_data_id'] = $id;
 
+		$ret = cpost('artikel', $data);
+		// end api
+
+		$outp = $this->db->where('id', $id)->delete('artikel');
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 

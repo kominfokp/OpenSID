@@ -1,50 +1,5 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-/**
- * File ini:
- *
- * Model untuk modul Database
- *
- * donjo-app/models/Database_model.php
- *
- */
-
-/**
- *
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
- */
-
 class Database_model extends CI_Model {
 
 	private $user = 1;
@@ -88,8 +43,7 @@ class Database_model extends CI_Model {
 		'20.05' => array('migrate' => 'migrasi_2005_ke_2006', 'nextVersion' => '20.06'),
 		'20.06' => array('migrate' => 'migrasi_2006_ke_2007', 'nextVersion' => '20.07'),
 		'20.07' => array('migrate' => 'migrasi_2007_ke_2008', 'nextVersion' => '20.08'),
-		'20.08' => array('migrate' => 'migrasi_2008_ke_2009', 'nextVersion' => '20.09'),
-		'20.09' => array('migrate' => 'migrasi_2009_ke_2010', 'nextVersion' => NULL)
+		'20.08' => array('migrate' => NULL, 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -145,14 +99,21 @@ class Database_model extends CI_Model {
 
 	public function migrasi_db_cri()
 	{
+		/*
+			Update current_version di db.
+			'pasca-<versi>' atau '<versi>-pasca disimpan sebagai '<versi>' */	
+
 		$versi = $this->getCurrentVersion();
 		$nextVersion = $versi;
 		$versionMigrate = $this->versionMigrate;
+			
 		if (isset($versionMigrate[$versi]))
 		{
+			
 			while (!empty($nextVersion) AND !empty($versionMigrate[$nextVersion]['migrate']))
 			{
 				$migrate = $versionMigrate[$nextVersion]['migrate'];
+
 				log_message('error', 'Jalankan '.$migrate);
 				$nextVersion = $versionMigrate[$nextVersion]['nextVersion'];
 				if (method_exists($this, $migrate))
@@ -168,10 +129,7 @@ class Database_model extends CI_Model {
 		$this->folder_desa_model->amankan_folder_desa();
 		$this->surat_master_model->impor_surat_desa();
 		$this->db->where('id', 13)->update('setting_aplikasi', array('value' => TRUE));
-		/*
-			Update current_version di db.
-			'pasca-<versi>' atau '<versi>-pasca disimpan sebagai '<versi>'
-		*/
+		
 		$versi = AmbilVersi();
 		$versi = preg_replace('/pasca-|-pasca/', '', $versi);
 		$newVersion = array(
@@ -179,7 +137,7 @@ class Database_model extends CI_Model {
 		);
 		$this->db->where(array('key'=>'current_version'))->update('setting_aplikasi', $newVersion);
 		$this->load->model('track_model');
-		$this->track_model->kirim_data();
+		//$this->track_model->kirim_data();
 		$this->catat_versi_database();
 	 	$_SESSION['success'] = 1;
   }
@@ -288,8 +246,6 @@ class Database_model extends CI_Model {
 		$this->jalankan_migrasi('migrasi_2005_ke_2006');
 		$this->jalankan_migrasi('migrasi_2006_ke_2007');
 		$this->jalankan_migrasi('migrasi_2007_ke_2008');
-		$this->jalankan_migrasi('migrasi_2008_ke_2009');
-		$this->jalankan_migrasi('migrasi_2009_ke_2010');
   }
 
   private function jalankan_migrasi($migrasi)
@@ -393,7 +349,7 @@ class Database_model extends CI_Model {
 				`urut` int(5),
 				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+				`updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`updated_by` int(11),
 				`status` int(1) NOT NULL DEFAULT '0',
 				PRIMARY KEY (id)
@@ -800,11 +756,151 @@ class Database_model extends CI_Model {
 			$this->dbforge->add_column('tweb_desa_pamong', $fields);
   	}
 		$this->db->where('id', 18)->update('setting_modul', array('url'=>'pengurus/clear', 'aktif'=>'1'));
+
 		$this->db->where('id', 48)->update('setting_modul', array('url'=>'web_widget/clear', 'aktif'=>'1'));
+  }
+
+  // script tambahan migrasi untuk KulonProgo
+  private function migrasi_kulon_progo()
+  {
+  	$query = "SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";";
+  	$this->db->query($query);
+
+  	// create kembali tabel inbox, outbox, sent items
+  	if (!$this->db->table_exists('inbox') )
+  	{
+  		$query = "
+			CREATE TABLE `inbox` (
+				`UpdatedInDB` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+				`ReceivingDateTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+			  `Text` text NOT NULL,
+			  `SenderNumber` varchar(20) NOT NULL DEFAULT '',
+			  `Coding` enum('Default_No_Compression','Unicode_No_Compression','8bit','Default_Compression','Unicode_Compression') NOT NULL DEFAULT 'Default_No_Compression',
+			  `UDH` text NOT NULL,
+			  `SMSCNumber` varchar(20) NOT NULL DEFAULT '',
+			  `Class` int(11) NOT NULL DEFAULT -1,
+			  `TextDecoded` text NOT NULL,
+			  `ID` int(10) UNSIGNED NOT NULL,
+			  `RecipientID` text NOT NULL,
+			  `Processed` enum('false','true') NOT NULL DEFAULT 'false'
+			)
+			";
+			$this->db->query($query);
+
+			$query = "
+			ALTER TABLE `inbox`
+			  ADD PRIMARY KEY (`ID`);
+			";
+			$this->db->query($query);
+
+			$query = "
+			ALTER TABLE `inbox`
+	  		MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+			";
+			$this->db->query($query);
+  	}
+
+  	if (!$this->db->table_exists('outbox') )
+  	{
+  		$query = "
+			CREATE TABLE `outbox` (
+			  `UpdatedInDB` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+			  `InsertIntoDB` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+			  `SendingDateTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+			  `SendBefore` time NOT NULL DEFAULT '23:59:59',
+			  `SendAfter` time NOT NULL DEFAULT '00:00:00',
+			  `Text` text DEFAULT NULL,
+			  `DestinationNumber` varchar(20) NOT NULL DEFAULT '',
+			  `Coding` enum('Default_No_Compression','Unicode_No_Compression','8bit','Default_Compression','Unicode_Compression') NOT NULL DEFAULT 'Default_No_Compression',
+			  `UDH` text DEFAULT NULL,
+			  `Class` int(11) DEFAULT -1,
+			  `TextDecoded` text NOT NULL,
+			  `ID` int(10) UNSIGNED NOT NULL,
+			  `MultiPart` enum('false','true') DEFAULT 'false',
+			  `RelativeValidity` int(11) DEFAULT -1,
+			  `SenderID` varchar(255) DEFAULT NULL,
+			  `SendingTimeOut` timestamp NULL DEFAULT '0000-00-00 00:00:00',
+			  `DeliveryReport` enum('default','yes','no') DEFAULT 'default',
+			  `CreatorID` text NOT NULL
+			)
+			";
+			$this->db->query($query);
+
+			$query = "
+			ALTER TABLE `outbox`
+			  ADD PRIMARY KEY (`ID`),
+			  ADD KEY `outbox_date` (`SendingDateTime`,`SendingTimeOut`),
+			  ADD KEY `outbox_sender` (`SenderID`);
+			";
+			$this->db->query($query);
+
+			$query = "
+			ALTER TABLE `outbox`
+	  		MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+			";
+			$this->db->query($query);
+  	}
+
+  	if (!$this->db->table_exists('sentitems') )
+  	{
+  		$query = "
+			CREATE TABLE `sentitems` (
+			  `UpdatedInDB` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+			  `InsertIntoDB` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+			  `SendingDateTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+			  `DeliveryDateTime` timestamp NULL DEFAULT NULL,
+			  `Text` text NOT NULL,
+			  `DestinationNumber` varchar(20) NOT NULL DEFAULT '',
+			  `Coding` enum('Default_No_Compression','Unicode_No_Compression','8bit','Default_Compression','Unicode_Compression') NOT NULL DEFAULT 'Default_No_Compression',
+			  `UDH` text NOT NULL,
+			  `SMSCNumber` varchar(20) NOT NULL DEFAULT '',
+			  `Class` int(11) NOT NULL DEFAULT -1,
+			  `TextDecoded` text NOT NULL,
+			  `ID` int(10) UNSIGNED NOT NULL DEFAULT 0,
+			  `SenderID` varchar(255) NOT NULL,
+			  `SequencePosition` int(11) NOT NULL DEFAULT 1,
+			  `Status` enum('SendingOK','SendingOKNoReport','SendingError','DeliveryOK','DeliveryFailed','DeliveryPending','DeliveryUnknown','Error') NOT NULL DEFAULT 'SendingOK',
+			  `StatusError` int(11) NOT NULL DEFAULT -1,
+			  `TPMR` int(11) NOT NULL DEFAULT -1,
+			  `RelativeValidity` int(11) NOT NULL DEFAULT -1,
+			  `CreatorID` text NOT NULL
+			)
+			";
+			$this->db->query($query);
+
+			$query = "
+			ALTER TABLE `sentitems`
+			  ADD PRIMARY KEY (`ID`,`SequencePosition`),
+			  ADD KEY `sentitems_date` (`DeliveryDateTime`),
+			  ADD KEY `sentitems_tpmr` (`TPMR`),
+			  ADD KEY `sentitems_dest` (`DestinationNumber`),
+			  ADD KEY `sentitems_sender` (`SenderID`);
+			";
+			$this->db->query($query);
+  	}
+
+  	$this->db->where('url', 'dukcapil')->update('setting_modul', array('id' => '901'));
+  	$this->db->where('url', 'dukcapil/kelahiran')->update('setting_modul', array('id' => '902', 'parent' => '901'));
+  	$this->db->where('url', 'dukcapil/kematian')->update('setting_modul', array('id' => '903', 'parent' => '901'));
+  	$this->db->where('url', 'laporan_dukcapil')->update('setting_modul', array('id' => '904'));
+  	$this->db->where('url', 'laporan_dukcapil/pindah')->update('setting_modul', array('id' => '905', 'parent' => '904'));
+  	$this->db->where('url', 'laporan_dukcapil/datang')->update('setting_modul', array('id' => '906', 'parent' => '904'));
+  	$this->db->where('url', 'laporan_dukcapil/lahir')->update('setting_modul', array('id' => '907', 'parent' => '904'));
+  	$this->db->where('url', 'laporan_dukcapil/mati')->update('setting_modul', array('id' => '908', 'parent' => '904'));
+  	$this->db->where('url', 'dokumen_sekretariat/index/4
+')->update('setting_modul', array('id' => '909', 'parent' => '15'));
+
+  	$this->migrasi_1806_ke_1807();
+		$this->migrasi_1808_ke_1809();
+		$this->migrasi_1809_ke_1810();
+		$this->migrasi_1810_ke_1811();
   }
 
   private function migrasi_1811_ke_1812()
   {
+  	// script tambahan migrasi untuk KulonProgo
+  	$this->migrasi_kulon_progo();
+
   	// Ubah struktur tabel tweb_desa_pamong
   	if (!$this->db->field_exists('id_pend', 'tweb_desa_pamong'))
   	{
@@ -855,6 +951,7 @@ class Database_model extends CI_Model {
 			$this->dbforge->add_column('tweb_desa_pamong', $fields);
   	}
 
+  	
   	// Pada tweb_keluarga kosongkan nik_kepala kalau tdk ada penduduk dgn kk_level=1 dan id=nik_kepala untuk keluarga itu
   	$kk_kosong = $this->db->select('k.id')
   	  ->where('p.id is NULL')
@@ -949,6 +1046,7 @@ class Database_model extends CI_Model {
 				)
 			);
 		}
+		
 	}
 
   private function migrasi_1810_ke_1811()
@@ -1250,55 +1348,57 @@ class Database_model extends CI_Model {
 	  $this->db->query($query);
 	}
 
-	if ($this->db->table_exists('anggota_grup_kontak'))
-		return;
-	// Perubahan tabel untuk modul SMS
-	// buat table anggota_grup_kontak
-	$sql = array(
-	  'id_grup_kontak'  =>  array(
-		  'type' => 'INT',
-		  'constraint' => 11,
-		  'unsigned' => FALSE,
-		  'auto_increment' => TRUE
-		),
-	  'id_grup'  =>  array(
-		  'type' => 'INT',
-		  'constraint' => 11,
-		  'unsigned' => FALSE
-		),
-	  'id_kontak'  =>  array(
-		  'type' => 'INT',
-		  'constraint' => 11,
-		  'unsigned' => FALSE
-		)
-	  );
-	$this->dbforge->add_field($sql);
-	$this->dbforge->add_key("id_grup_kontak", TRUE);
-	$this->dbforge->create_table('anggota_grup_kontak', FALSE, array('ENGINE' => $this->engine));
+	if (!$this->db->table_exists('anggota_grup_kontak'))
+	{
+		// Perubahan tabel untuk modul SMS
+		// buat table anggota_grup_kontak
+		$sql = array(
+		  'id_grup_kontak'  =>  array(
+			  'type' => 'INT',
+			  'constraint' => 11,
+			  'unsigned' => FALSE,
+			  'auto_increment' => TRUE
+			),
+		  'id_grup'  =>  array(
+			  'type' => 'INT',
+			  'constraint' => 11,
+			  'unsigned' => FALSE
+			),
+		  'id_kontak'  =>  array(
+			  'type' => 'INT',
+			  'constraint' => 11,
+			  'unsigned' => FALSE
+			)
+		  );
+		$this->dbforge->add_field($sql);
+		$this->dbforge->add_key("id_grup_kontak", TRUE);
+		$this->dbforge->create_table('anggota_grup_kontak', FALSE, array('ENGINE' => $this->engine));
 
-	//perbaikan penamaan grup agar tidak ada html url code
-	$this->db->query("UPDATE kontak_grup SET nama_grup = REPLACE(nama_grup, '%20', ' ')");
-	//memindahkan isi kontak_grup ke anggota_grup_kontak
-	$this->db->query("INSERT INTO anggota_grup_kontak (id_grup, id_kontak) SELECT b.id as id_grup, a.id_kontak FROM kontak_grup a RIGHT JOIN (SELECT id,nama_grup FROM kontak_grup GROUP BY nama_grup) b on a.nama_grup = b.nama_grup WHERE a.id_kontak <> 0");
-	//Memperbaiki record kontak_grup agar tidak duplikat
-	$this->db->query("DELETE t1 FROM kontak_grup t1 INNER JOIN kontak_grup t2  WHERE t1.id > t2.id AND t1.nama_grup = t2.nama_grup");
+		//perbaikan penamaan grup agar tidak ada html url code
+		$this->db->query("UPDATE kontak_grup SET nama_grup = REPLACE(nama_grup, '%20', ' ')");
+		//memindahkan isi kontak_grup ke anggota_grup_kontak
+		$this->db->query("INSERT INTO anggota_grup_kontak (id_grup, id_kontak) SELECT b.id as id_grup, a.id_kontak FROM kontak_grup a RIGHT JOIN (SELECT id,nama_grup FROM kontak_grup GROUP BY nama_grup) b on a.nama_grup = b.nama_grup WHERE a.id_kontak <> 0");
+		//Memperbaiki record kontak_grup agar tidak duplikat
+		$this->db->query("DELETE t1 FROM kontak_grup t1 INNER JOIN kontak_grup t2  WHERE t1.id > t2.id AND t1.nama_grup = t2.nama_grup");
 
-	//modifikasi tabel kontak dan kontak_grup
-	if ($this->db->field_exists('id', 'kontak'))
-	  $this->dbforge->modify_column('kontak', array('id' => array('name'  =>  'id_kontak', 'type' =>  'INT',  'auto_increment'  =>  TRUE )));
-	if ($this->db->field_exists('id_kontak', 'kontak_grup'))
-	  $this->dbforge->drop_column('kontak_grup', 'id_kontak');
-	if ($this->db->field_exists('id', 'kontak_grup'))
-	  $this->dbforge->modify_column('kontak_grup', array('id' => array('name'  =>  'id_grup', 'type' =>  'INT',  'auto_increment'  =>  TRUE )));
+		//modifikasi tabel kontak dan kontak_grup
+		if ($this->db->field_exists('id', 'kontak'))
+		  $this->dbforge->modify_column('kontak', array('id' => array('name'  =>  'id_kontak', 'type' =>  'INT',  'auto_increment'  =>  TRUE )));
+		if ($this->db->field_exists('id_kontak', 'kontak_grup'))
+		  $this->dbforge->drop_column('kontak_grup', 'id_kontak');
+		if ($this->db->field_exists('id', 'kontak_grup'))
+		  $this->dbforge->modify_column('kontak_grup', array('id' => array('name'  =>  'id_grup', 'type' =>  'INT',  'auto_increment'  =>  TRUE )));
 
-	//menambahkan constraint kolom tabel
-	$this->dbforge->add_column('anggota_grup_kontak',array(
-	  'CONSTRAINT `anggota_grup_kontak_ke_kontak` FOREIGN KEY (`id_kontak`) REFERENCES `kontak` (`id_kontak`) ON DELETE CASCADE ON UPDATE CASCADE',
-	  'CONSTRAINT `anggota_grup_kontak_ke_kontak_grup` FOREIGN KEY (`id_grup`) REFERENCES `kontak_grup` (`id_grup`) ON DELETE CASCADE ON UPDATE CASCADE'
-	));
-	$this->dbforge->add_column('kontak',array(
-	  'CONSTRAINT `kontak_ke_tweb_penduduk` FOREIGN KEY (`id_pend`) REFERENCES `tweb_penduduk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
-	));
+		//menambahkan constraint kolom tabel
+		$this->dbforge->add_column('anggota_grup_kontak',array(
+		  'CONSTRAINT `anggota_grup_kontak_ke_kontak` FOREIGN KEY (`id_kontak`) REFERENCES `kontak` (`id_kontak`) ON DELETE CASCADE ON UPDATE CASCADE',
+		  'CONSTRAINT `anggota_grup_kontak_ke_kontak_grup` FOREIGN KEY (`id_grup`) REFERENCES `kontak_grup` (`id_grup`) ON DELETE CASCADE ON UPDATE CASCADE'
+		));
+		$this->dbforge->add_column('kontak',array(
+		  'CONSTRAINT `kontak_ke_tweb_penduduk` FOREIGN KEY (`id_pend`) REFERENCES `tweb_penduduk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
+		));
+	}
+
 	//buat view
 	$this->db->query("DROP VIEW IF EXISTS `daftar_kontak`");
 	$this->db->query("CREATE VIEW `daftar_kontak` AS select `a`.`id_kontak` AS `id_kontak`,`a`.`id_pend` AS `id_pend`,`b`.`nama` AS `nama`,`a`.`no_hp` AS `no_hp`,(case when (`b`.`sex` = '1') then 'Laki-laki' else 'Perempuan' end) AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from (`kontak` `a` left join `tweb_penduduk` `b` on((`a`.`id_pend` = `b`.`id`)))");
@@ -1362,7 +1462,7 @@ class Database_model extends CI_Model {
 				`keterangan` text NOT NULL,
 				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+				`updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`updated_by` int(11) NOT NULL,
 				`status` int(1) NOT NULL DEFAULT '0',
 				`visible` int(1) NOT NULL DEFAULT '1',
@@ -1385,7 +1485,7 @@ class Database_model extends CI_Model {
 				`keterangan` text NOT NULL,
 				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+				`updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`updated_by` int(11) NOT NULL,
 				`visible` int(1) NOT NULL DEFAULT '1',
 				PRIMARY KEY (id),
@@ -1417,7 +1517,7 @@ class Database_model extends CI_Model {
 				`keterangan` text NOT NULL,
 				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+				`updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`updated_by` int(11) NOT NULL,
 				`status` int(1) NOT NULL DEFAULT '0',
 				`visible` int(1) NOT NULL DEFAULT '1',
@@ -1440,7 +1540,7 @@ class Database_model extends CI_Model {
 				`keterangan` text NOT NULL,
 				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+				`updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`updated_by` int(11) NOT NULL,
 				`visible` int(1) NOT NULL DEFAULT '1',
 				PRIMARY KEY (id),
@@ -1473,7 +1573,7 @@ class Database_model extends CI_Model {
 				`keterangan` text NOT NULL,
 				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+				`updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`updated_by` int(11) NOT NULL,
 				`status` int(1) NOT NULL DEFAULT '0',
 				`visible` int(1) NOT NULL DEFAULT '1',
@@ -1496,7 +1596,7 @@ class Database_model extends CI_Model {
 				`keterangan` text NOT NULL,
 				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+				`updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`updated_by` int(11) NOT NULL,
 				`visible` int(1) NOT NULL DEFAULT '1',
 				PRIMARY KEY (id),
@@ -1529,7 +1629,7 @@ class Database_model extends CI_Model {
 				`keterangan` text NOT NULL,
 				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+				`updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`updated_by` int(11) NOT NULL,
 				`status` int(1) NOT NULL DEFAULT '0',
 				`visible` int(1) NOT NULL DEFAULT '1',
@@ -1552,7 +1652,7 @@ class Database_model extends CI_Model {
 				`keterangan` text NOT NULL,
 				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+				`updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`updated_by` int(11) NOT NULL,
 				`visible` int(1) NOT NULL DEFAULT '1',
 				PRIMARY KEY (id),
@@ -1587,7 +1687,7 @@ class Database_model extends CI_Model {
 				`keterangan` text NOT NULL,
 				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+				`updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`updated_by` int(11) NOT NULL,
 				`status` int(1) NOT NULL DEFAULT '0',
 				`visible` int(1) NOT NULL DEFAULT '1',
@@ -1610,7 +1710,7 @@ class Database_model extends CI_Model {
 				`keterangan` text NOT NULL,
 				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+				`updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`updated_by` int(11) NOT NULL,
 				`visible` int(1) NOT NULL DEFAULT '1',
 				PRIMARY KEY (id),
@@ -1641,7 +1741,7 @@ class Database_model extends CI_Model {
 				`keterangan` text NOT NULL,
 				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+				`updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`updated_by` int(11) NOT NULL,
 				`status` int(1) NOT NULL DEFAULT '0',
 				`visible` int(1) NOT NULL DEFAULT '1',

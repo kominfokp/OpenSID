@@ -49,45 +49,46 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Program_bantuan extends Admin_Controller {
 
 	private $_set_page;
+	private $_header;
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['program_bantuan_model', 'config_model']);
+
+		$this->load->model(['header_model', 'program_bantuan_model', 'config_model','biodata_model']);
 		$this->modul_ini = 6;
 		$this->_set_page = ['20', '50', '100'];
+		$this->_header = $this->header_model->get_data();
 	}
 
 	public function clear()
 	{
 		$this->session->per_page = $this->_set_page[0];
-		$this->session->unset_userdata('sasaran');
+		$this->session->sasaran = '';
 		redirect('program_bantuan');
 	}
 
-	public function filter($filter)
+	public function filter($filter = '')
 	{
-		$value = $this->input->post($filter);
-		if ($value != '')
-			$this->session->$filter = $value;
-		else $this->session->unset_userdata($filter);
+		$this->session->$filter = $this->input->post($filter);
 		redirect('program_bantuan');
 	}
 
 	public function index($p = 1)
 	{
+		$this->detail_clear();
+
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
 			$this->session->per_page = $per_page;
 
 		$data = $this->program_bantuan_model->get_program($p, FALSE);
+		$data['tampil'] = 0;
 		$data['list_sasaran'] = unserialize(SASARAN);
 		$data['func'] = 'index';
-		$data['per_page'] = $this->session->per_page;
 		$data['set_page'] = $this->_set_page;
-		$data['set_sasaran'] = $this->session->sasaran;
 
-		$this->load->view('header', $this->header);
+		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
 		$this->load->view('program_bantuan/program', $data);
 		$this->load->view('footer');
@@ -95,14 +96,41 @@ class Program_bantuan extends Admin_Controller {
 
 	public function form($program_id = 0)
 	{
+
+		$desa = $this->get_data_desa();
+		$kodeProp = intval($desa['kode_propinsi']);
+		$kodeKab = intval($desa['kode_kabupaten']);
+		$kodeKec = intval($desa['kode_kecamatan']);
+		$kodeKel = intval($desa['kode_desa']);
+
 		$data['program'] = $this->program_bantuan_model->get_program(1, $program_id);
 		$sasaran = $data['program'][0]['sasaran'];
 		$nik = $this->input->post('nik');
 
 		if (isset($nik))
 		{
-			$data['individu'] = $this->program_bantuan_model->get_peserta($nik, $sasaran);
-			$data['individu']['program'] = $this->program_bantuan_model->get_peserta_program($sasaran, $data['individu']['id_peserta']);
+			//opensid-v20.08
+			//$data['individu'] = $this->program_bantuan_model->get_peserta($_POST['nik'], $sasaran);
+
+			$data['individu'] = $this->biodata_model->get_penduduk($_POST['nik']);
+
+			if($data['individu']['nik'] == NULL) {
+				$data['individu']['status_data'] = "Data Tidak ditemukan";
+			} else {
+				if(
+					$data['individu']['no_prop'] == $kodeProp
+					&& $data['individu']['no_kab'] == $kodeKab
+					&& $data['individu']['no_kec'] == $kodeKec
+					&& $data['individu']['no_kel'] == $kodeKel
+				) {
+					$this->biodata_model->save_biodata($data['individu']);
+
+				} else {
+					$data['individu']['status_data'] = "Mohon Maaf Biodata Penduduk desa ".$data['individu']['kel_name'];
+				}
+			}
+
+			$data['individu']['alamat_wilayah']= $data['individu']['alamat'];
 		}
 		else
 		{
@@ -111,7 +139,7 @@ class Program_bantuan extends Admin_Controller {
 
 		$data['form_action'] = site_url("program_bantuan/add_peserta/".$program_id);
 
-		$this->load->view('header', $this->header);
+		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
 		$this->load->view('program_bantuan/form', $data);
 		$this->load->view('footer');
@@ -119,10 +147,16 @@ class Program_bantuan extends Admin_Controller {
 
 	public function panduan()
 	{
-		$this->load->view('header', $this->header);
+		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
 		$this->load->view('program_bantuan/panduan', $data);
 		$this->load->view('footer');
+	}
+
+	public function detail_clear()
+	{
+		$this->session->unset_userdata('cari');
+		$this->session->per_page = $this->_set_page[0];
 	}
 
 	public function detail($program_id = 0, $p = 1)
@@ -136,12 +170,12 @@ class Program_bantuan extends Admin_Controller {
 		$data['keyword'] = $this->program_bantuan_model->autocomplete($program_id, $this->input->post('cari'));
 		$data['paging'] = $data['program'][0]['paging'];
 		$data['p'] = $p;
-		$data['func'] = "detail/$program_id";
+		$data['func'] = 'detail/'.$program_id;
 		$data['per_page'] = $this->session->per_page;
 		$data['set_page'] = $this->_set_page;
-		$this->header['minsidebar'] = 1;
+		$this->_header['minsidebar'] = 1;
 
-		$this->load->view('header', $this->header);
+		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
 		$this->load->view('program_bantuan/detail', $data);
 		$this->load->view('footer');
@@ -152,7 +186,7 @@ class Program_bantuan extends Admin_Controller {
 	{
 		$data = $this->program_bantuan_model->get_peserta_program($cat, $id);
 
-		$this->load->view('header', $this->header);
+		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
 		$this->load->view('program_bantuan/peserta', $data);
 		$this->load->view('footer');
@@ -162,24 +196,11 @@ class Program_bantuan extends Admin_Controller {
 	public function data_peserta($id = 0)
 	{
 		$data['peserta'] = $this->program_bantuan_model->get_program_peserta_by_id($id);
-
-		switch ($data['peserta']['sasaran'])
-		{
-			case '1':
-			case '2':
-				$peserta_id = $data['peserta']['kartu_id_pend'];
-				break;
-			case '3':
-			case '4':
-				$peserta_id = $data['peserta']['peserta'];
-				break;
-		}
-		$data['individu'] = $this->program_bantuan_model->get_peserta($peserta_id, $data['peserta']['sasaran']);
-		$data['individu']['program'] = $this->program_bantuan_model->get_peserta_program($data['peserta']['sasaran'], $data['peserta']['peserta']);
+		$data['individu'] = $this->program_bantuan_model->get_peserta($data['peserta']['peserta'], $data['peserta']['sasaran']);
 		$data['detail'] = $this->program_bantuan_model->get_data_program($data['peserta']['program_id']);
-		$this->header['minsidebar'] = 1;
+		$this->_header['minsidebar'] = 1;
 
-		$this->load->view('header', $this->header);
+		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
 		$this->load->view('program_bantuan/data_peserta', $data);
 		$this->load->view('footer');
@@ -249,7 +270,7 @@ class Program_bantuan extends Admin_Controller {
 
 		if ($this->form_validation->run() === FALSE)
 		{
-			$this->load->view('header', $this->header);
+			$this->load->view('header', $this->_header);
 			$this->load->view('nav');
 			$this->load->view('program_bantuan/create', $data);
 			$this->load->view('footer');
@@ -280,7 +301,7 @@ class Program_bantuan extends Admin_Controller {
 
 		if ($this->form_validation->run() === FALSE)
 		{
-			$this->load->view('header', $this->header);
+			$this->load->view('header', $this->_header);
 			$this->load->view('nav');
 			$this->load->view('program_bantuan/edit', $data);
 			$this->load->view('footer');
@@ -316,7 +337,12 @@ class Program_bantuan extends Admin_Controller {
 		{
 			$temp = $this->session->per_page;
 			$this->session->per_page = 1000000000; // Angka besar supaya semua data terunduh
-			$data["sasaran"] = unserialize(SASARAN);
+			$data["sasaran"] = array(
+				"1" => "Penduduk",
+				"2" => "Keluarga/KK",
+				"3" => "Rumah Tangga",
+				"4" => "Kelompok/Organisasi Kemasyarakatan"
+			);
 
 			$data['config'] = $this->config_model->get_data();
 			$data['peserta'] = $this->program_bantuan_model->get_program(1, $program_id);
@@ -325,6 +351,13 @@ class Program_bantuan extends Admin_Controller {
 
 			$this->load->view("program_bantuan/$aksi", $data);
 		}
+	}
+
+	public function get_data_desa()
+	{
+		$sql = "SELECT * FROM config WHERE 1";
+		$query = $this->db->query($sql);
+		return $query->row_array();
 	}
 
 	public function search($program_id = 0)

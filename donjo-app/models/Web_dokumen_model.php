@@ -198,7 +198,7 @@ class Web_dokumen_model extends MY_Model {
 			$data[$i]['attr'] = json_decode($data[$i]['attr'], true);
 			// Ambil keterangan kategori publik
 			if ($data[$i]['kategori_info_publik'])
-				$data[$i]['kategori_info_publik'] = $this->referensi_model->list_ref_flip(KATEGORI_PUBLIK)[$data[$i]['kategori_info_publik']];
+				$data[$i]['kategori_info_publik'] = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK)[$data[$i]['kategori_info_publik']];
 
 			if ($data[$i]['enabled'] == 1)
 				$data[$i]['aktif'] = "Ya";
@@ -267,9 +267,11 @@ class Web_dokumen_model extends MY_Model {
 
 		$nama = $data['nama'];
 		if (!empty($data['id_pend']))
-			$nama_file = $data['id_pend']."_".$nama."_".generator(6)."_".$nama_file;
+			$nama_file = $nama_file;
+			// $nama_file = $data['id_pend']."_".$data['nama']."_".generator(6)."_".$nama_file;
 		else
-			$nama_file = $nama."_".generator(6)."_".$nama_file;
+			$nama_file = $nama_file;
+			// $nama_file = $data['nama']."_".generator(6)."_".$nama_file;
 		$nama_file = bersihkan_namafile($nama_file);
 		UploadDocument($nama_file, $file_lama);
 		return $nama_file;

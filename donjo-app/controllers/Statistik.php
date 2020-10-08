@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * Controller untuk modul Statistik Kependudukan
  *
- * donjo-app/controllers/statistik.php
+ * donjo-app/controllers/statistik.php,
  *
  */
 
@@ -53,7 +53,7 @@ class Statistik extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model', 'header_model', 'config_model', 'referensi_model']);
+		$this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model', 'header_model', 'config_model', 'agregat_dukcapil_model']);
 		$this->_header = $this->header_model->get_data();
 		$this->_list_session = ['lap', 'order_by', 'dusun', 'rw', 'rt'];
 		$this->modul_ini = 3;
@@ -65,16 +65,23 @@ class Statistik extends Admin_Controller {
 		$data = $this->get_cluster_session();
 		$data['lap'] = $this->session->lap;
 		$data['order_by'] = $this->session->order_by;
+
+		// $data['kategori'] untuk pengaturan penampilan kelompok statistik di laman statistik
 		$data['main'] = $this->laporan_penduduk_model->list_data($data['lap'], $data['order_by']);
 		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
 		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($data['lap']);
 		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($data['lap']);
-		$data['stat_penduduk'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
-		$data['stat_keluarga'] = $this->referensi_model->list_ref(STAT_KELUARGA);
-		$data['stat_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
-		$data['stat_bantuan'] = $this->program_bantuan_model->list_program(0);
+		$data['list_statistik_penduduk'] = $this->laporan_penduduk_model->link_statistik_penduduk();
+		$data['link_statistik_keluarga'] = $this->laporan_penduduk_model->link_statistik_keluarga();
 		$data['judul_kelompok'] = "Jenis Kelompok";
 		$this->get_data_stat($data, $data['lap']);
+		
+		// data kulon progo
+		$tahun =  $_POST['tahun'];
+		$semester =  $_POST['semester'];
+		$data_kp = $this->data_kulon_progo($data['lap'], $tahun, $semester);
+		$data['main'] = $data_kp['main'];
+		$data['export_date'] = $data_kp['export_date'];
 
 		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
@@ -95,10 +102,11 @@ class Statistik extends Admin_Controller {
 
 		redirect('statistik');
 	}
-
+	
 	private function get_data_stat(&$data, $lap)
 	{
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
+		$data['list_bantuan'] = $this->program_bantuan_model->list_program(0);
 		if ($lap > 50)
 		{
 			// Untuk program bantuan, $lap berbentuk '50<program_id>'
@@ -120,16 +128,90 @@ class Statistik extends Admin_Controller {
 			$data['kategori'] = 'penduduk';
 		}
 	}
+	
+	private function data_kulon_progo($kategori=null, $tahun=0, $semester=0)
+	{
+		$retval = array();
+		//dari kulonprogo
+		$kategori = "";
+		switch ($lap) {
+			case '2':
+				$kategori = "statKawin";
+				break;
+			case '4':
+				$kategori = "jenisKelamin";
+				break;
+			case '0':
+				$kategori = "pendidikan";
+				break;
+			case '13':
+				$kategori = "umur";
+				break;
+			case '1':
+				$kategori = "pekerjaan";
+				break;
+			case '3':
+				$kategori = "agama";
+				break;
+			case '7':
+				$kategori = "golDarah";
+				break;
+			case '19':
+				$kategori = "statHbkel";
+				break;
+			case '20':
+				$kategori = "kkJenisKelamin";
+				break;
+			case '23':
+				$kategori = "kkUmur";
+				break;
+			case '21':
+				$kategori = "kkPendidikan";
+				break;
+			case '22':
+				$kategori = "kkPekerjaan";
+				break;
+		}
+
+
+		//Data Agregat dari KulonProgo
+		$dataAgregat =null;
+		if($tahun !=null && $semester !=null) {
+			$dataAgregat = $this->agregat_dukcapil_model->get_agregat($kategori, $tahun, $semester);
+		}
+		$exportDate = ["tahun"=> $tahun, "semester"=>$semester];
+
+
+		$someArray = json_decode($dataAgregat, true);
+		$hasilData = [];
+		foreach($someArray as $key=>&$val) {
+			$hasilData[] =[
+				"no" => $key+1,
+				"nama" => $val["kategori"],
+				"jumlah" => $val['jumlah'],
+				"laki" => $val["lakiLaki"],
+				"perempuan" => $val["perempuan"],
+				"persen1" => number_format((($val["lakiLaki"] / $val["jumlah"])* 100),2),
+				"persen2" => number_format((($val["perempuan"] / $val["jumlah"])* 100),2)
+			];
+		}
+				
+		// $data['kategori'] untuk pengaturan penampilan kelompok statistik di laman statistik
+		$retval['main'] = $hasilData;
+		$retval['export_date'] = $exportDate;
+		
+		return $retval;
+	}
 
 	/*
 	* $aksi = cetak/unduh
-	*/
-	public function daftar($aksi = '', $lap = '')
+	*/ 
+	public function daftar($aksi = '', $lap = '', $tahun=0, $semester=0)
 	{
 		$data['aksi'] = $aksi;
 		$data['lap'] = $this->session->lap;
 
-		if ($lap or $lap == '0')
+		if ($lap)
 		{
 			foreach ($this->_list_session as $list)
 			{
@@ -143,7 +225,11 @@ class Statistik extends Admin_Controller {
 			$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 			$data['pamong_ttd'] = $this->pamong_model->get_data($post['pamong_ttd']);
 			$data['laporan_no'] = $post['laporan_no'];
-
+			
+			$data_kp = $this->data_kulon_progo($lap, $tahun, $semester);
+			$data['main'] = $data_kp['main'];
+			$data['export_date'] = $data_kp['export_date'];
+			
 			$this->load->view("statistik/penduduk_$aksi", $data);
 		}
 		else
@@ -159,12 +245,7 @@ class Statistik extends Admin_Controller {
 	{
 		$data['lap'] = 13;
 		$data['main'] = $this->laporan_penduduk_model->list_data_rentang();
-		$data['stat_penduduk'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
-		$data['stat_keluarga'] = $this->referensi_model->list_ref(STAT_KELUARGA);
-		$data['stat_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
-		$data['stat_bantuan'] = $this->program_bantuan_model->list_program(0);
-		$data['judul_kelompok'] = "Jenis Kelompok";
-		$this->get_data_stat($data, $data['lap']);
+		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $this->_header);
 		$this->load->view('nav');

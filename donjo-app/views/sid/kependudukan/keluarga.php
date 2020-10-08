@@ -58,10 +58,10 @@
 							<a class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Aksi Data Terpilih</a>
 							<ul class="dropdown-menu" role="menu">
 								<li>
-									<a href="" class="btn btn-social btn-flat btn-block btn-sm aksi-terpilih" title="Cetak Kartu Keluarga" onclick="formAction('mainform','<?= site_url("keluarga/cetak_kk_all")?>', '_blank'); return false;"><i class="fa fa-print"></i> Cetak Kartu Keluarga</a>
+									<a href="" class="btn btn-social btn-flat btn-block btn-sm" title="Cetak Kartu Keluarga" onclick="formAction('mainform','<?= site_url("keluarga/cetak_kk_all")?>', '_blank'); return false;"><i class="fa fa-print"></i> Cetak Kartu Keluarga</a>
 								</li>
 								<li>
-									<a href="" class="btn btn-social btn-flat btn-block btn-sm aksi-terpilih" title="Unduh Kartu Keluarga" onclick="formAction('mainform','<?= site_url("keluarga/doc_kk_all")?>'); return false;"><i class="fa fa-download"></i> Unduh Kartu Keluarga</a>
+									<a href="" class="btn btn-social btn-flat btn-block btn-sm" title="Unduh Kartu Keluarga" onclick="formAction('mainform','<?= site_url("keluarga/doc_kk_all")?>'); return false;"><i class="fa fa-download"></i> Unduh Kartu Keluarga</a>
 								</li>
 								<?php if ($this->CI->cek_hak_akses('h')): ?>
 									<li>
@@ -188,16 +188,16 @@
 																			</div>
 																		</div>
 																	</td>
-																	<td><a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id]")?>"><?= $data['no_kk']?></a></td>
+																	<td><a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id]")?>"><?= $data['id_kk']?></a></td>
 																	<td nowrap><?= strtoupper($data['kepala_kk'])?></td>
 																	<td><a href="<?= site_url("penduduk/detail/1/0/$data[id_pend]")?>"><?= strtoupper($data['nik'])?></a></td>
 																	<td><?= $data['tag_id_card']?></td>
 																	<td><a href="<?= site_url("keluarga/anggota/$p/$o/$data[id]")?>"><?= $data['jumlah_anggota']?></a></td>
-																	<td><?= strtoupper($data['sex'])?></td>
+																	<td><?= strtoupper($data['jenis_klmin'])?></td>
 																	<td><?= strtoupper($data['alamat'])?></td>
 																	<td><?= strtoupper($data['dusun'])?></td>
-																	<td><?= strtoupper($data['rw'])?></td>
-																	<td><?= strtoupper($data['rt'])?></td>
+																	<td><?= strtoupper($data['no_rw'])?></td>
+																	<td><?= strtoupper($data['no_rt'])?></td>
 																	<td><?= tgl_indo($data['tgl_daftar'])?></td>
 																	<td><?= tgl_indo($data['tgl_cetak_kk'])?></td>
 																</tr>

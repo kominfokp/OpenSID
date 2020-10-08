@@ -133,11 +133,14 @@
 			var SITE_URL = "<?= site_url(); ?>";
 		</script>
 
+		<script src="<?= base_url() ?>assets/js/script-akhwan.js?v=<?=time();?>"></script>
+
 		<!-- Highcharts JS -->
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-3d.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+
 		<?php require __DIR__ .'/head_tags.php' ?>
 	</head>
 	<body class="<?= $this->setting->warna_tema_admin; ?> sidebar-mini fixed <?php if ($minsidebar==1): ?>sidebar-collapse<?php endif ?>">
@@ -153,13 +156,6 @@
 					</a>
 					<div class="navbar-custom-menu">
 						<ul class="nav navbar-nav">
-							<?php if (ENVIRONMENT == 'development'): ?>
-								<li>
-									<a>
-										<i class="fa fa-cog fa-lg" title="Development"></i><span class="badge">Development</span>
-									</a>
-								</li>
-							<?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('b', 'permohonan_surat_admin')): ?>
 								<li>
 									<a href="<?=site_url()?>permohonan_surat_admin/clear">

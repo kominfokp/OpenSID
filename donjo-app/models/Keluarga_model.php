@@ -1,48 +1,5 @@
 <?php class Keluarga_model extends CI_Model {
 
-/**
- * File ini:
- *
- * Model data Keluarga untuk komponen Admin
- *
- * donjo-app/models/Keluarga_model.php
- *
- */
-
-/**
- *
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
- */
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -106,7 +63,7 @@
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
-		$cfg['per_page'] = $this->session->per_page;
+		$cfg['per_page'] = $_SESSION['per_page'];
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
 
@@ -115,6 +72,12 @@
 
 	private function list_data_sql()
 	{
+		// kulonprogo
+		$sql = "FROM tweb_penduduk u WHERE 1 ";
+		return $sql;
+
+		// opensid 20.08
+		/*
 		$sql = "FROM tweb_keluarga u
 			LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id
 			LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id";
@@ -137,7 +100,7 @@
 			$sql .= $this->get_sql_kolom_kode($kolom[0], $kolom[1]);
 		}
 
-		return $sql;
+		return $sql;*/
 	}
 
 	protected function get_sql_kolom_kode($kode_session, $kode_kolom)
@@ -156,25 +119,26 @@
 
 	public function list_data($o = 0, $offset = 0, $limit = 500)
 	{
+		// kulonprogo
 		//Ordering SQL
 		switch ($o)
 		{
-			case 1: $order_sql = ' ORDER BY u.no_kk'; break;
-			case 2: $order_sql = ' ORDER BY u.no_kk DESC'; break;
+			case 1: $order_sql = ' ORDER BY u.id_kk'; break;
+			case 2: $order_sql = ' ORDER BY u.id_kk DESC'; break;
 			case 3: $order_sql = ' ORDER BY kepala_kk'; break;
 			case 4: $order_sql = ' ORDER BY kepala_kk DESC'; break;
-			case 5: $order_sql = ' ORDER BY u.tgl_daftar'; break;
-			case 6: $order_sql = ' ORDER BY u.tgl_daftar DESC'; break;
-			default:$order_sql = ' ORDER BY u.no_kk DESC';
+			case 5: $order_sql = ' ORDER BY g.nama'; break;
+			case 6: $order_sql = ' ORDER BY g.nama DESC'; break;
+			default:$order_sql = ' ORDER BY u.id_kk DESC';
 		}
 
 		//Paging SQL
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql = "SELECT u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.status_dasar, t.foto, t.id as id_pend,
-			(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota,
-			c.dusun, c.rw, c.rt ";
-		$sql .= $this->list_data_sql();
+		$sql = "SELECT u.*,  (SELECT COUNT(nik) FROM tweb_penduduk WHERE id_kk = u.id_kk) AS jumlah_anggota ".$this->list_data_sql();
+		//opensid 20.08
+		//$sql = "SELECT u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.status_dasar, t.foto, t.id as id_pend, (SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota, c.dusun, c.rw, c.rt ";
+		//$sql .= $this->list_data_sql(); //DONE
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
@@ -195,7 +159,6 @@
 				$data[$i]['sex'] = "PEREMPUAN";
 			$j++;
 		}
-
 		return $data;
 	}
 
@@ -387,6 +350,10 @@
 	*/
 	public function delete($id = 0, $semua=false)
 	{
+		//kp bef v20.04
+		$this->db->where('no_kk',$id)->delete('tweb_penduduk');
+		//kp bef v20.04 end
+
 		if (!$semua) $this->session->success = 1;
 
 		$nik_kepala = $this->db->select('nik_kepala')->where('id',$id)->get('tweb_keluarga')->row()->nik_kepala;
@@ -396,6 +363,7 @@
 			$this->rem_anggota($id,$anggota['id']);
 		}
 		$outp = $this->db->where('id',$id)->delete('tweb_keluarga');
+
 		// Untuk statistik perkembangan keluarga
 		$this->log_keluarga($id, $nik_kepala, 2);
 
@@ -501,7 +469,7 @@
 	public function rem_anggota($kk = 0, $id = 0)
 	{
 		$pend = $this->keluarga_model->get_anggota($id);
-		$temp['no_kk_sebelumnya'] = $this->db->select('no_kk')->where('id', $kk)->get('tweb_keluarga')->row()->no_kk;
+		$temp['no_kk_sebelumnya'] = $this->db->select('no_kk')->where('id',$kk)->get('tweb_keluarga')->row()->no_kk;
 		$temp['id_kk'] = 0;
 		$temp['kk_level'] = 0;
 		$temp['updated_at'] = date('Y-m-d H:i:s');
@@ -609,6 +577,9 @@
 	// $options['pilih'] untuk membatasi ke nik tertentu saja
 	public function list_anggota($id=0,$options=array('dengan_kk'=>true))
 	{
+		$sql = "select * from tweb_penduduk where id_kk=?";
+		//19.02
+		/*
 		$sql = "SELECT u.*, u.sex as sex_id, u.status_kawin as status_kawin_id,
 			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,
 			(CASE when u.status_kawin <> 2
@@ -635,6 +606,7 @@
 		if ($options['dengan_kk'] !== NULL AND !$options['dengan_kk']) $sql .= " AND kk_level <> 1";
 		if (!empty($options['pilih'])) $sql .= " AND u.nik IN (".$options['pilih'].")";
 		$sql .= " ORDER BY kk_level, tanggallahir";
+		*/
 		$query = $this->db->query($sql, array($id));
 		$data = $query->result_array();
 
@@ -687,7 +659,7 @@
 
 			$data = $this->db->get()->row_array();
 
-		if ($data['dusun'] != '-' && $data['dusun'] != '') $data['alamat_plus_dusun'] = trim($data['alamat'].' '.ucwords($this->setting->sebutan_dusun).' '.$data['dusun']);
+		if ($data['dusun'] != '') $data['alamat_plus_dusun'] = trim($data['alamat'].' '.ucwords($this->setting->sebutan_dusun).' '.$data['dusun']);
 		elseif ($data['alamat']) $data['alamat_plus_dusun'] = $data['alamat'];
 		$data['alamat_wilayah'] = $this->get_alamat_wilayah($data['id_kk']);
 
@@ -856,13 +828,14 @@
 				FROM tweb_keluarga k
 				LEFT JOIN tweb_wil_clusterdesa a ON k.id_cluster = a.id
 				WHERE k.id = ?";
-		$query = $this->db->query($sql, $id_kk);
+		$query = $this->db->query($sql,$id_kk);
 		$data  = $query->row_array();
 		if (!isset($data['alamat'])) $data['alamat'] = '';
 		if (!isset($data['rt'])) $data['rt'] = '';
 		if (!isset($data['rw'])) $data['rw'] = '';
-		$str_dusun = (empty($data['dusun']) or $data['dusun'] == '-') ? '' : ikut_case($data['dusun'], $this->setting->sebutan_dusun." ".$data['dusun']);
-		$alamat_wilayah= trim("$data[alamat] RT $data[rt] / RW $data[rw] ".$str_dusun);
+		if (!isset($data['dusun'])) $data['dusun'] = '';
+
+		$alamat_wilayah= trim("$data[alamat] RT $data[rt] / RW $data[rw] ".ikut_case($data['dusun'],$this->setting->sebutan_dusun)." $data[dusun]");
 
 		return $alamat_wilayah;
 	}

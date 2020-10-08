@@ -1,46 +1,4 @@
 <?php
-/**
- * File ini:
- *
- * Controller halaman Keluarga untuk komponen Admin
- *
- * donjo-app/controllers/Keluarga.php
- *
- */
-
-/**
- *
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
- */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -113,7 +71,7 @@ class Keluarga extends Admin_Controller {
 		$data['main'] = $this->keluarga_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['list_sex'] = $this->referensi_model->list_data('tweb_penduduk_sex');
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-		$this->_header['minsidebar'] = 1;
+		$this->_header['minsidebar'] = 0;
 
 		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
@@ -121,6 +79,7 @@ class Keluarga extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
+	
 	public function autocomplete()
 	{
 		$data = $this->keluarga_model->autocomplete($this->input->post('cari'));
@@ -188,12 +147,13 @@ class Keluarga extends Admin_Controller {
 		$data['wajib_ktp'] = $this->referensi_model->list_wajib_ktp();
 		$data['ktp_el'] = $this->referensi_model->list_ktp_el();
 		$data['status_rekam'] = $this->referensi_model->list_status_rekam();
-		$data['tempat_dilahirkan'] = $this->referensi_model->list_ref_flip(TEMPAT_DILAHIRKAN);
-		$data['jenis_kelahiran'] = $this->referensi_model->list_ref_flip(JENIS_KELAHIRAN);
-		$data['penolong_kelahiran'] = $this->referensi_model->list_ref_flip(PENOLONG_KELAHIRAN);
+		$data['tempat_dilahirkan'] = $this->referensi_model->list_kode_array(TEMPAT_DILAHIRKAN);
+		$data['jenis_kelahiran'] = $this->referensi_model->list_kode_array(JENIS_KELAHIRAN);
+		$data['penolong_kelahiran'] = $this->referensi_model->list_kode_array(PENOLONG_KELAHIRAN);
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
 
 		unset($_SESSION['dari_internal']);
+		$header = $this->header_model->get_data();
 		$this->_header['minsidebar'] = 1;
 
 		$this->load->view('header', $this->_header);
@@ -227,9 +187,9 @@ class Keluarga extends Admin_Controller {
 		$data['wajib_ktp'] = $this->referensi_model->list_wajib_ktp();
 		$data['ktp_el'] = $this->referensi_model->list_ktp_el();
 		$data['status_rekam'] = $this->referensi_model->list_status_rekam();
-		$data['tempat_dilahirkan'] = $this->referensi_model->list_ref_flip(TEMPAT_DILAHIRKAN);
-		$data['jenis_kelahiran'] = $this->referensi_model->list_ref_flip(JENIS_KELAHIRAN);
-		$data['penolong_kelahiran'] = $this->referensi_model->list_ref_flip(PENOLONG_KELAHIRAN);
+		$data['tempat_dilahirkan'] = $this->referensi_model->list_kode_array(TEMPAT_DILAHIRKAN);
+		$data['jenis_kelahiran'] = $this->referensi_model->list_kode_array(JENIS_KELAHIRAN);
+		$data['penolong_kelahiran'] = $this->referensi_model->list_kode_array(PENOLONG_KELAHIRAN);
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
 
 		// Validasi dilakukan di keluarga_model sewaktu insert dan update
@@ -240,6 +200,7 @@ class Keluarga extends Admin_Controller {
 			$data['penduduk'] = $_SESSION['post'];
 		}
 
+		$header = $this->header_model->get_data();
 		$this->_header['minsidebar'] = 1;
 		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
@@ -306,7 +267,7 @@ class Keluarga extends Admin_Controller {
 
 	/*
 	 * Tambah KK dengan memilih dari penduduk yg sudah ada
-	 */
+	 */ 
 	public function insert()
 	{
 		$this->keluarga_model->insert();
@@ -332,7 +293,7 @@ class Keluarga extends Admin_Controller {
 
 	/*
 	 * Tambah KK dengan mengisi form penduduk kepala keluarga baru
-	 */
+	 */ 
 	public function insert_new()
 	{
 		$this->keluarga_model->insert_new();
@@ -482,18 +443,10 @@ class Keluarga extends Admin_Controller {
 		redirect("keluarga/anggota/$p/$o/$id_kk");
 	}
 
-	// Pecah keluarga
 	public function delete_anggota($p = 1, $o = 0, $kk=0, $id = 0)
 	{
 		$this->keluarga_model->rem_anggota($kk,$id);
 		redirect("keluarga/anggota/$p/$o/$kk");
-	}
-
-	// Keluarkan karena salah mengisi
-	public function keluarkan_anggota($kk, $id = 0)
-	{
-		$this->keluarga_model->rem_anggota($no_kk_sebelumnya = 0, $id);
-		redirect("keluarga/anggota/1/0/$kk");
 	}
 
 	public function delete_all_anggota($p = 1, $o = 0, $kk = 0)

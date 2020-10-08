@@ -95,11 +95,11 @@ $(document).ready(function()
 																	<th>No</th>
 																	<th>Aksi</th>
 																	<?php if ($o==2): ?>
-                                    <th><a href="<?= site_url("{$this->controller}/index/$kat/$p/1")?>">Judul <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                    <th><a href="<?= site_url("{$this->controller}/index/$kat/$p/1")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
                                   <?php elseif ($o==1): ?>
-                                    <th><a href="<?= site_url("{$this->controller}/index/$kat/$p/2")?>">Judul <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                    <th><a href="<?= site_url("{$this->controller}/index/$kat/$p/2")?>">Nama <i class='fa fa-sort-desc fa-sm'></i></a></th>
                                   <?php else: ?>
-                                    <th><a href="<?= site_url("{$this->controller}/index/$kat/$p/1")?>">Judul <i class='fa fa-sort fa-sm'></i></a></th>
+                                    <th><a href="<?= site_url("{$this->controller}/index/$kat/$p/1")?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
                                   <?php endif; ?>
 																	<?php if ($kat == 1): ?>
 																		<th>Kategori Info Publik</th>
@@ -108,7 +108,7 @@ $(document).ready(function()
 																		<th nowrap>Nomor Dan Tanggal Keputusan</th>
 																		<th nowrap>Uraian Singkat</th>
 																	<?php elseif ($kat == 3): ?>
-																		<th nowrap>Nomor Dan Tanggal Ditetapkan</th>
+																		<th nowrap>Nomor Dan Tahun Ditetapkan</th>
 																		<th nowrap>Uraian Singkat</th>
 																	<?php endif; ?>
                                   <?php if ($o==4): ?>
@@ -150,7 +150,7 @@ $(document).ready(function()
 																			<td><?= $data['attr']['no_kep_kades']." / ".$data['attr']['tgl_kep_kades']?></td>
 																			<td><?= $data['attr']['uraian']?></td>
 																		<?php elseif ($kat == 3): ?>
-																			<td><?= $data['attr']['no_ditetapkan']." / ".$data['attr']['tgl_ditetapkan']?></td>
+																			<td><?= $data['attr']['no_ditetapkan']." / ".$data['attr']['tahun_ditetapkan']?></td>
 																			<td width="30%"><?= $data['attr']['uraian']?></td>
 																		<?php endif; ?>
 																		<td><?= $data['aktif']?></td>

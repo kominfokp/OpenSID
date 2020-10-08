@@ -35,13 +35,13 @@
       {
         case 'development':
           // Di development, panggil tracker hanya jika terinstal
-          if (empty($this->setting->dev_tracker)) return;
-          $tracker = "http://".$this->setting->dev_tracker;
+          $tracker = $this->setting->dev_tracker;
+          if (empty($tracker)) return;
         break;
 
         case 'testing':
         case 'production':
-          $tracker = "https://pantau.opensid.my.id";
+          $tracker = "tracksid.bangundesa.info";
         break;
 
         default:
@@ -77,9 +77,9 @@
     if ($this->abaikan($desa)) return;
 
     // echo "httppost =========== ".$tracker;
-    // echo httpPost($tracker."/index.php/track/desa",$desa);
-    $trackSID_output = httpPost($tracker."/index.php/track/desa", $desa);
-    $this->cek_notifikasi_TrackSID($trackSID_output);
+    // echo httpPost("http://".$tracker."/index.php/track/desa",$desa);
+    httpPost("http://".$tracker."/index.php/track/desa", $desa);
+
     if (strpos(current_url(), 'first') !== FALSE)
     {
       $_SESSION['track_web'] = date("Y m d");
@@ -88,34 +88,6 @@
     {
       $_SESSION['track_admin'] = date("Y m d");
     }
-  }
-
-  private function cek_notifikasi_TrackSID($trackSID_output)
-  {
-    if ($trackSID_output != null)
-    {
-      $array_output = json_decode($trackSID_output, true);
-      foreach ($array_output as $notif)
-      {
-        unset($notif['id']);
-        $notif['tgl_berikutnya'] = date("Y-m-d H:i:s");
-        $notif['updated_by'] = 0;
-        $notif['aksi_ya'] = $this->aksi_valid($notif['aksi_ya']) ?: "notif/update_pengumuman";
-        $notif['aksi_tidak'] = $this->aksi_valid($notif['aksi_tidak']) ?: "notif/update_pengumuman";
-        $notif['aksi'] = $notif['aksi_ya'] . "," . $notif['aksi_tidak'];
-        unset($notif['aksi_ya']);
-        unset($notif['aksi_tidak']);
-        $this->load->model('notif_model');
-        $this->notif_model->insert_notif($notif);
-      }
-    }
-  }
-
-  private function aksi_valid($aksi)
-  {
-    $aksi_valid = ['setting/aktifkan_tracking'];
-    $aksi = in_array($aksi, $aksi_valid) ? $aksi : '';
-    return $aksi;
   }
 
   /*

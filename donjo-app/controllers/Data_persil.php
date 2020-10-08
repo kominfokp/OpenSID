@@ -3,6 +3,7 @@ if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Data_persil extends Admin_Controller {
 
+	private $header;
 	private $set_page;
 	private $list_session;
 
@@ -18,6 +19,7 @@ class Data_persil extends Admin_Controller {
 		$this->controller = 'data_persil';
 		$this->modul_ini = 7;
 		$this->set_page = ['20', '50', '100'];
+		$this->header = $this->header_model->get_data();
 		$this->list_session = ['cari'];
 	}
 

@@ -1,55 +1,26 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-/**
- * File ini:
- *
- * Model untuk modul Suplemen
- *
- * donjo-app/models/Suplemen_model.php
- *
- */
-
-/**
- *
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
- */
-
-class Suplemen_model extends CI_Model {
+<?php class Suplemen_model extends CI_Model {
 
 	public function __construct()
 	{
 		parent::__construct();
+	}
+
+	public function list_suplemen($sasaran=0)
+	{
+		if ($sasaran > 0)
+		{
+			$strSQL = "SELECT *
+				FROM suplemen s
+				WHERE s.sasaran=".$sasaran;
+		}
+		else
+		{
+			$strSQL = "SELECT *
+				FROM suplemen s WHERE 1";
+		}
+		$query = $this->db->query($strSQL);
+		$data = $query->result_array();
+		return $data;
 	}
 
 	public function create()
@@ -63,25 +34,22 @@ class Suplemen_model extends CI_Model {
 	{
 		$data = [];
 		// Ambil dan bersihkan data input
-		$data['sasaran'] = $post['sasaran'];
+		$data['sasaran'] = $post['cid'];
 		$data['nama'] = nomor_surat_keputusan($post['nama']);
 		$data['keterangan'] = htmlentities($post['keterangan']);
 		return $data;
 	}
 
-	public function list_data($sasaran = 0)
+	public function list_data($sasaran=0)
 	{
-		if ($sasaran > 0) $this->db->where('s.sasaran', $sasaran);
-
-		$data = $this->db
-			->select('s.*')
-			->select('COUNT(st.id) AS jml')
-			->from('suplemen s')
-			->join('suplemen_terdata st', "s.id = st.id_suplemen", 'left')
-			->order_by('s.nama')
-			->group_by('s.id')
-			->get()
-			->result_array();
+		if ($sasaran > 0)
+		{
+			$data = $this->db->select('*')->where('sasaran',$sasaran)->order_by('nama')->get('suplemen')->result_array();
+		}
+		else
+		{
+			$data = $this->db->select('*')->order_by('nama')->get('suplemen')->result_array();
+		}
 		return $data;
 	}
 
@@ -195,16 +163,7 @@ class Suplemen_model extends CI_Model {
 
 	public function get_suplemen($id)
 	{
-		$data = $this->db
-			->select('s.*')
-			->select('COUNT(st.id) AS jml')
-			->from('suplemen s')
-			->join('suplemen_terdata st', "s.id = st.id_suplemen", 'left')
-			->where('s.id', $id)
-			->group_by('s.id')
-			->get()
-			->row_array();
-
+		$data = $this->db->where('id',$id)->get('suplemen')->row_array();
 		return $data;
 	}
 
@@ -253,7 +212,7 @@ class Suplemen_model extends CI_Model {
 	{
 		# Data penduduk
 		$sql = " FROM suplemen_terdata s
-			LEFT JOIN tweb_penduduk o ON s.id_terdata = o.id
+			LEFT JOIN tweb_biodata_penduduk o ON s.id_terdata = o.id
 			LEFT JOIN tweb_keluarga k ON k.id = o.id_kk
 			LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 			WHERE s.id_suplemen=".$suplemen_id;
@@ -264,7 +223,7 @@ class Suplemen_model extends CI_Model {
 	{
 		$hasil = array();
 		$get_terdata_sql = $this->get_penduduk_terdata_sql($suplemen_id);
-		$select_sql = "SELECT s.*, s.id_terdata, o.nik as terdata_id, o.nama, o.tempatlahir, o.tanggallahir, o.sex, w.rt, w.rw, w.dusun,
+		$select_sql = "SELECT s.*, s.id_terdata, o.nik as terdata_id, o.nama, o.no_rt, o.no_rw, o.tempatlahir, o.tanggallahir, o.sex, w.rt, w.rw, w.dusun,
 			(case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS alamat
 		 ";
 		$sql = $select_sql.$get_terdata_sql;
@@ -350,13 +309,17 @@ class Suplemen_model extends CI_Model {
 		{
 			case 1:
 				# Data penduduk
+				// dari kpV19.04
+				//$sql   = "SELECT * from tweb_biodata_penduduk u
+				//WHERE u.nik = ?";
+
 				$sql = "SELECT u.id AS id, u.nama AS nama, x.nama AS sex, u.id_kk AS id_kk,
 				u.tempatlahir AS tempatlahir, u.tanggallahir AS tanggallahir,
-				(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
-				from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
+				(select (date_format(from_days((to_days(now()) - to_days(tweb_biodata_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_biodata_penduduk.tanggallahir))),'%Y') + 0)`
+				from tweb_biodata_penduduk where (tweb_biodata_penduduk.id = u.id)) AS umur,
 				w.nama AS status_kawin, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, j.nama AS pekerjaan, u.nik AS nik, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk, k.alamat,
-				(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
-				from tweb_penduduk u
+				(select tweb_biodata_penduduk.nama AS nama from tweb_biodata_penduduk where (tweb_biodata_penduduk.id = k.nik_kepala)) AS kepala_kk
+				from tweb_biodata_penduduk u
 				left join tweb_penduduk_sex x on u.sex = x.id
 				left join tweb_penduduk_kawin w on u.status_kawin = w.id
 				left join tweb_penduduk_agama a on u.agama_id = a.id
@@ -365,7 +328,8 @@ class Suplemen_model extends CI_Model {
 				left join tweb_wil_clusterdesa c on u.id_cluster = c.id
 				left join tweb_keluarga k on u.id_kk = k.id
 				left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
-				WHERE u.id = ?";
+				WHERE u.nik = ?";
+
 				$query = $this->db->query($sql, $id_terdata);
 				$data  = $query->row_array();
 				$data['alamat_wilayah']= $this->surat_model->get_alamat_wilayah($data);
@@ -384,14 +348,6 @@ class Suplemen_model extends CI_Model {
 
 	public function hapus($id)
 	{
-		$ada = $this->db->where('id_suplemen', $id)
-			->get('suplemen_terdata')->num_rows();
-		if ($ada)
-		{
-			$this->session->success = '-1';
-			$this->session->error_msg = ' --> Tidak bisa dihapus, karena masih digunakan';
-			return;
-		}
 		$hasil = $this->db->where('id', $id)->delete('suplemen');
 
 		status_sukses($hasil); //Tampilkan Pesan

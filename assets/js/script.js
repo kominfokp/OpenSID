@@ -49,7 +49,6 @@ $(document).ready(function()
 
 	$('#confirm-status').on('show.bs.modal', function(e) {
 		$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-		$(this).find('.modal-body').html($(e.relatedTarget).data('body'));
 	});
 	//Delay Alert
 	setTimeout(function()
@@ -540,13 +539,11 @@ function enableHapusTerpilih()
 {
   if ($("input[name='id_cb[]']:checked:not(:disabled)").length <= 0)
   {
-    $(".aksi-terpilih").addClass('disabled');
     $(".hapus-terpilih").addClass('disabled');
     $(".hapus-terpilih").attr('href','#');
   }
   else
   {
-    $(".aksi-terpilih").removeClass('disabled');
     $(".hapus-terpilih").removeClass('disabled');
     $(".hapus-terpilih").attr('href','#confirm-delete');
   }
