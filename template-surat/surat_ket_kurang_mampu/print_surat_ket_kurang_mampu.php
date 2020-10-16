@@ -5,7 +5,7 @@
 			<link href="<?= base_url()?>assets/css/surat.css" rel="stylesheet" type="text/css" />
 			<div>
 				<table width="100%">
-					<img src="<?php echo base_url(); ?>assets/images/KOP.jpg" style="width: 100%;">
+					<?php $this->load->view('print/kop'); ?>
 				</table>
 				<table width="100%">
 				</table>

@@ -7,7 +7,7 @@
 				<link href="<?= base_url()?>assets/css/surat.css" rel="stylesheet" type="text/css" />
 				<div>
 					<table width="100%">
-						<img src="<?php echo base_url(); ?>assets/images/KOP.jpg" style="width: 100%;">
+						<?php $this->load->view('print/kop'); ?>
 						<div align="center"><u><h4 class="kop_nama_surat">PENGANTAR SURAT KETERANGAN CATATAN KEPOLISIAN</h4></u></div>
 						<div align="center"><h4 class="kop3">Nomor : <?= $input['nomor']?></h4></div>
 					</table>
