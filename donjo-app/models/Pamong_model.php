@@ -393,6 +393,13 @@
 		$this->urut_model->urut($id, $arah);
 	}
 
+	private function urut_max()
+	{
+	   $this->db->select_max('urut');
+	   $query = $this->db->get('tweb_desa_pamong');
+	   $data = $query->row_array();
+	   return $data['urut'];
+	}
 	/*
 	 * Mengambil semua data penduduk kecuali yg sdh menjadi pamong untuk pilihan drop-down form
 	 */
