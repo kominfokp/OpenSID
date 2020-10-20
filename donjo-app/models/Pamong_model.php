@@ -299,7 +299,6 @@
 			$data['pamong_nip'] = $this->input->post('pamong_nip');
 			$data['pamong_niap'] = $this->input->post('pamong_niap');
 			$data['jabatan'] = $this->input->post('jabatan');
-			$data['jabatan'] = $this->input->post('jabatan');
 			$data['pamong_pangkat'] = $this->input->post('pamong_pangkat');
 			$data['pamong_status'] = $this->input->post('pamong_status');
 			$data['pamong_nosk'] = $this->input->post('pamong_nosk');

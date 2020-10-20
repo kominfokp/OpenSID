@@ -154,7 +154,7 @@ class Pengurus extends Admin_Controller {
 
 	public function update($id = 0)
 	{
-		$this->pamong_model->update($id);
+		$this->pamong_model->update($id); 
 		redirect('pengurus');
 	}
 
