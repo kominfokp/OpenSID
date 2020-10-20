@@ -66,7 +66,7 @@ class Pengurus extends Admin_Controller {
 		if ($id)
 		{
 			$data['pamong'] = $this->pamong_model->get_data($id);
-			if (!isset($id_pend)) $id_pend = $data['pamong']['id_pend'];
+			if (!isset($_POST['id_pend'])) $_POST['id_pend'] = $data['pamong']['id_pend'];
 			$data['form_action'] = site_url("pengurus/update/$id");
 		}
 		else
