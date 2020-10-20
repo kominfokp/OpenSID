@@ -125,8 +125,8 @@
 									<input class="form-control input-sm pengurus-desa" type="text" placeholder="Jenis Kelamin" value="<?= $individu['jenis_klmin']?>" readonly="true"></input>
 									<select class="form-control input-sm pengurus-luar-desa" name="pamong_sex" onchange="show_hide_hamil($(this).find(':selected').val());" style="display: none;">
 										<option value="">Jenis Kelamin</option>
-										<option value="LAKI-LAKI" <?php selected($pamong['pamong_sex'], '1'); ?> >Laki-Laki</option>
-										<option value="PEREMPUAN" <?php selected($pamong['pamong_sex'], '2'); ?> >Perempuan</option>
+										<option value="1" <?php selected($pamong['pamong_sex'], '1'); ?> >Laki-Laki</option>
+										<option value="2" <?php selected($pamong['pamong_sex'], '2'); ?> >Perempuan</option>
 									</select>
 								</div>
 							</div>
@@ -137,7 +137,7 @@
 									<select class="form-control input-sm pengurus-luar-desa" name="pamong_pendidikan" style="display: none;">
 										<option value="">Pilih Pendidikan (Dalam KK) </option>
 										<?php foreach ($pendidikan_kk as $data): ?>
-											<option value="<?= strtoupper($data['nama'])?>" <?php selected($pamong['pamong_pendidikan'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
+											<option value="<?= strtoupper($data['id'])?>" <?php selected($pamong['pamong_pendidikan'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
 										<?php endforeach?>
 									</select>
 								</div>
@@ -149,7 +149,7 @@
 									<select class="form-control input-sm pengurus-luar-desa" name="pamong_agama" style="display: none;">
 										<option value="">Pilih Agama</option>
 										<?php foreach ($agama as $data): ?>
-											<option value="<?= strtoupper($data['nama'])?>" <?php selected($pamong['pamong_agama'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
+											<option value="<?= strtoupper($data['id'])?>" <?php selected($pamong['pamong_agama'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
 										<?php endforeach;?>
 									</select>
 								</div>
