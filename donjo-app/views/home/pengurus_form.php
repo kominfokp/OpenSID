@@ -46,7 +46,6 @@
 				</div>
 			</div>
 			<form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data"  class="form-horizontal">
-				<input type="hidden" name="id_pend" value="<?= $individu['id']?>">
 				<div class="col-md-3">
 					<div class="box box-primary">
 						<div class="box-body box-profile">
@@ -217,6 +216,7 @@
 										<input id="group2" type="radio" name="pamong_status" class="form-check-input" type="radio" value="2" <?php if ($pamong['pamong_status'] == '2'): ?>checked<?php endif ?> autocomplete="off"> Tidak Aktif
 									</label>
 								</div>
+								<input name="id_penduduk" class="form-control input-sm" type="hidden" value="<?= $pamong['id_pend']?>" ></input>
 							</div>
 						</div>
 						<div class='box-footer'>
