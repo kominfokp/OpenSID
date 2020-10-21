@@ -281,7 +281,7 @@
 			$data['jabatan'] = $this->input->post('jabatan');
 			$data['pamong_status'] = $this->input->post('pamong_status');
 			$data['pamong_nosk'] = $this->input->post('pamong_nosk');
-			$data['pamong_tglsk'] = tgl_indo_in($this->input->post('pamong_tglsk'));
+			$data['pamong_tglsk'] = empty($this->input->post('pamong_tglsk')) ? null : tgl_indo_in($this->input->post('pamong_tglsk'));
 			$data['pamong_masajab'] = $this->input->post('pamong_masajab');
 			$data['urut'] = $this->urut_max() + 1;
 			$data['id_pend'] = $this->input->post('nik');
@@ -302,7 +302,7 @@
 			$data['pamong_pangkat'] = $this->input->post('pamong_pangkat');
 			$data['pamong_status'] = $this->input->post('pamong_status');
 			$data['pamong_nosk'] = $this->input->post('pamong_nosk');
-			$data['pamong_tglsk'] = tgl_indo_in($this->input->post('pamong_tglsk'));
+			$data['pamong_tglsk'] = empty($this->input->post('pamong_tglsk')) ? null : tgl_indo_in($this->input->post('pamong_tglsk'));
 			$data['pamong_nohenti'] = $this->input->post('pamong_nohenti');
 			$data['pamong_tglhenti'] = tgl_indo_in($this->input->post('pamong_tglhenti'));
 			$data['pamong_masajab'] = $this->input->post('pamong_masajab');
