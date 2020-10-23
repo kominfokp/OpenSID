@@ -198,7 +198,8 @@
 			$data['pamong_nama'] = $this->input->post('pamong_nama');
 			$data['pamong_nik'] = $this->input->post('pamong_nik');
 			$data['pamong_tempatlahir'] = $this->input->post('pamong_tempatlahir');
-			$data['pamong_tanggallahir'] = tgl_indo_in($this->input->post('pamong_tanggallahir'));
+			// $data['pamong_tanggallahir'] = tgl_indo_in($this->input->post('pamong_tanggallahir'));
+			$data['pamong_tanggallahir'] = empty($this->input->post('pamong_tanggallahir')) ? null : tgl_indo_in($this->input->post('pamong_tglsk'));
 			$data['pamong_sex'] = $this->input->post('pamong_sex');
 			$data['pamong_pendidikan'] = $this->input->post('pamong_pendidikan');
 			$data['pamong_agama'] = $this->input->post('pamong_agama');
@@ -219,7 +220,8 @@
 			$data['pamong_nama'] = $biodata['nama'];
 			$data['pamong_nik'] = $biodata['nik'];
 			$data['pamong_tempatlahir'] = $biodata['tempatlahir'];
-			$data['pamong_tanggallahir'] = $biodata['tanggallahir'];
+			// $data['pamong_tanggallahir'] = $biodata['tanggallahir'];
+			$data['pamong_tanggallahir'] = empty($this->input->post('pamong_tanggallahir')) ? null : tgl_indo_in($this->input->post('pamong_tglsk'));
 			$data['pamong_sex'] = $biodata['jenis_klmin'];
 			$data['pamong_pendidikan'] = $biodata['pendidikan'];
 			$data['pamong_agama'] = $biodata['agama'];
