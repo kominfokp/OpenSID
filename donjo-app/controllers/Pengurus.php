@@ -120,6 +120,7 @@ class Pengurus extends Admin_Controller {
 		$data['p_jabatan'] = array(
 			""=>" - ",
 			"Lurah"=>"Lurah",
+			"PJ Lurah"=>"PJ Lurah",
 			"Carik"=>"Carik",
 			"Jogobyo"=>"Jogoboyo",
 			"Kamituwa"=>"Kamituwa",
@@ -148,13 +149,13 @@ class Pengurus extends Admin_Controller {
 
 	public function insert()
 	{
-		$this->pamong_model->insert();
+		$this->pamong_model->insert();//echo $this->db->last_query(); exit();
 		redirect('pengurus');
 	}
 
 	public function update($id = 0)
 	{
-		$this->pamong_model->update($id); 
+		$this->pamong_model->update($id); //echo $this->db->last_query(); exit();
 		redirect('pengurus');
 	}
 

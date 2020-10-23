@@ -306,7 +306,7 @@
 		// 	WHERE pamong_status = 1";
 		$sql = "SELECT u.*, u.pamong_nama as nama
 		FROM tweb_desa_pamong u
-		WHERE jabatan = 'Lurah' or jabatan = 'Carik' ";
+		WHERE jabatan = 'Lurah' or jabatan = 'Carik' or jabatan ='PJ Lurah' ";
 
 		//19.01
 		/*$sql = "SELECT u.*, p.nama as nama
