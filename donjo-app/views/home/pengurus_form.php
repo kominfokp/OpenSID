@@ -121,7 +121,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="pamong_sex">Jenis Kelamin</label>
 								<div class="col-sm-7">
-									<input class="form-control input-sm pengurus-desa" type="text" placeholder="Jenis Kelamin" value="<?= $individu['jenis_klmin']?>" readonly="true"></input>
+									<input class="form-control input-sm pengurus-desa" type="text" placeholder="Jenis Kelamin" value="<?= $individu['jenis_klmin']?>" readonly="true" name="jenis_kelamin"></input>
 									<select class="form-control input-sm pengurus-luar-desa" name="pamong_sex" onchange="show_hide_hamil($(this).find(':selected').val());" style="display: none;">
 										<option value="">Jenis Kelamin</option>
 										<option value="1" <?php selected($pamong['pamong_sex'], '1'); ?> >Laki-Laki</option>
@@ -132,7 +132,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="pamong_pendidikan">Pendidikan</label>
 								<div class="col-sm-7">
-									<input class="form-control input-sm pengurus-desa" type="text" placeholder="Pendidikan" value="<?= $individu['pendidikan']?>" readonly="true"></input>
+									<input class="form-control input-sm pengurus-desa" type="text" placeholder="Pendidikan" value="<?= $individu['pendidikan']?>" readonly="true" name="pendidikan"></input>
 									<select class="form-control input-sm pengurus-luar-desa" name="pamong_pendidikan" style="display: none;">
 										<option value="">Pilih Pendidikan (Dalam KK) </option>
 										<?php foreach ($pendidikan_kk as $data): ?>
@@ -144,7 +144,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="pamong_agama">Agama</label>
 								<div class="col-sm-7">
-									<input class="form-control input-sm pengurus-desa" type="text" placeholder="Agama" value="<?= $individu['agama']?>" readonly="true"></input>
+									<input class="form-control input-sm pengurus-desa" type="text" placeholder="Agama" value="<?= $individu['agama']?>" readonly="true" name="agama"></input>
 									<select class="form-control input-sm pengurus-luar-desa" name="pamong_agama" style="display: none;">
 										<option value="">Pilih Agama</option>
 										<?php foreach ($agama as $data): ?>
