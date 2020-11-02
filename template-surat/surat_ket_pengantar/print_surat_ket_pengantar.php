@@ -58,20 +58,9 @@
 								</table>
 								<table width="100%">
 									<tr><td>Orang tersebut <?= $input['keterangan']?></td></tr>
+									<tr><td>Demikian surat ini kami buat untuk dapat dipergunakan sebagaimana mestinya. </td></tr>
 									<!-- <tr><td>Keperluan </td><td>:</td><td> <?= $input['keperluan']?></td></tr>
 									<tr><td>Berlaku mulai </td><td>:</td><td><?= tgl_indo(tgl_indo_in($input['berlaku_dari']))?> sampai dengan  <?= tgl_indo(tgl_indo_in($input['berlaku_sampai']))?></td></tr> -->
-								</table>
-								<table width="100%">
-									<tr></tr>
-									<tr></tr>
-									<tr></tr>
-									<tr><td>Demikian surat ini kami buat untuk dapat dipergunakan sebagaimana mestinya. </td></tr>
-									<tr></tr>
-									<tr></tr>
-									<tr></tr>
-									<tr></tr>
-									<tr></tr>
-									<tr></tr>
 								</table>
 							</td>
 						</tr>
