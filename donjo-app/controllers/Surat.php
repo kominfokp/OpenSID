@@ -71,7 +71,6 @@ class Surat extends Admin_Controller {
 		$data['anggota'] = NULL;
 		$data['kepala_kk'] = NULL;
 
-
 		if (!empty($_POST['nik']))
 		{
 			$get_data_individu = get_penduduk($_POST['nik']);
@@ -97,9 +96,9 @@ class Surat extends Admin_Controller {
 				} else {
 					$data['individu'] = $data_individu;
 					$data['individu']['eksis'] = $_POST['nik'];
-
 				}
 			}
+
 
 		}
 
