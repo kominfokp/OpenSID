@@ -88,6 +88,11 @@
 														</thead>
 														<tbody>
 															<?php foreach ($main as $key => $data): ?>
+																<?php 
+																$get_data_individu = get_penduduk($data['pamong_nik']);
+																if($get_data_individu){
+																	$biodata = $get_data_individu['detil_nik'];
+																?>
 																<tr>
 																	<td class="text-center">
 																		<input type="checkbox" name="id_cb[]" value="<?=$data['pamong_id']?>" />
@@ -126,27 +131,28 @@
 																		</div>
 																	</td>
 																	<td nowrap>
-																		<?= $data['nama']?>
+																		<?= $biodata['nama']?>
 																		<p class='text-blue'>
 																			<?php if (!empty($data['pamong_nip']) and $data['pamong_nip'] != '-'): ?>
 																				<i>NIP :<?=$data['pamong_nip']?></i></br>
 																			<?php else: ?>
 																				<i>NIAP :<?=$data['pamong_niap']?></i></br>
 																			<?php endif; ?>
-																			<i>NIK :<?=$data['nik']?></i>
+																			<i>NIK :<?=$biodata['nik']?></i>
 																		</p>
 																	</td>
-																	<td nowrap><?= $data['tempatlahir'].', <p>'.tgl_indo_out($data['tanggallahir'])?></p></td>
-																	<td><?= $data['sex']?></td>
-																	<td><?= $data['agama']?></td>
+																	<td nowrap><?= $biodata['tempatlahir'].', <p>'.tgl_indo_out($biodata['tanggallahir'])?></p></td>
+																	<td><?= $biodata['jenis_klmin']?></td>
+																	<td><?= $biodata['agama']?></td>
 																	<td><?= $data['pamong_pangkat']?></td>
 																	<td><?= $data['jabatan']?></td>
-																	<td><?= $data['pendidikan_kk']?></td>
+																	<td><?= $biodata['pendidikan']?></td>
 																	<td><?= $data['pamong_nosk']?></td>
 																	<td><?= tgl_indo_out($data['pamong_tglsk'])?></td>
 																	<td><?= $data['pamong_nohenti']?></td>
 																	<td><?= tgl_indo_out($data['pamong_tglhenti'])?></td>
 																	<td><?= $data['pamong_masajab']?></td>
+																<?php } ?>
 																</tr>
 															<?php endforeach; ?>
 														</tbody>

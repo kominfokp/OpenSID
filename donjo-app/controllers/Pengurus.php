@@ -70,9 +70,10 @@ class Pengurus extends Admin_Controller {
 			// 	$id_penduduk = $ambil_nik_pamong['detil_nik']['NIK'];
 			// }
 			// if (!isset($_POST['id_pend'])) $_POST['id_pend'] = $id_penduduk;
-			// $data['form_action'] = site_url("pengurus/update/$id");
+			
 			$data['pamong'] = $this->pamong_model->get_data($id);
 			if (!isset($_POST['id_pend'])) $_POST['id_pend'] = $data['pamong']['id_pend'];
+			$data['form_action'] = site_url("pengurus/update/$id");
 		}
 		else
 		{
@@ -113,7 +114,7 @@ class Pengurus extends Admin_Controller {
 		else {
 			$data['individu'] = NULL;
 		}
-	
+		
 		$header = $this->header_model->get_data();
 
 
@@ -164,7 +165,7 @@ class Pengurus extends Admin_Controller {
 
 	public function insert()
 	{
-		$this->pamong_model->insert();//echo $this->db->last_query(); exit();
+		$this->pamong_model->insert(); //echo $this->db->last_query(); exit();
 		redirect('pengurus');
 	}
 
