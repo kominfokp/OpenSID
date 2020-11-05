@@ -69,24 +69,28 @@
 						</div>
 					</div>
 				</div>
-				
 				<div class="col-md-9">
 					<div class="box box-primary">
 						<div class="box-body">
+							<?php 
+							$get_data_individu = get_penduduk($pamong['pamong_nik']);
+							if($get_data_individu){
+								$biodata = $get_data_individu['detil_nik'];
+							?>
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="pamong_nama">Nama Pegawai <?= ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-7">
 									<input type="hidden" name="pamong_status" value="1">
 									<input type="hidden" name="nik" value="<?=$individu['nik']?>">
 									<input name="pamong_desa" class="form-control input-sm pengurus-desa" type="text" placeholder="Nama" value="<?= ($individu['nama'])?>" readonly="true"></input>
-									<input id="pamong_nama" name="pamong_nama" class="form-control input-sm pengurus-luar-desa <?= !empty($individu) ?: 'required'?>" type="text" placeholder="Nama" value="<?= $pamong['nama_lengkap']?>" style="display: none;"></input>
+									<input id="pamong_nama" name="pamong_nama" class="form-control input-sm pengurus-luar-desa <?= !empty($individu) ?: 'required'?>" type="text" placeholder="Nama" value="<?= ($biodata['nama'])?>" style="display: none;"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="pamong_nik">Nomor Induk Kependudukan</label>
 								<div class="col-sm-7">
 									<input class="form-control input-sm pengurus-desa" type="text" placeholder="Nomor Induk Kependudukan" value="<?=$individu['nik']?>" disabled="disabled"></input>
-									<input id="pamong_nik" name="pamong_nik" class="form-control input-sm pengurus-luar-desa digits" type="text" placeholder="Nomor Induk Kependudukan" value="<?=$pamong['pamong_nik']?>" style="display: none;"></input>
+									<input id="pamong_nik" name="pamong_nik" class="form-control input-sm pengurus-luar-desa digits" type="text" placeholder="Nomor Induk Kependudukan" value="<?=$biodata['nik']?>" style="display: none;"></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -105,7 +109,7 @@
 								<label class="col-sm-4 control-label" for="pamong_tempatlahir">Tempat Lahir</label>
 								<div class="col-sm-7">
 									<input class="form-control input-sm pengurus-desa" type="text" placeholder="Tempat Lahir" value="<?= strtoupper($individu['tempatlahir'])?>" readonly="true"></input>
-									<input name="pamong_tempatlahir" class="form-control input-sm pengurus-luar-desa" type="text" placeholder="Tempat Lahir" value="<?= strtoupper($pamong['pamong_tempatlahir'])?>" style="display: none;"></input>
+									<input name="pamong_tempatlahir" class="form-control input-sm pengurus-luar-desa" type="text" placeholder="Tempat Lahir" value="<?= strtoupper($biodata['tempatlahir'])?>" style="display: none;"></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -116,7 +120,7 @@
 										<div class="input-group-addon">
 											<i class="fa fa-calendar"></i>
 										</div>
-										<input class="form-control input-sm pull-right tgl_1" name="pamong_tanggallahir" type="text" value="<?= tgl_indo_out($pamong['pamong_tanggallahir'])?>">
+										<input class="form-control input-sm pull-right tgl_1" name="pamong_tanggallahir" type="text" value="<?= tgl_indo_out($biodata['tanggallahir'])?>">
 									</div>
 								</div>
 							</div>
@@ -126,8 +130,8 @@
 									<input class="form-control input-sm pengurus-desa" type="text" placeholder="Jenis Kelamin" value="<?= $individu['jenis_klmin']?>" readonly="true" name="jenis_kelamin"></input>
 									<select class="form-control input-sm pengurus-luar-desa" name="pamong_sex" onchange="show_hide_hamil($(this).find(':selected').val());" style="display: none;">
 										<option value="">Jenis Kelamin</option>
-										<option value="1" <?php selected($pamong['pamong_sex'], '1'); ?> >Laki-Laki</option>
-										<option value="2" <?php selected($pamong['pamong_sex'], '2'); ?> >Perempuan</option>
+										<option value="1" <?php selected($biodata['sex'], '1'); ?> >Laki-Laki</option>
+										<option value="2" <?php selected($biodata['sex'], '2'); ?> >Perempuan</option>
 									</select>
 								</div>
 							</div>
@@ -220,6 +224,7 @@
 								</div>
 								<input name="id_penduduk" class="form-control input-sm" type="hidden" value="<?= $pamong['id_pend']?>" ></input>
 							</div>
+							<?php } ?>
 						</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>

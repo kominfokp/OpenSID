@@ -142,7 +142,7 @@
 
 	public function get_data($id = 0)
 	{
-		$sql = "SELECT u.*, p.nama as nama, u.pamong_nama as nama_lengkap
+		$sql = "SELECT u.*, p.nama as nama
 			FROM tweb_desa_pamong u
 			LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
 			WHERE pamong_id = ?";
@@ -202,7 +202,7 @@
 					$data['pamong_nik'] = $this->input->post('pamong_nik');
 					$data['pamong_tempatlahir'] = $this->input->post('pamong_tempatlahir');
 					// $data['pamong_tanggallahir'] = tgl_indo_in($this->input->post('pamong_tanggallahir'));
-					$data['pamong_tanggallahir'] = empty($this->input->post('pamong_tanggallahir')) ? 0000 : tgl_indo_in($this->input->post('pamong_tanggallahir'));
+					$data['pamong_tanggallahir'] = empty($this->input->post('pamong_tanggallahir')) ? 0000 : tgl_indo_in($this->input->post('pamong_tglsk'));
 					$data['pamong_sex'] = $this->input->post('pamong_sex');
 					$data['pamong_pendidikan'] = $this->input->post('pamong_pendidikan');
 					$data['pamong_agama'] = $this->input->post('pamong_agama');
@@ -224,7 +224,7 @@
 					$data['pamong_nik'] = $biodata['nik'];
 					$data['pamong_tempatlahir'] = $biodata['tempatlahir'];
 					// $data['pamong_tanggallahir'] = $biodata['tanggallahir'];
-					$data['pamong_tanggallahir'] = $biodata['tanggallahir'];
+					$data['pamong_tanggallahir'] = empty($this->input->post('pamong_tanggallahir')) ? null : tgl_indo_in($this->input->post('pamong_tglsk'));
 					$data['pamong_sex'] = $biodata['sex'];
 					$data['pamong_pendidikan'] = $biodata['pendidikan_kk_id'];
 					$data['pamong_agama'] = $biodata['agama_id'];
