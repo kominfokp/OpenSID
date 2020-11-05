@@ -211,7 +211,7 @@
 							<div class="row jar_form">
 								<label for="nomor" class="col-sm-3"></label>
 								<div class="col-sm-8">
-									<input class="required" type="hidden" id="nik" name="nik" value="<?= $individu['id']?>">
+									<input class="required" type="hidden" id="nik" name="nik" value="<?= $individu['nik']?>">
 								</div>
 							</div>
 							<input id="kode_format" type="hidden" name="kode_format" value="bukan_f108">

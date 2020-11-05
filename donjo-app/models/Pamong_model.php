@@ -231,7 +231,7 @@
 					// $data['urut'] = $this->urut_max() + 1;
 					$data['urut'] = $this->urut_model->urut_max() + 1;
 					$data['pamong_tgl_terdaftar'] = date('Y-m-d');
-					$data['id_pend'] = $this->input->post('nik');
+					$data['id_pend'] = $this->input->post('id_penduduk');
 					$data['pamong_nip'] = $this->input->post('pamong_nip');
 					$data['pamong_niap'] = $this->input->post('pamong_niap');
 					$data['jabatan'] = $this->input->post('jabatan');
