@@ -27,7 +27,7 @@
 							<div class="row jar_form">
 								<label for="nomor" class="col-sm-3"></label>
 								<div class="col-sm-8">
-									<input class="required" type="hidden" name="nik" value="<?= $individu['nik']?>"> 
+									<input class="required" type="hidden" name="nik" value="<?= $individu['nik']?>">
 								</div>
 							</div>
 							<?php include("donjo-app/views/surat/form/nomor_surat.php"); ?>
