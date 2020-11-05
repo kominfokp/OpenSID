@@ -73,7 +73,6 @@ class Surat extends Admin_Controller {
 
 		if (!empty($_POST['nik']))
 		{
-<<<<<<< HEAD
 			$get_data_individu = get_penduduk($_POST['nik']);
 			if($get_data_individu){
 				$data_individu = $get_data_individu['detil_nik'];
@@ -101,7 +100,7 @@ class Surat extends Admin_Controller {
 
 				
 			}
-=======
+
 			$get_data_individu = $this->surat_model->get_penduduk($_POST['nik']);
 
 			if (empty($get_data_individu)) {
@@ -125,7 +124,6 @@ class Surat extends Admin_Controller {
 			}
 
 
->>>>>>> parent of f9a8fbec... Update 2/11/2020
 		}
 
 		if (!empty($_POST['nik_kk']))
