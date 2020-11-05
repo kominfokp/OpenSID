@@ -73,6 +73,7 @@ class Surat extends Admin_Controller {
 
 		if (!empty($_POST['nik']))
 		{
+<<<<<<< HEAD
 			$get_data_individu = get_penduduk($_POST['nik']);
 			if($get_data_individu){
 				$data_individu = $get_data_individu['detil_nik'];
@@ -100,6 +101,31 @@ class Surat extends Admin_Controller {
 
 				
 			}
+=======
+			$get_data_individu = $this->surat_model->get_penduduk($_POST['nik']);
+
+			if (empty($get_data_individu)) {
+				$data['individu'] = [
+					'status_data'=> '',
+					'nama'=> ' - tidak ditemukan - ',
+					'tempatlahir'=> ' - tidak ditemukan - ',
+					'tanggallahir'=> ' - tidak ditemukan - ',
+					'umur'=> ' - tidak ditemukan - ',
+					'alamat_wilayah'=> ' - tidak ditemukan - ',
+					'pendidikan'=> ' - tidak ditemukan - ',
+					'warganegara'=> ' - tidak ditemukan - ',
+					'agama'=> ' - tidak ditemukan - ',
+					'id'=> ' - tidak ditemukan - ',
+					'no_kk'=> ' - tidak ditemukan - ',
+					'eksis'=> $_POST['nik'],
+				];
+			} else {
+				$data['individu'] = $get_data_individu;
+				$data['individu']['eksis'] = $_POST['nik'];
+			}
+
+
+>>>>>>> parent of f9a8fbec... Update 2/11/2020
 		}
 
 		if (!empty($_POST['nik_kk']))
