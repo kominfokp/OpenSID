@@ -57,11 +57,9 @@
 									<tr><td>Kewarganegaraan </td><td>:</td><td><?= $data['warganegara']?></td></tr>
 								</table>
 								<table width="100%">
-									<tr><td width="20%">Keperluan </td><td width="2%">:</td><td width="64%"><?= $input['keperluan']?></td></tr>
-									<tr><td>Berlaku mulai </td><td>:</td><td><?= tgl_indo(tgl_indo_in($input['berlaku_dari']))?> sampai dengan  <?= tgl_indo(tgl_indo_in($input['berlaku_sampai']))?></td></tr>
-								</table>
-								<table width="100%">
 									<tr><td>Orang tersebut <?= $input['keterangan']?></td></tr>
+									<!-- <tr><td>Keperluan </td><td>:</td><td> <?= $input['keperluan']?></td></tr>
+									<tr><td>Berlaku mulai </td><td>:</td><td><?= tgl_indo(tgl_indo_in($input['berlaku_dari']))?> sampai dengan  <?= tgl_indo(tgl_indo_in($input['berlaku_sampai']))?></td></tr> -->
 								</table>
 								<table width="100%">
 									<tr></tr>
