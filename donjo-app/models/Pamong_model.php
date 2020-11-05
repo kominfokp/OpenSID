@@ -247,7 +247,6 @@
 					$data['foto'] = $nama_file;
 				}
 			}
-=======
 		// var_dump($biodata); exit;
 		if (empty($biodata['nik'])) {
 			$data['pamong_nama'] = $this->input->post('pamong_nama');
@@ -270,7 +269,6 @@
 			$data['pamong_tgl_terdaftar'] = date('Y-m-d');
 			$data['id_pend'] = $this->input->post('id_penduduk');
 			$data['foto'] = $nama_file;
->>>>>>> parent of 02ca1a8d... 4/11/2020 Insert data pamong
 
 		}else{
 			$data['pamong_nama'] = $biodata['nama'];
