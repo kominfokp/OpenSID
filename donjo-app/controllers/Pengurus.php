@@ -65,11 +65,8 @@ class Pengurus extends Admin_Controller {
 
 		if ($id)
 		{
-			$ambil_nik_pamong = get_penduduk($id_pend);
-			if ($ambil_nik_pamong) {
-				$id_penduduk = $ambil_nik_pamong['detil_nik']['NIK'];
-			}
-			if (!isset($_POST['id_pend'])) $_POST['id_pend'] = $id_penduduk;
+			$data['pamong'] = $this->pamong_model->get_data($id);
+			if (!isset($_POST['id_pend'])) $_POST['id_pend'] = $data['pamong']['id_pend'];
 			$data['form_action'] = site_url("pengurus/update/$id");
 		}
 		else
@@ -83,27 +80,21 @@ class Pengurus extends Admin_Controller {
 		$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
 
 		if (!empty($id_pend)) {
-			$get_nik_pamong = get_penduduk($id_pend);
+			$data['individu'] = $this->penduduk_model->get_penduduk($id_pend);
 
-			if ($get_nik_pamong) {
-				$data_individu = $get_nik_pamong['detil_nik'];
-
-				$data['individu'] = $data_individu;
-
-				if($data['individu']['NIK'] == NULL) {
-					$data['individu']['status_data'] = "Data Tidak ditemukan";
+			if($data['individu']['nik'] == NULL) {
+				$data['individu']['status_data'] = "Data Tidak ditemukan";
+			}
+			else {
+				if($data['individu']['no_prop'] == $kodeProp && $data['individu']['no_kab'] == $kodeKab && $data['individu']['no_kec'] == $kodeKec && $data['individu']['no_kel'] == $kodeKel) {
+					$this->biodata_model->save_biodata($data['individu']);
 				}
 				else {
-					if($data['individu']['no_prop'] == $kodeProp && $data['individu']['no_kab'] == $kodeKab && $data['individu']['no_kec'] == $kodeKec && $data['individu']['no_kel'] == $kodeKel) {
-						$this->biodata_model->save_biodata($data['individu']);
-					}
-					else {
-						$data['individu']['status_data'] = "Mohon Maaf Biodata Penduduk desa ".$data['individu']['kel_name'];
-					}
+					$data['individu']['status_data'] = "Mohon Maaf Biodata Penduduk desa ".$data['individu']['kel_name'];
 				}
-
-				$data['individu']['alamat_wilayah']= $data['individu']['alamat'];
 			}
+
+			$data['individu']['alamat_wilayah']= $data['individu']['alamat'];
 
 			//v20.05
 			//$data['individu'] = $this->penduduk_model->get_penduduk($_POST['id_pend']);
@@ -113,10 +104,6 @@ class Pengurus extends Admin_Controller {
 		}
 	
 		$header = $this->header_model->get_data();
-
-
-		// echo var_dump($data['individu']);
-		// exit;
 
 		// $data['p_jabatan'] = array(
 		// 	""=>" - ",
