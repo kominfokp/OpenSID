@@ -155,11 +155,16 @@ function get_penduduk($nik) {
 				'no_rw'=>$hasil['NO_RW'],
     			'kk_level'=>konversi_status_hubkel($hasil['STAT_HBKEL']),
     			'id_cluster'=>$id_cluster,
+    			'pendidikan'=>$hasil['PDDK_AKH'],
+    			'agama'=>$hasil['AGAMA'],
+    			'jenis_klmin'=>$hasil['JENIS_KLMIN'],
+    			'alamat'=>$hasil['ALAMAT'],
+    			'warganegara'=>'WNI'
 			];
 
-			$hasil['usia_tahun'] = $usia_tahun;
-    		$hasil['usia_bulan'] = $usia_bulan;
-    		$hasil['usia_hari'] = $usia_hari;
+			$data_penduduk['usia_tahun'] = $usia_tahun;
+    		$data_penduduk['usia_bulan'] = $usia_bulan;
+    		$data_penduduk['usia_hari'] = $usia_hari;
 
 	    	if ($get_sudah_ada->num_rows() < 1) {
 	    		$CI->db->insert('tweb_penduduk', $data_penduduk);
@@ -176,7 +181,7 @@ function get_penduduk($nik) {
 
 
 	    	return [
-	    		'detil_nik'=>$hasil,
+	    		'detil_nik'=>$data_penduduk,
 	    		'id_penduduk_sistem'=>$id_didapat,
 	    		'type'=>$type
 	    	];
