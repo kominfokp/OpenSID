@@ -97,9 +97,9 @@ class Surat extends Admin_Controller {
 					$data['individu'] = $data_individu;
 					$data['individu']['eksis'] = $_POST['nik'];
 				}
+
+				
 			}
-
-
 		}
 
 		if (!empty($_POST['nik_kk']))

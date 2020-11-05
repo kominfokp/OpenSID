@@ -157,9 +157,7 @@ function get_penduduk($nik) {
     			'id_cluster'=>$id_cluster,
     			'pendidikan'=>$hasil['PDDK_AKH'],
     			'agama'=>$hasil['AGAMA'],
-    			'jenis_klmin'=>$hasil['JENIS_KLMIN'],
-    			'alamat'=>$hasil['ALAMAT'],
-    			'warganegara'=>'WNI'
+    			'jenis_klmin'=>$hasil['JENIS_KLMIN']
 			];
 
 			$data_penduduk['usia_tahun'] = $usia_tahun;
@@ -178,6 +176,7 @@ function get_penduduk($nik) {
 	    		$id_didapat = $get_id_penduduk['id'];
 	    		$type = "update";
 	    	}
+
 
 	    	return [
 	    		'detil_nik'=>$data_penduduk,
