@@ -1,4 +1,4 @@
-S<div class="form-group tdk-permohonan">
+<div class="form-group tdk-permohonan">
 	<label class="col-sm-3 control-label">Tertanda Atas Nama</label>
 	<div class="col-sm-6 col-lg-4">
 		<select class="form-control input-sm select2" name="pilih_atas_nama" onchange="ganti_ttd($(this).val());	">
