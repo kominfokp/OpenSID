@@ -27,7 +27,7 @@
 <div class="form-group konfirmasi">
 	<label for="keperluan"  class="col-sm-3 control-label">Alamat</label>
 	<div class="col-sm-8">
-		<input class="form-control input-sm" type="text" value="<?= strtoupper($individu['alamat_wilayah']); ?>" disabled="">
+		<input class="form-control input-sm" type="text" value="<?= strtoupper($individu['alamat']); ?>" disabled="">
 	</div>
 </div>
 <div class="form-group konfirmasi">

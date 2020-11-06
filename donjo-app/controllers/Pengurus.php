@@ -70,9 +70,10 @@ class Pengurus extends Admin_Controller {
 			// 	$id_penduduk = $ambil_nik_pamong['detil_nik']['NIK'];
 			// }
 			// if (!isset($_POST['id_pend'])) $_POST['id_pend'] = $id_penduduk;
-			// $data['form_action'] = site_url("pengurus/update/$id");
+			
 			$data['pamong'] = $this->pamong_model->get_data($id);
 			if (!isset($_POST['id_pend'])) $_POST['id_pend'] = $data['pamong']['id_pend'];
+			$data['form_action'] = site_url("pengurus/update/$id");
 		}
 		else
 		{
@@ -85,20 +86,23 @@ class Pengurus extends Admin_Controller {
 		$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
 
 		if (!empty($id_pend)) {
-			$data['individu'] = $this->penduduk_model->get_penduduk($id_pend);
+			// $data['individu'] = $this->penduduk_model->get_penduduk($id_pend);
+			$get_data_individu = get_penduduk($id_pend);
+			if($get_data_individu){
+				$data['individu'] = $get_data_individu['detil_nik'];
 
-			if($data['individu']['nik'] == NULL) {
-				$data['individu']['status_data'] = "Data Tidak ditemukan";
-			}
-			else {
-				if($data['individu']['no_prop'] == $kodeProp && $data['individu']['no_kab'] == $kodeKab && $data['individu']['no_kec'] == $kodeKec && $data['individu']['no_kel'] == $kodeKel) {
-					$this->biodata_model->save_biodata($data['individu']);
+				if($data['individu']['nik'] == NULL) {
+					$data['individu']['status_data'] = "Data Tidak ditemukan";
 				}
 				else {
-					$data['individu']['status_data'] = "Mohon Maaf Biodata Penduduk desa ".$data['individu']['kel_name'];
+					if($data['individu']['no_prop'] == $kodeProp && $data['individu']['no_kab'] == $kodeKab && $data['individu']['no_kec'] == $kodeKec && $data['individu']['no_kel'] == $kodeKel) {
+						$this->biodata_model->save_biodata($data['individu']);
+					}
+					else {
+						$data['individu']['status_data'] = "Mohon Maaf Biodata Penduduk desa ".$data['individu']['kel_name'];
+					}
 				}
 			}
-
 			$data['individu']['alamat_wilayah']= $data['individu']['alamat'];
 
 			//v20.05

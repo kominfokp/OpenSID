@@ -76,8 +76,8 @@
 								<div class="col-sm-7">
 									<input type="hidden" name="pamong_status" value="1">
 									<input type="hidden" name="nik" value="<?=$individu['nik']?>">
-									<input name="pamong_desa" class="form-control input-sm pengurus-desa" type="text" placeholder="Nama" value="<?= ($individu['nama'])?>" readonly="true"></input>
-									<input id="pamong_nama" name="pamong_nama" class="form-control input-sm pengurus-luar-desa <?= !empty($individu) ?: 'required'?>" type="text" placeholder="Nama" value="<?= ($pamong['pamong_nama'])?>" style="display: none;"></input>
+									<input name="pamong_nama" class="form-control input-sm pengurus-desa" type="text" placeholder="Nama" value="<?= ($individu['nama'])?>" readonly="true"></input>
+									<input id="pamong_nama" name="pamong_nama" class="form-control input-sm pengurus-luar-desa <?= !empty($individu) ?: 'required'?>" type="text" placeholder="Nama" value="<?= ($pamong['nama_lengkap'])?>" style="display: none;"></input>
 								</div>
 							</div>
 							<div class="form-group">

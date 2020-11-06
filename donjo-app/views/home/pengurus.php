@@ -126,22 +126,22 @@
 																		</div>
 																	</td>
 																	<td nowrap>
-																		<?= $data['nama']?>
+																		<?= $data['pamong_nama']?>
 																		<p class='text-blue'>
 																			<?php if (!empty($data['pamong_nip']) and $data['pamong_nip'] != '-'): ?>
 																				<i>NIP :<?=$data['pamong_nip']?></i></br>
 																			<?php else: ?>
 																				<i>NIAP :<?=$data['pamong_niap']?></i></br>
 																			<?php endif; ?>
-																			<i>NIK :<?=$data['nik']?></i>
+																			<i>NIK :<?=$data['pamong_nik']?></i>
 																		</p>
 																	</td>
-																	<td nowrap><?= $data['tempatlahir'].', <p>'.tgl_indo_out($data['tanggallahir'])?></p></td>
-																	<td><?= $data['sex']?></td>
-																	<td><?= $data['agama']?></td>
+																	<td nowrap><?= $data['pamong_tempatlahir'].', <p>'.tgl_indo_out($data['pamong_tanggallahir'])?></p></td>
+																	<td><?= $data['pamong_sex']?></td>
+																	<td><?= $data['pamong_agama']?></td>
 																	<td><?= $data['pamong_pangkat']?></td>
 																	<td><?= $data['jabatan']?></td>
-																	<td><?= $data['pendidikan_kk']?></td>
+																	<td><?= $data['pamong_pendidikan']?></td>
 																	<td><?= $data['pamong_nosk']?></td>
 																	<td><?= tgl_indo_out($data['pamong_tglsk'])?></td>
 																	<td><?= $data['pamong_nohenti']?></td>
