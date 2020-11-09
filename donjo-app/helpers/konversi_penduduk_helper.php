@@ -177,7 +177,9 @@ function get_penduduk($nik) {
 	    	$data_penduduk['jenis_klmin'] = $hasil['JENIS_KLMIN'];
 	    	$data_penduduk['alamat'] = $hasil['ALAMAT'];
 	    	$data_penduduk['warganegara'] = 'WNI';
-	    	
+	    	$data_penduduk['usia_tahun'] = $usia_tahun;
+    		$data_penduduk['usia_bulan'] = $usia_bulan;
+    		$data_penduduk['usia_hari'] = $usia_hari;
 
 	    	return [
 	    		'detil_nik'=>$data_penduduk,
