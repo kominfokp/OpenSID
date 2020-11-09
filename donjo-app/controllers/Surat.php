@@ -101,8 +101,6 @@ class Surat extends Admin_Controller {
 				
 			}else{
 
-				$get_data_individu = $this->surat_model->get_penduduk($_POST['nik']);
-
 				if (empty($get_data_individu)) {
 					$data['individu'] = [
 						'status_data'=> '',
