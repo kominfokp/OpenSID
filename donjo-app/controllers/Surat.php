@@ -126,45 +126,48 @@ class Surat extends Admin_Controller {
 
 		if (!empty($_POST['nik_kk']))
 		{
-			$get_data_kepala_kk = $this->surat_model->get_penduduk($_POST['nik_kk']);
-
-			if (empty($get_data_kepala_kk)) {
-				$data['kepala_kk'] = [
-					'status_data'=> '',
-					'nama'=> ' - tidak ditemukan - ',
-					'tempatlahir'=> ' - tidak ditemukan - ',
-					'tanggallahir'=> ' - tidak ditemukan - ',
-					'umur'=> ' - tidak ditemukan - ',
-					'alamat_wilayah'=> ' - tidak ditemukan - ',
-					'pendidikan'=> ' - tidak ditemukan - ',
-					'warganegara'=> ' - tidak ditemukan - ',
-					'agama'=> ' - tidak ditemukan - ',
-					'id'=> ' - tidak ditemukan - ',
-					'no_kk'=> ' - tidak ditemukan - ',
-					'eksis'=> $_POST['nik_kk'],
-				];
-			} else {
-				if ($get_data_kepala_kk['no_kk'] != $data['individu']['no_kk']) {
+			// $get_data_kepala_kk = $this->surat_model->get_penduduk($_POST['nik_kk']);
+			$get_data_individu = get_penduduk($_POST['nik_kk']);
+			if($get_data_individu){
+				$get_data_kepala_kk = $get_data_individu['detil_nik'];
+				
+				if (empty($get_data_kepala_kk)) {
 					$data['kepala_kk'] = [
 						'status_data'=> '',
-						'nama'=> ' - No KK tidak sama - ',
-						'tempatlahir'=> ' - No KK tidak sama - ',
-						'tanggallahir'=> ' - No KK tidak sama - ',
-						'umur'=> ' - No KK tidak sama - ',
-						'alamat_wilayah'=> ' - No KK tidak sama - ',
-						'pendidikan'=> ' - No KK tidak sama - ',
-						'warganegara'=> ' - No KK tidak sama - ',
-						'agama'=> ' - No KK tidak sama - ',
-						'id'=> ' - No KK tidak sama - ',
-						'no_kk'=> ' - No KK tidak sama - ',
+						'nama'=> ' - tidak ditemukan - ',
+						'tempatlahir'=> ' - tidak ditemukan - ',
+						'tanggallahir'=> ' - tidak ditemukan - ',
+						'umur'=> ' - tidak ditemukan - ',
+						'alamat_wilayah'=> ' - tidak ditemukan - ',
+						'pendidikan'=> ' - tidak ditemukan - ',
+						'warganegara'=> ' - tidak ditemukan - ',
+						'agama'=> ' - tidak ditemukan - ',
+						'id'=> ' - tidak ditemukan - ',
+						'no_kk'=> ' - tidak ditemukan - ',
 						'eksis'=> $_POST['nik_kk'],
 					];
 				} else {
-					$data['kepala_kk'] = $get_data_kepala_kk;
-					$data['kepala_kk']['eksis'] = $_POST['nik_kk'];
+					if ($get_data_kepala_kk['no_kk'] != $data['individu']['no_kk']) {
+						$data['kepala_kk'] = [
+							'status_data'=> '',
+							'nama'=> ' - No KK tidak sama - ',
+							'tempatlahir'=> ' - No KK tidak sama - ',
+							'tanggallahir'=> ' - No KK tidak sama - ',
+							'umur'=> ' - No KK tidak sama - ',
+							'alamat_wilayah'=> ' - No KK tidak sama - ',
+							'pendidikan'=> ' - No KK tidak sama - ',
+							'warganegara'=> ' - No KK tidak sama - ',
+							'agama'=> ' - No KK tidak sama - ',
+							'id'=> ' - No KK tidak sama - ',
+							'no_kk'=> ' - No KK tidak sama - ',
+							'eksis'=> $_POST['nik_kk'],
+						];
+					} else {
+						$data['kepala_kk'] = $get_data_kepala_kk;
+						$data['kepala_kk']['eksis'] = $_POST['nik_kk'];
+					}
 				}
 			}
-
 			// $data['kepala_kk'] = $this->surat_model->get_penduduk($_POST['nik_kk']);
 		} 
 

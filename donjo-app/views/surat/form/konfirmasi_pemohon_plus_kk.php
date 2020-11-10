@@ -32,13 +32,13 @@
 				</tr>
 				<tr>
 					<td>Umur</td>
-					<td><?=$individu['umur'];?></td>
-					<td><?=$kepala_kk['umur'];?></td>
+					<td><?=$individu['usia_tahun'];?></td>
+					<td><?=$kepala_kk['usia_tahun'];?></td>
 				</tr>
 				<tr>
 					<td>Alamat</td>
-					<td><?=$individu['alamat_wilayah'];?></td>
-					<td><?=$kepala_kk['alamat_wilayah'];?></td>
+					<td><?=$individu['alamat'];?></td>
+					<td><?=$kepala_kk['alamat'];?></td>
 				</tr>
 				<tr>
 					<td>Pendidikan</td>

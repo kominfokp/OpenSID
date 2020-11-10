@@ -180,6 +180,7 @@ function get_penduduk($nik) {
 	    	$data_penduduk['usia_tahun'] = $usia_tahun;
     		$data_penduduk['usia_bulan'] = $usia_bulan;
     		$data_penduduk['usia_hari'] = $usia_hari;
+    		$data_penduduk['no_kk'] = $hasil['NO_KK'];
 
 	    	return [
 	    		'detil_nik'=>$data_penduduk,

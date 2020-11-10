@@ -39,7 +39,7 @@
 								<label for="nomor" class="col-sm-3"></label>
 								<div class="col-sm-8">
 									<input class="required" type="hidden" name="nik" value="<?= $individu['nik']?>">
-									<input class="required" type="hidden" name="nik_kk" value="<?= $kepala_kk['id']?>">
+									<input class="required" type="hidden" name="nik_kk" value="<?= $kepala_kk['nik']?>">
 								</div>
 							</div>
 							<?php 
