@@ -59,7 +59,7 @@
 								</table>
 								<table width="100%">
 									<tr><td width="23%">Keterangan </td><td width="3%">:</td><td width="64%">Bahwa orang tersebut adalah benar-benar warga kami yang bertempat tinggal di RT. <?= $data['no_rt']?>, RW. <?= $data['no_rw']?>, Pedukuhan <?= ununderscore(unpenetration($data['alamat_sekarang']))?>, <?= ucwords($this->setting->sebutan_desa)?> <?= unpenetration($desa['nama_desa'])?>, <?= ucwords($this->setting->sebutan_kecamatan_singkat)?> <?= unpenetration($desa['nama_kec'])?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= unpenetration($desa['nama_kabupaten'])?> tercatat dalam
-									No. KK: <?= $data['no_kk']?> dengan NIK: <?= $data['nik']?>, kepala keluarga : <?= unpenetration($data['nama_ayah'])?>.</td></tr>
+									No. KK: <?= $data['no_kk']?> dengan NIK: <?= $data['nik']?>.</td></tr>
 									<tr><td width="23%">Keperluan </td><td width="3%">:</td><td width="64%"> <?= $input['keterangan']?></td></tr>
 									<tr><td width="23%">Berlaku mulai </td><td width="3%">:</td><td width="64%"><?= tgl_indo(tgl_indo_in($input['berlaku_dari']))?> sampai dengan  <?= tgl_indo(tgl_indo_in($input['berlaku_sampai']))?></td></tr>
 								</table>
