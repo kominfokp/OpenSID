@@ -41,9 +41,9 @@ if (!empty($get_prkt)) {
 
 <div class="box box-primary box-solid">
 	<div class="box-body">
-		<a href="/simdes" class="btn btn-success" target="_blank" style="width: 100%;">
+		<a href="http://jawaraku.kulonprogokab.go.id/" class="btn btn-success" target="_blank" style="width: 100%;">
 			<!-- <i class="fa fa-arrow-right" ></i> Aplikasi SIMDES -->
-			<img src="<?php echo base_url(); ?>desa/logo/logo-simdes.png" style="width: 100%; height: auto;">
+			<img src="<?php echo base_url(); ?>desa/logo/logo-jawaraku.png" style="width: 100%; height: auto;">
 		</a>
 	</div>
 	<div class="box-body">
