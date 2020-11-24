@@ -450,12 +450,12 @@
 					        } else {
 
 					        	let htm = '<tr>'+
-									'<td><input type="text" name="pengikut_nik[]" value="'+r.detil_nik.NIK+'" class="form-control input-sm" readonly></td>'+
+									'<td><input type="text" name="pengikut_nik[]" value="'+r.detil_nik.nik+'" class="form-control input-sm" readonly></td>'+
 									'<td><input type="text" name="pengikut_berlaku_ktp[]" value="" class="form-control input-sm"></td>'+
-									'<td><input type="text" name="pengikut_nama[]" value="'+r.detil_nik.NAMA_LGKP+'" class="form-control input-sm" readonly></td>'+
-									'<td><input type="text" name="pengikut_jk[]" value="'+r.detil_nik.JENIS_KLMIN+'" class="form-control input-sm" readonly></td>'+
+									'<td><input type="text" name="pengikut_nama[]" value="'+r.detil_nik.nama+'" class="form-control input-sm" readonly></td>'+
+									'<td><input type="text" name="pengikut_jk[]" value="'+r.detil_nik.jenis_klmin+'" class="form-control input-sm" readonly></td>'+
 									'<td><input type="text" name="pengikut_umur[]" value="'+r.detil_nik.usia_tahun+'" class="form-control input-sm" readonly></td>'+
-									'<td><input type="text" name="pengikut_status_kawin[]" value="'+r.detil_nik.STATUS_KAWIN+'" class="form-control input-sm" readonly></td>'+
+									'<td><input type="text" name="pengikut_status_kawin[]" value="'+r.detil_nik.status+'" class="form-control input-sm" readonly></td>'+
 								'</tr>';
 
 
