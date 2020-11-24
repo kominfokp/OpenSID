@@ -220,7 +220,7 @@ class Keluar extends Admin_Controller {
 		$this->db->join("tweb_surat_format AS b", "a.id_format_surat = b.id");
 		$detil_log = $this->db->get("log_surat AS a")->row_array();
 
-		$detil_isi_surat = json_decode($detil_log['detil']);
+		$detil_isi_surat = json_decode($detil_log['detil'], true);
 
 		$url = $detil_log['url_surat'];
 
@@ -243,20 +243,21 @@ class Keluar extends Admin_Controller {
 		}
 
 		$get_individu = $this->surat_model->get_data_surat($nik);
-
+		$buat_surat = $this->surat_model->buat_surat($url, $nama_surat, $lampiran);
 		$data = $buat_surat;
 		$data['url'] = $url;
+		$data['input'] = $detil_isi_surat;
 		$data['data'] = $get_individu;
 		$data['desa'] = $buat_surat['config'];
 		$data['tanggal_sekarang'] = tgl_indo2(date('Y-m-d'));
 
-		$no_kk = $buat_surat['individu']['no_kk'];
+		$no_kk = $get_individu['no_kk'];
 		$this->db->where('no_kk', $no_kk);
 		$this->db->select('nik_kepala');
 		$get_kepala_kk = $this->db->get('tweb_keluarga')->row()->nik_kepala;
 		$data['kepalakk'] = $this->surat_model->get_detil_penduduk($get_kepala_kk);
 
-		// j($buat_surat);
+		// j($data['kepalakk']);
 		// exit;
 
 		$this->load->view("surat/print_surat", $data);
