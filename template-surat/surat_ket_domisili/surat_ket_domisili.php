@@ -7,7 +7,7 @@
 					<div class="box-header with-border">
 						<a href="<?=site_url("surat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
 							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Cetak Surat
-           	</a>
+           				</a>
 					</div>
 					<div class="box-body">
 						<form action="" id="main" name="main" method="POST" class="form-horizontal">
@@ -19,7 +19,7 @@
 							<div class="row jar_form">
 								<label for="nomor" class="col-sm-3"></label>
 								<div class="col-sm-8">
-									<input class="required" type="hidden" name="nik" value="<?= $individu['id']?>">
+									<input class="required" type="hidden" name="nik" value="<?= $individu['nik']?>">
 								</div>
 							</div>
 							<?php if ($individu): ?>
