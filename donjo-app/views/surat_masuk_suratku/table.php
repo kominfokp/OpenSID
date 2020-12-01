@@ -89,8 +89,7 @@
 
     function dt_surat() {
         $.ajax({
-            type: "POST",
-            data: {},
+            type: "GET",
             url: "<?=base_url('index.php/surat_masuk_suratku/index_ajax');?>",
             beforeSend: function(){
                 $("#table_surat").html('<tr><td colspan="5"><i class="fa fa-spin fa-spinner"></i> Memuat...</td></tr>');
