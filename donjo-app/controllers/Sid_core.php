@@ -169,24 +169,26 @@ class Sid_Core extends Admin_Controller {
 		if (!empty($_POST['id_kepala']))
 		{
 
-			$data['individu'] = $this->biodata_model->get_penduduk($_POST['id_kepala']);
+			// $data['individu'] = $this->biodata_model->get_penduduk($_POST['id_kepala']);
+			$get_data_individu = get_penduduk($_POST['id_kepala']);
+			if($get_data_individu){
+				$data['individu'] = $get_data_individu['detil_nik'];
+					if($data['individu']['nik'] == NULL) {
+						$data['individu']['status_data'] = "Data Tidak ditemukan";
+					} else {
+						if(
+							$data['individu']['no_prop'] == $kodeProp
+							&& $data['individu']['no_kab'] == $kodeKab
+							&& $data['individu']['no_kec'] == $kodeKec
+							&& $data['individu']['no_kel'] == $kodeKel
+						) {
+							$this->biodata_model->save_biodata($data['individu']);
 
-			if($data['individu']['nik'] == NULL) {
-				$data['individu']['status_data'] = "Data Tidak ditemukan";
-			} else {
-				if(
-					$data['individu']['no_prop'] == $kodeProp
-					&& $data['individu']['no_kab'] == $kodeKab
-					&& $data['individu']['no_kec'] == $kodeKec
-					&& $data['individu']['no_kel'] == $kodeKel
-				) {
-					$this->biodata_model->save_biodata($data['individu']);
-
-				} else {
-					$data['individu']['status_data'] = "Mohon Maaf Biodata Penduduk desa ".$data['individu']['kel_name'];
-				}
+						} else {
+							$data['individu']['status_data'] = "Mohon Maaf Biodata Penduduk desa ".$data['individu']['kel_name'];
+						}
+					}
 			}
-
 			$data['individu']['alamat_wilayah']= $data['individu']['alamat'];
 
 
@@ -302,6 +304,42 @@ class Sid_Core extends Admin_Controller {
 		$dusun = $temp['dusun'];
 		$data['dusun'] = $temp['dusun'];
 		$data['id_dusun'] = $id_dusun;
+		$desa = $this->get_data_desa();
+		$kodeProp = intval($desa['kode_propinsi']);
+		$kodeKab = intval($desa['kode_kabupaten']);
+		$kodeKec = intval($desa['kode_kecamatan']);
+		$kodeKel = intval($desa['kode_desa']);
+		if (!empty($_POST['id_kepala']))
+		{
+		// $data['individu'] = $this->biodata_model->get_penduduk($_POST['id_kepala']);
+			$get_data_individu = get_penduduk($_POST['id_kepala']);
+			if($get_data_individu){
+				$data['individu'] = $get_data_individu['detil_nik'];
+					if($data['individu']['nik'] == NULL) {
+						$data['individu']['status_data'] = "Data Tidak ditemukan";
+					} else {
+						if(
+							$data['individu']['no_prop'] == $kodeProp
+							&& $data['individu']['no_kab'] == $kodeKab
+							&& $data['individu']['no_kec'] == $kodeKec
+							&& $data['individu']['no_kel'] == $kodeKel
+						) {
+							$this->biodata_model->save_biodata($data['individu']);
+
+						} else {
+							$data['individu']['status_data'] = "Mohon Maaf Biodata Penduduk desa ".$data['individu']['kel_name'];
+						}
+					}
+			}
+			$data['individu']['alamat_wilayah']= $data['individu']['alamat'];
+
+
+		}
+		else
+		{
+			$data['individu'] = NULL;
+			$data['anggota'] = NULL;
+		}
 
 		$data['penduduk'] = $this->wilayah_model->list_penduduk();
 
@@ -409,6 +447,43 @@ class Sid_Core extends Admin_Controller {
 		$data_rw = $this->wilayah_model->cluster_by_id($id_rw);
 		$data['rw'] = $data_rw['rw'];
 		$data['id_rw'] = $data_rw['id'];
+		$desa = $this->get_data_desa();
+		$kodeProp = intval($desa['kode_propinsi']);
+		$kodeKab = intval($desa['kode_kabupaten']);
+		$kodeKec = intval($desa['kode_kecamatan']);
+		$kodeKel = intval($desa['kode_desa']);
+		if (!empty($_POST['id_kepala']))
+		{
+		// $data['individu'] = $this->biodata_model->get_penduduk($_POST['id_kepala']);
+			$get_data_individu = get_penduduk($_POST['id_kepala']);
+			if($get_data_individu){
+				$data['individu'] = $get_data_individu['detil_nik'];
+					if($data['individu']['nik'] == NULL) {
+						$data['individu']['status_data'] = "Data Tidak ditemukan";
+					} else {
+						if(
+							$data['individu']['no_prop'] == $kodeProp
+							&& $data['individu']['no_kab'] == $kodeKab
+							&& $data['individu']['no_kec'] == $kodeKec
+							&& $data['individu']['no_kel'] == $kodeKel
+						) {
+							$this->biodata_model->save_biodata($data['individu']);
+
+						} else {
+							$data['individu']['status_data'] = "Mohon Maaf Biodata Penduduk desa ".$data['individu']['kel_name'];
+						}
+					}
+			}
+			$data['individu']['alamat_wilayah']= $data['individu']['alamat'];
+
+
+		}
+		else
+		{
+			$data['individu'] = NULL;
+			$data['anggota'] = NULL;
+		}
+		
 		$data['penduduk'] = $this->wilayah_model->list_penduduk();
 
 		if ($rt)

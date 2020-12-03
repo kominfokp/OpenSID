@@ -16,10 +16,31 @@
 					<div class="box-header with-border">
 						<a href="<?= site_url("sid_core/sub_rt/$id_dusun/$id_rw")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RT">
 							<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar RT
-           	</a>
+           				</a>
 					</div>
 					<div class="box-body">
 						<div class="row">
+							<div class="col-sm-12">
+								<form action="" id="main" name="main" method="POST" class="form-horizontal">
+									<div class="box-body">
+										<div class="row">
+											<div class="col-sm-12">
+													<div class="form-group">
+														<label for="nik"  class="col-sm-3 control-label">NIK Ketua RT</label>
+
+														<div class="col-sm-4">
+															<input class="form-control input-sm" id="id_kepala"  value="<?= $individu['nik']?>" name="id_kepala" style ="width:100%;">
+														</div>
+														<div class="col-sm-2">
+																<button class="btn btn-sosial btn-flat btn-success btn-sm" onclick="formAction('main')"><i class="fa fa-plus"></i>Validasi</button>
+														</div>
+
+													</div>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
 							<div class="col-sm-12">
 								<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 									<div class="box-body">
@@ -45,7 +66,7 @@
 													</div>
 												</div>
 											<?php endif; ?>
-											<div class="col-sm-12">
+											<!-- <div class="col-sm-12">
 												<div class="form-group">
 													<label class="col-sm-3 control-label" for="id_kepala">Ketua RT</label>
 													<div class="col-sm-4">
@@ -55,8 +76,12 @@
 															<button type="button" class="btn btn-sosial btn-flat btn-success btn-sm" onclick="validasinik('id_kepala')"><i class="fa fa-check"></i>Validasi</button>
 													</div>
 												</div>
+											</div> -->
+											<div class="col-sm-12">
+											<?php if ($individu): ?>
+												<?php include("donjo-app/views/sid/wilayah/konfirmasi_pemohon.php"); ?>
+											<?php	endif; ?>
 											</div>
-
 											<div class="col-sm-12">
 												<div class="form-group">
 													<label for="" class="col-sm-3">&nbsp;</label>
@@ -74,7 +99,7 @@
 									</div>
 								</form>
 							</div>
-           	</div>
+           				</div>
 					</div>
 				</div>
 			</div>

@@ -9,7 +9,7 @@ class Surat_masuk_suratku_model extends CI_Model {
     }
 
     public function get_dashboard($username) {
-        /*
+        
         // set post fields
         $post = [
             'username' => $username,
@@ -28,7 +28,7 @@ class Surat_masuk_suratku_model extends CI_Model {
             return false;
         } else {
             return json_decode($response, true);
-        }*/
+        }
         return false;
     }
 

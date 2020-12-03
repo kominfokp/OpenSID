@@ -104,6 +104,7 @@
 	public function insert()
 	{
 		$data = $this->bersihkan_data($this->input->post());
+		$data['id_kepala'] = $this->id_pend($this->input->post('id_kepala'));
 		$wil = array('dusun' => $data['dusun']);
 		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
 		if ($cek_data)
@@ -114,7 +115,7 @@
 		$this->db->insert('tweb_wil_clusterdesa', $data);
 
 		$biodata= $this->biodata_model->get_penduduk($data['id_kepala']);
-		$this->db->insert('tweb_wil_pamong', $biodata);
+		// $this->db->insert('tweb_wil_pamong', $biodata);
 
 
 		$rw = $data;
@@ -223,6 +224,7 @@
 	public function insert_rw($dusun = '')
 	{
 		$data = $this->bersihkan_data($this->input->post());
+		$data['id_kepala'] = $this->id_pend($this->input->post('id_kepala'));
 		$temp = $this->cluster_by_id($dusun);
 		$data['dusun']= $temp['dusun'];
 		$wil = array('dusun' => $data['dusun'], 'rw' => $data['rw']);
@@ -237,11 +239,11 @@
 		$biodata= $this->biodata_model->get_penduduk($data['id_kepala']);
 
 
-		$cek = $this->db->query("SELECT * FROM tweb_wil_pamong WHERE nik = '".$biodata['nik']."'")->num_rows();
+		$cek = $this->db->query("SELECT * FROM tweb_penduduk WHERE nik = '".$biodata['nik']."'")->num_rows();
 
-		if ($cek < 1) {
-			$this->db->insert('tweb_wil_pamong', $biodata);
-		}
+		// if ($cek < 1) {
+		// 	$this->db->insert('tweb_wil_pamong', $biodata);
+		// }
 
 		$rt = $data;
 		$rt['rt'] = "-";
@@ -309,6 +311,7 @@
 	public function insert_rt($id_dusun = '', $id_rw = '')
 	{
 		$data = $this->bersihkan_data($this->input->post());
+		$data['id_kepala'] = $this->id_pend($this->input->post('id_kepala'));
 		$temp = $this->cluster_by_id($id_dusun);
 		$data['dusun']= $temp['dusun'];
 		$data_rw = $this->cluster_by_id($id_rw);
@@ -323,11 +326,11 @@
 
 		$biodata= $this->biodata_model->get_penduduk($data['id_kepala']);
 
-		$cek = $this->db->query("SELECT * FROM tweb_wil_pamong WHERE nik = '".$biodata['nik']."'")->num_rows();
+		$cek = $this->db->query("SELECT * FROM tweb_penduduk WHERE nik = '".$biodata['nik']."'")->num_rows();
 
-		if ($cek < 1) {
-			$this->db->insert('tweb_wil_pamong', $biodata);
-		}
+		// if ($cek < 1) {
+		// 	$this->db->insert('tweb_wil_pamong', $biodata);
+		// }
 
 		$outp = $this->db->insert('tweb_wil_clusterdesa', $data);
 		status_sukses($outp); //Tampilkan Pesan
@@ -615,6 +618,17 @@
 
 		return trim($alamat_wilayah);
 	}
+
+	function id_pend($nik)
+    {
+       $this->db->select("id");
+       $this->db->where('nik', $nik);
+       $query=$this->db->get('tweb_penduduk');
+       if ($query->num_rows() > 0) {
+         return $query->row()->id;
+     }
+     return false;
+    }
 
 }
 
