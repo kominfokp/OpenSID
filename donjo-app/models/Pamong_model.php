@@ -319,7 +319,9 @@
 		{
 			if (!empty($lokasi_file) AND in_array($tipe_file, unserialize(MIME_TYPE_GAMBAR)))
 			{
-			  $data['foto'] = urlencode(generator(6)."_".$nama_file);
+			  // $data['foto'] = urlencode(generator(6)."_".$nama_file);
+				 $data['foto'] = $nama_file;
+
 				UploadFoto($data['foto'], $old_foto, $tipe_file);
 			}
 			else
