@@ -200,19 +200,26 @@ class Sid_Core extends Admin_Controller {
 		}
 		$data['penduduk'] = $this->wilayah_model->list_penduduk();
 
+		// if ($id)
+		// {
+		// 	$temp = $this->wilayah_model->cluster_by_id($id);
+		// 	$data['dusun'] = $temp['dusun'];
+		// 	$data['individu'] = $this->wilayah_model->get_penduduk($temp['id_kepala']);
+
+		// 	if (empty($data['individu']))
+		// 		$data['individu'] = NULL;
+		// 	else
+		// 	{
+		// 		$ex = $data['individu'];
+		// 		$data['penduduk'] = $this->wilayah_model->list_penduduk_ex($ex['id']);
+		// 	}
+		// 	$data['form_action'] = site_url("sid_core/update/$id");
+		// }
 		if ($id)
 		{
 			$temp = $this->wilayah_model->cluster_by_id($id);
 			$data['dusun'] = $temp['dusun'];
 			$data['individu'] = $this->wilayah_model->get_penduduk($temp['id_kepala']);
-
-			if (empty($data['individu']))
-				$data['individu'] = NULL;
-			else
-			{
-				$ex = $data['individu'];
-				$data['penduduk'] = $this->wilayah_model->list_penduduk_ex($ex['id']);
-			}
 			$data['form_action'] = site_url("sid_core/update/$id");
 		}
 		else
