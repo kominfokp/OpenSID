@@ -451,7 +451,7 @@
 			<tr>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
-				<td>............................, ........................</td>
+				<td><?= unpenetration($desa['nama_desa'])?>, <?= $tanggal_sekarang?></td>
 			</tr>
 			<tr>
 				<td>Petugas Registrasi</td>
@@ -464,9 +464,9 @@
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
-				<td>(...............................................)</td>
+				<td>( <?= unpenetration($input['pamong']) ?> )</td>
 				<td>&nbsp;</td>
-				<td>(...............................................)</td>
+				<td>( <?= $input['pengikut_nama'][0] ?> )</td>
 			</tr>
 		</table>
 		<p>
