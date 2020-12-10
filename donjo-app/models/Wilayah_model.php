@@ -48,7 +48,6 @@
 		$sql .= $this->search_sql();
 		return $sql;
 	}
-
 	/*
 		Struktur tweb_wil_clusterdesa:
 		- baris dengan kolom rt = '0' dan rw = '0' menunjukkan dusun
@@ -131,9 +130,10 @@
 
 	public function update($id = 0)
 	{
-		$data = $this->bersihkan_data($this->input->post());
+		echo $id; exit;
+		$data = $this->bersihkan_data($this->input->post()); 
 		$wil = array('dusun' => $data['dusun'], 'rw' => '0', 'rt' => '0', 'id <>' => $id);
-		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
 		if ($cek_data)
 		{
 			$_SESSION['success'] = -2;
@@ -153,7 +153,7 @@
 
 		if($log_id) {
 			$this->db->where('nik', $log_id);
-			$this->db->update('tweb_wil_pamong',$biodata);
+			$this->db->update('tweb_wil_pamong',$biodata); 
 		} else {
 			$this->db->insert('tweb_wil_pamong', $biodata);
 		}

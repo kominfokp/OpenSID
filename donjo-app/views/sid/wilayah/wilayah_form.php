@@ -40,7 +40,11 @@
 								</form>
 							</div>
 							<div class="col-sm-12">
+								<?php if(!empty($this->uri->segment(3))){ ?>
+								<form id="validasi" action="update" method="POST" enctype="multipart/form-data"  class="form-horizontal">
+								<?php }else{ ?>
 								<form id="validasi" action="insert" method="POST" enctype="multipart/form-data"  class="form-horizontal">
+								<?php } ?>
 									<div class="box-body">
 										<div class="row">
 											<div class="col-sm-12">
