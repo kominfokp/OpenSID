@@ -764,6 +764,13 @@ class Laporan_penduduk_model extends MY_Model {
 	}
 
 	// -------------------- Akhir siapkan data untuk statistik kependudukan -------------------
+	public function get_config()
+	{
+		$sql = "SELECT * FROM config WHERE id = 1";
+		$query = $this->db->query($sql);
+		$data = $query->row_array();
+		return $data;
+	}
 
 	public function list_data_rentang()
 	{
