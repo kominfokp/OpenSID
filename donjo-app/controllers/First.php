@@ -528,7 +528,11 @@ class First extends Web_Controller {
 		*/
 		if (!$this->web_menu_model->menu_aktif('statistik/'.$stat)) show_404();
 
+
 		$data = $this->includes;
+
+		echo var_dump($data);
+		exit;
 
 		$data['export_date'] = $exportDate;
 		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($stat);
