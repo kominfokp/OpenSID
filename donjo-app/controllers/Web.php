@@ -204,7 +204,7 @@ class Web extends Admin_Controller {
 
 	public function insert($cat = 1)
 	{
-		$this->web_artikel_model->insert($cat);
+		$this->web_artikel_model->insert($cat); 
 		redirect("web/index/$cat");
 	}
 

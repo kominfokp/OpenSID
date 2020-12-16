@@ -48,7 +48,6 @@
 													</div>
 								</form>
 
-								<?php echo $data; ?>
 								<table class="table table-bordered dataTable table-hover">
 									<thead>
 										<th>No</th>

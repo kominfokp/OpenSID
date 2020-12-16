@@ -59,7 +59,7 @@ class Laporan_dukcapil extends Admin_Controller {
 		$data =null;
 		if($startDate !=null && $endDate !=null) {
 			$data = $this->laporan_dukcapil_model->get_laporan($kategori, $startDate, $endDate);
-		}
+		} 
 		$exportDate = ["startDate"=> $startDate, "endDate"=>$endDate];
 		$agregat=["jenis" => $kategori, "content"=> json_decode($data), "export_date"=>$exportDate];
 
@@ -74,7 +74,7 @@ class Laporan_dukcapil extends Admin_Controller {
 		$data =null;
 		if($startDate !=null && $endDate !=null) {
 			$data = $this->laporan_dukcapil_model->get_laporan($jenis, $startDate, $endDate);
-		}
+		} 
 	
 		$exportDate = ["startDate"=> $startDate, "endDate"=>$endDate];
 		$agregat=["config"=>$this->laporan_penduduk_model->get_config(),"jenis" => $jenis, "content"=> json_decode($data), "export_date"=>$exportDate];
