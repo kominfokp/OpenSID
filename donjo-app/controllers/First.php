@@ -115,6 +115,34 @@ class First extends Web_Controller {
 		$this->load->model('plan_garis_model');
 	}
 
+	public function insert_statistik_menu() {
+		$menu = [
+			"101"=>"Menurut Dusun",
+			"102"=>"Menurut Agama ",
+			"103"=>"Menurut Gol Darah ",
+			"104"=>"Menurut Jenis Kelamin ",
+			"105"=>"Menurut Pekerjaan ",
+			"106"=>"Menurut Pendidikan ",
+			"107"=>"Menurut Status Hubungan Keluarga ",
+			"108"=>"Menurut Status Perkawinan ",
+			"109"=>"Menurut Kategori Umur ",
+			"110"=>"Menurut KK Jenis Kelamin ",
+			"111"=>"Menurut KK Pekerjaan ",
+			"112"=>"Menurut KK Pendidikan ",
+			"113"=>"Menurut KK Umur ",
+		];
+
+		$insert = '';
+		$no = 1;
+		foreach ($menu as $mk => $mv) {
+			$insert .= "insert into menu (nama, link, tipe, parrent, link_tipe, enabled, urut) values ('".$mv."', 'statistik/".$mk."', 3, 24, 2, 1, '".$no."');<br>";
+			$no++;
+		}
+
+		echo '<p>'.$insert.'</p>';
+
+	}
+
 	public function auth()
 	{
 		if ($_SESSION['mandiri_wait'] != 1)
@@ -455,99 +483,111 @@ class First extends Web_Controller {
 
 	public function statistik($stat=0, $tipe=0)
 	{
-		//kpV20.06
-		/*
-		parent::clear_cluster_session();
-		$kategori = "";
-		switch ($stat) {
-			case '2':
-				$kategori = "statKawin";
-				break;
-			case '4':
-					$kategori = "jenisKelamin";
-					break;
-			case '0':
-					$kategori = "pendidikan";
-				break;
-			case '13':
-					$kategori = "umur";
-			break;
-					case '1':
-					$kategori = "pekerjaan";
-			break;
-					case '3':
-					$kategori = "agama";
-			break;
-				case '7':
-					$kategori = "golDarah";
-		break;
-			case '19':
-					$kategori = "statHbkel";
-			break;
-			case '20':
-					$kategori = "kkJenisKelamin";
-			break;
-			case '23':
-					$kategori = "kkUmur";
-			break;
-
-			case '21':
-					$kategori = "kkPendidikan";
-			break;
-
-			case '22':
-					$kategori = "kkPekerjaan";
-			break;
-
-
-		}
-
-		$tahun =  $_POST['tahun'];
-		$semester =  $_POST['semester'];
-		$dataAgregat =null;
-		if($tahun !=null && $semester !=null) {
-			$dataAgregat = $this->agregat_dukcapil_model->get_agregat($kategori, $tahun, $semester);
-		}
-		$exportDate = ["tahun"=> $tahun, "semester"=>$semester];
-
-
-		$someArray = json_decode($dataAgregat, true);
-		$hasilData = [];
-		foreach($someArray as $key=>&$val) {
-			$hasilData[] =[
-				"no" => $key+1,
-				"nama" => $val["kategori"],
-				"jumlah" => $val['jumlah'],
-				"laki" => $val["lakiLaki"],
-				 "perempuan" => $val["perempuan"],
-				 "persen1" => number_format((($val["lakiLaki"] / $val["jumlah"])* 100),2),
-				 "persen2" => number_format((($val["perempuan"] / $val["jumlah"])* 100),2)
-		];
-
-		}
-		*/
+		
 		if (!$this->web_menu_model->menu_aktif('statistik/'.$stat)) show_404();
-
 
 		$data = $this->includes;
 
-		echo var_dump($data);
-		exit;
-
-		$data['export_date'] = $exportDate;
-		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($stat);
-		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($stat);
-	//	$data['stat'] = $this->laporan_penduduk_model->list_data($stat);
-		$data['stat'] =  $hasilData;
-		$data['tipe'] = $tipe;
-		$data['st'] = $stat;
+		// mulai statistik data
+		$model_laporan = $this->load->model('kp/kp_laporan_penduduk_model', 'kp_laporan_penduduk_model');
 
 
-	//	var_dump(json_encode($data['export_date']));
-	//	exit;
+		$jenis_statistik = intval($stat);
+		$tahun = intval($this->input->get('tahun'));
+		$semester = intval($this->input->get('semester'));
 
-		//var_dump(json_encode($data['stat']));
-		//exit;
+		if (empty($tahun)) {
+			$tahun = date('Y')-1;
+		}
+
+		if (empty($semester)) {
+			$semester = 2;
+		}
+
+		$combobox_tahun = [''=>'-'];
+		for ($i = date('Y') - 5; $i <= date('Y'); $i++) {
+			$combobox_tahun[$i] = $i;
+		}
+
+		$combobox_semester = [
+			''=>'-',
+			'1'=>'Semester 1',
+			'2'=>'Semester 2'
+		];
+
+		$get = $this->input->get();
+
+		$csrf = array(
+			'name' => $this->security->get_csrf_token_name(),
+			'hash' => $this->security->get_csrf_hash()
+		);
+
+		$url_filter = base_url().'index.php/first/statistik/'.$jenis_statistik.'?'.http_build_query($get);
+
+		$data_statistik = $this->kp_laporan_penduduk_model->dukcapil_stat($jenis_statistik, $tahun, $semester);
+		$enable_filter = true;
+
+		if ($jenis_statistik == 101) {
+			$data_statistik = $this->kp_laporan_penduduk_model->dukcapil_stat_per_dusun();
+			$field_label = "alamat";
+			$enable_filter = false;
+		} else if ($jenis_statistik == 102) {
+			$field_label = "kategori";
+		} else if ($jenis_statistik == 103) {
+			$field_label = "kategori";
+		} else if ($jenis_statistik == 104) {
+			$field_label = "kategori";
+		} else if ($jenis_statistik == 105) {
+			$field_label = "kategori";
+		} else if ($jenis_statistik == 106) {
+			$field_label = "kategori";
+		} else if ($jenis_statistik == 107) {
+			$field_label = "kategori";
+		} else if ($jenis_statistik == 108) {
+			$field_label = "kategori";
+		} else if ($jenis_statistik == 109) {
+			$field_label = "kategori";
+		} else if ($jenis_statistik == 110) {
+			$field_label = "kategori";
+		} else if ($jenis_statistik == 111) {
+			$field_label = "kategori";
+		} else if ($jenis_statistik == 112) {
+			$field_label = "kategori";
+		} else if ($jenis_statistik == 113) {
+			$field_label = "kategori";
+		}
+
+
+		$data['field_label'] = $field_label;
+		$data['data_statistik'] = $data_statistik;
+
+		$data['combobox_tahun'] = $combobox_tahun;
+		$data['combobox_semester'] = $combobox_semester;
+		$data['url_filter'] = $url_filter;
+		$data['csrf'] = $csrf;
+		$data['tahun'] = $tahun;
+		$data['semester'] = $semester;
+		$data['jenis_statistik'] = $jenis_statistik;
+		$data['enable_filter'] = $enable_filter;
+
+		$array_jenis_statistik = [
+			"101"=>"Menurut Dusun",
+			"102"=>"Menurut Agama ",
+			"103"=>"Menurut Gol Darah ",
+			"104"=>"Menurut Jenis Kelamin ",
+			"105"=>"Menurut Pekerjaan ",
+			"106"=>"Menurut Pendidikan ",
+			"107"=>"Menurut Status Hubungan Keluarga ",
+			"108"=>"Menurut Status Perkawinan ",
+			"109"=>"Menurut Kategori Umur ",
+			"110"=>"Menurut KK Jenis Kelamin ",
+			"111"=>"Menurut KK Pekerjaan ",
+			"112"=>"Menurut KK Pendidikan ",
+			"113"=>"Menurut KK Umur ",
+		];
+
+		$data['title_statistik'] = $array_jenis_statistik[$jenis_statistik];
+		
 
 		$this->_get_common_data($data);
 

@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Laporan_penduduk_model extends MY_Model {
+class Kp_laporan_penduduk_model extends MY_Model {
 
 	private $lap;
 

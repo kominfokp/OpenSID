@@ -36,3 +36,8 @@ function cget($url) {
   return (["result"=>$result, "error"=>$error]);*/
   return null;
 }
+
+function nf($nomor, $desimal=0, $pembatas_perseribu=".")
+{
+  return number_format($nomor, $desimal, ",", $pembatas_perseribu);
+}

@@ -54,7 +54,7 @@ class Statistik extends Admin_Controller {
 	{
 		parent::__construct();
 		$this->load->model([
-			'kp/laporan_penduduk_model'=>'kp_laporan_penduduk_model', 
+			'kp/kp_laporan_penduduk_model'=>'kp_laporan_penduduk_model', 
 			'header_model',
 			'config_model'
 		]);
@@ -66,6 +66,7 @@ class Statistik extends Admin_Controller {
 
 	public function index()
 	{
+
 		$data['list_statistik_penduduk'] = $this->kp_laporan_penduduk_model->link_statistik_penduduk();
 		$data['list_statistik_keluarga'] = $this->kp_laporan_penduduk_model->link_statistik_keluarga();
 		$data['kategori'] = $this->input->get('kategori');

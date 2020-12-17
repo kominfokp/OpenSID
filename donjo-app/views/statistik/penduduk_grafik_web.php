@@ -204,7 +204,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	}
 </style>
 
-<div class="box box-danger">
+<!-- <div class="box box-danger">
 	<div class="box-header with-border">
 		<h3 class="box-title"> Grafik <?= $heading ?></h3>
 		<div class="box-tools pull-right">
@@ -219,73 +219,97 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="ui-layout-north panel top"></div>
 		</div>
 	</div>
-</div>
+</div> -->
 
 <div class="box box-danger">
 	<div class="box-header with-border">
-		<h3 class="box-title">Tabel <?= $heading ?></h3>
+		<h3 class="box-title">Statistik Penduduk <?= $title_statistik ?></h3>
 	</div>
 	<div class="box-body">
+		<div class="">
+			<?php 
+			if ($enable_filter) 
+			{
+			?>
+			<form action="<?=$url_filter;?>" method="get">
+				<div class="row">
+						<div class="col-sm-4 col-lg-4">
+							<div class="form-group">
+								<label for="nik" class="control-label">Tahun</label><br>
+								<?=form_dropdown('tahun', $combobox_tahun, $tahun, 'id="tahun" class="form-control input-sm"');?>
+							</div>
+						</div>
+
+						<div class="col-sm-4 col-lg-4">
+							<div class="form-group">
+								<label for="nik" class="control-label">Semester</label><br>
+								<?=form_dropdown('semester', $combobox_semester, $semester, 'id="semester" class="form-control input-sm" ');?>
+							</div>
+						</div>
+
+						<div class="col-sm-4 col-lg-2"><br>
+							<button type="submit" class="btn btn-sosial btn-flat btn-success btn-sm" onclick="formAction('main')"><i class="fa fa-plus"></i>Tampilkan</button>
+						</div>
+				</div>
+				<!-- <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" /> -->
+			</form>
+			<?php 
+			}
+			?>
+		</div>
 		<div class="table-responsive">
-		<table class="table table-striped">
+		<table class="table table-striped table-hover">
 			<thead>
 			<tr>
-				<th rowspan="2">No</th>
-				<th rowspan="2" style='text-align:left;'>Kelompok</th>
-				<th colspan="2">Jumlah</th>
-				<?php if ($jenis_laporan == 'penduduk'):?>
-					<th colspan="2">Laki-laki</th>
-					<th colspan="2">Perempuan</th>
-				<?php endif;?>
-			</tr>
-			<tr>
-				<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
-				<?php if ($jenis_laporan == 'penduduk'):?>
-					<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
-					<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
-				<?php endif;?>
+				<th width="5%">No</th>
+				<th width="35%">Nama</th>
+				<th width="20%">Laki-Laki</th>
+				<th width="20%">Perempuan</th>
+				<th width="20%">Jumlah</th>
 			</tr>
 			</thead>
 			<tbody>
-				<?php $i=0; $l=0; $p=0; $hide=""; $h=0; $jm1=1; $jm = count($stat);?>
-				<?php foreach ($stat as $data):?>
-					<?php $jm1++; ?>
-					<?php $h++; ?>
-					<?php if ($h > 12 AND $jm > 10): ?>
-						<?php $hide = "lebih"; ?>
-					<?php endif;?>
-					<tr class="<?=$hide?>">
-						<td class="angka">
-							<?php if ($jm1 > $jm - 2):?>
-								<?=$data['no']?>
-							<?php else:?>
-								<?=$h?>
-							<?php endif;?>
-						</td>
-						<td><?=$data['nama']?></td>
-						<td class="angka <?php ($jm1 <= $jm - 2) and ($data['jumlah'] == 0) and print('nol')?>"><?=$data['jumlah']?></td>
-						<td class="angka"><?=$data['persen']?></td>
-						<?php if ($jenis_laporan == 'penduduk'):?>
-							<td class="angka"><?=$data['laki']?></td>
-							<td class="angka"><?=$data['persen1']?></td>
-							<td class="angka"><?=$data['perempuan']?></td>
-							<td class="angka"><?=$data['persen2']?></td>
-						<?php endif;?>
-					</tr>
-					<?php $i += $data['jumlah'];?>
-					<?php $l += $data['laki'];?>
-					<?php $p += $data['perempuan'];?>
-				<?php endforeach;?>
+				<?php 
+				if (!empty($data_statistik)) 
+				{
+					$no = 1;
+					$jml_laki_laki = 0;
+					$jml_perempuan = 0;
+					$jml_jml = 0;
+					foreach ($data_statistik as $val) 
+					{
+						$jml_laki_laki += $val['lakiLaki'];
+						$jml_perempuan += $val['perempuan'];
+						$jml_jml += $val['jumlah'];
+
+						echo 
+						'<tr>
+						<td>'.$no.'</td>
+						<td>'.$val[$field_label].'</td>
+						<td class="text-right">'.nf($val['lakiLaki']).'</td>
+						<td class="text-right">'.nf($val['perempuan']).'</td>
+						<td class="text-right">'.nf($val['jumlah']).'</td>
+						</tr>';
+
+						$no++; 
+					}
+
+					echo '
+						<tr>
+							<td colspan="2">JUMLAH</td>
+							<td class="text-right">'.nf($jml_laki_laki).'</td>
+							<td class="text-right">'.nf($jml_perempuan).'</td>
+							<td class="text-right">'.nf($jml_jml).'</td>
+						</tr>';
+				} 
+				else 
+				{
+					echo '<tr><td colspan="5">-</td></tr>';
+				}
+
+				?>
 			</tbody>
 		</table>
-		<?php if ($hide=="lebih"):?>
-			<div style='float: left;'>
-				<button class='uibutton special' id='showData'>Selengkapnya...</button>
-			</div>
-		<?php endif;?>
-		<div style="float: right;">
-			<button id='tampilkan' onclick="toggle_tampilkan_<?=$lap?>();" class="uibutton special">Tampilkan Nol</button>
-		</div>
 	</div>
 	</div>
 </div>
