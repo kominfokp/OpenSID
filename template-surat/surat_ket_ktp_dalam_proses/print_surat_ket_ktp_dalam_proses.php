@@ -31,13 +31,13 @@
 						<tr><td width="23%">Nama Lengkap</td><td width="3%">:</td><td width="64%"><?= unpenetration($data['nama'])?></td></tr>
 						<tr><td>Tempat dan Tgl. Lahir </td><td>:</td><td><?= ($data['tempatlahir'])?>, <?= tgl_indo($data['tanggallahir'])?></td></tr>
 						<tr><td>Jenis Kelamin</td><td>:</td><td><?= $data['sex']?></td></tr>
-						<tr><td>Alamat/ Tempat Tinggal</td><td>:</td><td>RT. <?= $data['rt']?>, RW. <?= $data['rw']?>, Dusun <?= unpenetration(ununderscore($data['alamat']))?>, <?= ucwords($this->setting->sebutan_desa)?> <?= unpenetration($data['kel_name'])?>, Kec. <?= unpenetration($data['kec_name'])?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= unpenetration($data['kab_name'])?></td></tr>
+						<tr><td>Alamat/ Tempat Tinggal</td><td>:</td><td>RT. <?= $data['no_rt']?>, RW. <?= $data['no_rw']?>, Pedukuhan <?= ununderscore(unpenetration($data['alamat_sekarang']))?>, <?= ucwords($this->setting->sebutan_desa)?> <?= unpenetration($desa['nama_desa'])?>, <?= ucwords($this->setting->sebutan_kecamatan_singkat)?> <?= unpenetration($desa['nama_kecamatan'])?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= unpenetration($desa['nama_kabupaten'])?></td></tr>
 						<tr><td>Agama</td><td>:</td><td><?= $data['agama']?></td></tr>
 						<tr><td>Status</td><td>:</td><td><?= $data['status_kawin']?></td></tr>
 						<tr><td>Pekerjaan</td><td>:</td><td><?= $data['pekerjaan']?></td></tr>
 						<tr><td>Kewarganegaraan </td><td>:</td><td><?= $data['warganegara']?></td></tr>
 						<table width="100%">
-							<tr><td class="indentasi">Orang tersebut di atas adalah benar-benar warga kami yang bertempat tinggal di Dusun <?= unpenetration(ununderscore($data['alamat']))?>, Rt. <?= $data['rt']?>, <?= unpenetration($data['kel_name'])?>, <?= unpenetration($data['kec_name'])?>, <?= unpenetration($data['kab_name'])?> yang saat ini Kartu Tanda Penduduk  sedang dalam proses.</td></tr>
+							<tr><td class="indentasi">Orang tersebut di atas adalah benar-benar warga kami yang bertempat tinggal di RT. <?= $data['no_rt']?>, RW. <?= $data['no_rw']?>, Pedukuhan <?= ununderscore(unpenetration($data['alamat_sekarang']))?>, <?= ucwords($this->setting->sebutan_desa)?> <?= unpenetration($desa['nama_desa'])?>, <?= ucwords($this->setting->sebutan_kecamatan_singkat)?> <?= unpenetration($desa['nama_kecamatan'])?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= unpenetration($desa['nama_kabupaten'])?> yang saat ini Kartu Tanda Penduduk  sedang dalam proses.</td></tr>
 						</table>
 						<div class="clear"></div>
 						<table width="100%">

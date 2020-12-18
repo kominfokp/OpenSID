@@ -286,7 +286,7 @@ class Web_dokumen_model extends MY_Model {
 		{
 			$data = $this->validasi($post);
 			$data['satuan'] = $satuan;
-			$data['attr'] = json_encode($data['attr']);
+			$data['attr'] = json_encode($post['attr']);
 			$data['dok_warga'] = isset($post['dok_warga']);
 			// Dari layanan mandiri gunakan NIK penduduk
 			$data['created_by'] = $mandiri ? $this->session->nik : $this->session->user;
