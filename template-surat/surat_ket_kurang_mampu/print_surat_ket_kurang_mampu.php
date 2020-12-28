@@ -13,7 +13,7 @@
 				</table>
 				<table width="100%">
 					<div align="center"><u><h4 class="kop">SURAT KETERANGAN TIDAK MAMPU</h4></u></div>
-					<div align="center"><h4 class="kop3">Nomor : 467.1/<?= $input['nomor']?><!-- /Kesra/<?= date("Y")?> --></h4></div>
+					<div align="center"><h4 class="kop3">Nomor : <?= $input['nomor']?><!-- /Kesra/<?= date("Y")?> --></h4></div>
 				</table>
 				<div class="clear"></div>
 				<table width="100%">
