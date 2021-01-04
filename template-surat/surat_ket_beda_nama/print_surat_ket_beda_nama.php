@@ -63,7 +63,7 @@
 									<?php if($input['opsi_perbedaan2']=='TTL'){echo $input['tempatlahir2']. ', '.$input['tanggallahir2'];}else{echo $data['tempatlahir']. ', '.tgl_indo($data['tanggallahir']);} ?>
 								</td></tr>
 								<tr><td width="40%">Alamat</td><td width="3%">:</td><td width="64%">
-									<?php if($input['opsi_perbedaan2']=='Alamat'){echo $input['perbedaan2'];}else{echo 'RW ' .$data['rw'].', RT '.$data['rt'].', Kalurahan '.$data['kel_name'].', Kepanewon '.$data['nama_kecamatan'].', Kabupaten '.$data['kab_name'];} ?>
+									<?php if($input['opsi_perbedaan2']=='Alamat'){echo $input['perbedaan2'];}else{echo 'RT ' .$data['no_rt'].', RW '.$data['no_rw'].', Pedukuhan '.$data['alamat_sekarang'].', Kepanewon '.$desa['nama_kecamatan'].', Kabupaten '.$desa['nama_kabupaten'];} ?>
 								</td></tr>
 							</table>
 							<table width="100%">
@@ -78,7 +78,7 @@
 									<?php if($input['opsi_perbedaan3']=='TTL'){echo $input['tempatlahir3']. ', '.$input['tanggallahir3'];}else{echo $data['tempatlahir']. ', '.tgl_indo($data['tanggallahir']);} ?>
 								</td></tr>
 								<tr><td width="40%">Alamat</td><td width="3%">:</td><td width="64%">
-									<?php if($input['opsi_perbedaan3']=='Alamat'){echo $input['perbedaan3'];}else{echo 'RW ' .$data['rw'].', RT '.$data['rt'].', Kalurahan '.$data['kel_name'].', Kepanewon '.$data['kec_name'].', Kabupaten '.$data['kab_name'];} ?>
+									<?php if($input['opsi_perbedaan3']=='Alamat'){echo $input['perbedaan3'];}else{echo 'RT ' .$data['no_rt'].', RW '.$data['no_rw'].', Pedukuhan '.$data['alamat_sekarang'].', Kepanewon '.$desa['nama_kecamatan'].', Kabupaten '.$desa['nama_kabupaten'];} ?>
 								</td></tr>
 							</table>
 						<?php }elseif(!empty($input['kartu2'])) { ?>
@@ -94,7 +94,7 @@
 									<?php if($input['opsi_perbedaan1']=='TTL'){echo $input['tempatlahir1']. ', '.$input['tanggallahir1'];}else{echo $data['tempatlahir']. ', '.tgl_indo($data['tanggallahir']);} ?>
 								</td></tr>
 								<tr><td width="40%">Alamat</td><td width="3%">:</td><td width="64%">
-									<?php if($input['opsi_perbedaan1']=='Alamat'){echo $input['perbedaan1'];}else{echo 'RW ' .$data['rw'].', RT '.$data['rt'].', Kalurahan '.$data['kel_name'].', Kepanewon '.$data['kec_name'].', Kabupaten '.$data['kab_name'];} ?>
+									<?php if($input['opsi_perbedaan1']=='Alamat'){echo $input['perbedaan1'];}else{echo 'RT ' .$data['no_rt'].', RW '.$data['no_rw'].', Pedukuhan '.$data['alamat_sekarang'].', Kepanewon '.$desa['nama_kecamatan'].', Kabupaten '.$desa['nama_kabupaten'];} ?>
 								</td></tr>
 							</table>
 							<table width="100%">
@@ -109,7 +109,7 @@
 									<?php if($input['opsi_perbedaan2']=='TTL'){echo $input['tempatlahir2']. ', '.$input['tanggallahir2'];}else{echo $data['tempatlahir']. ', '.tgl_indo($data['tanggallahir']);} ?>
 								</td></tr>
 								<tr><td width="40%">Alamat</td><td width="3%">:</td><td width="64%">
-									<?php if($input['opsi_perbedaan2']=='Alamat'){echo $input['perbedaan2'];}else{echo 'RW ' .$data['rw'].', RT '.$data['rt'].', Kalurahan '.$data['kel_name'].', Kepanewon '.$data['kec_name'].', Kabupaten '.$data['kab_name'];} ?>
+									<?php if($input['opsi_perbedaan2']=='Alamat'){echo $input['perbedaan2'];}else{echo 'RT ' .$data['no_rt'].', RW '.$data['no_rw'].', Pedukuhan '.$data['alamat_sekarang'].', Kepanewon '.$desa['nama_kecamatan'].', Kabupaten '.$desa['nama_kabupaten'];} ?>
 								</td></tr>
 							</table>
 						<?php }else{ ?>
@@ -125,7 +125,7 @@
 									<?php if($input['opsi_perbedaan1']=='TTL'){echo $input['tempatlahir1']. ', '.$input['tanggallahir1'];}else{echo $data['tempatlahir']. ', '.tgl_indo($data['tanggallahir']);} ?>
 								</td></tr>
 								<tr><td width="40%">Alamat</td><td width="3%">:</td><td width="64%">
-									<?php if($input['opsi_perbedaan1']=='Alamat'){echo $input['perbedaan1'];}else{echo 'RW ' .$data['rw'].', RT '.$data['rt'].', Kalurahan '.$data['kel_name'].', Kepanewon '.$data['kec_name'].', Kabupaten '.$data['kab_name'];} ?>
+									<?php if($input['opsi_perbedaan1']=='Alamat'){echo $input['perbedaan1'];}else{echo 'RT ' .$data['no_rt'].', RW '.$data['no_rw'].', Pedukuhan '.$data['alamat_sekarang'].', Kepanewon '.$desa['nama_kecamatan'].', Kabupaten '.$desa['nama_kabupaten'];} ?>
 								</td></tr>
 							</table>
 						<?php } ?>

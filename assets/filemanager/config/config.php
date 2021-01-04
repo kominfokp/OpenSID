@@ -26,9 +26,11 @@ setlocale(LC_CTYPE, 'en_US');
 | example tinymce config:
 |
 | tiny init ...
+| relative_urls:false,
 | external_filemanager_path:"../filemanager/",
 | filemanager_title:"Filemanager" ,
 | filemanager_access_key:"myPrivateKey" ,
+| external_plugins: { "filemanager" : "/BAD/filemanager/plugin.min.js"}
 | ...
 |
 */
