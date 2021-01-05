@@ -6,7 +6,7 @@ class Produk_hukum extends CI_Controller {
     //     j(["success"=>true,"message"=>"API SID berjalan"]);
     // }
 
-    public function index($id)
+    public function index()
     {
         // $where = array('id' => $id);
         // $url = 'http://tawangsari-pengasih.desa.id/index.php/Api_perdes/get_perdes';
