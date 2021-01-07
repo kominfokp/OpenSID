@@ -54,21 +54,28 @@ class Surat_masuk_suratku extends Admin_Controller {
 		exit;
 	}
 
-	public function index_ajax() {
+	public function index_ajax($tahun=0) {
 		$config = $this->config_model->get_data();
 		$kode_prov = $config['kode_propinsi'];
 		$kode_kab = str_pad($config['kode_kabupaten'], 2, '0', STR_PAD_LEFT);
 		$kode_kec = $config['kode_kecamatan'];
 		$kode_desa = $config['kode_desa'];
 
+		if ($tahun == 0) {
+			$tahun = date('Y');
+		} else {
+			$tahun = $tahun;
+		}
+
+
 		$username = '003'.$kode_prov.$kode_kab.$kode_kec.$kode_desa;
-		$get_surat = $this->surat_masuk_suratku_model->get_list_surat_masuk($username);
+		$get_surat = $this->surat_masuk_suratku_model->get_list_surat_masuk($username, $tahun);
 
 		j($get_surat);
 		exit;
 	}
 
-	public function detil_surat() {
+	public function detil_surat($tahun=0) {
 		$p = $this->input->post();
 
 		$config = $this->config_model->get_data();
@@ -83,10 +90,16 @@ class Surat_masuk_suratku extends Admin_Controller {
 			'penerima_id_user' => $p['penerima_id_user']
 		];
 
+		if ($tahun == 0) {
+			$tahun = date('Y');
+		} else {
+			$tahun = $tahun;
+		}
+
 
 		$username = '003'.$kode_prov.$kode_kab.$kode_kec.$kode_desa;
-		$get_surat = $this->surat_masuk_suratku_model->get_list_surat_masuk_detil($username, $params);
-		$set_status_baca = $this->surat_masuk_suratku_model->set_status_baca($username, $params);
+		$get_surat = $this->surat_masuk_suratku_model->get_list_surat_masuk_detil($username, $params, $tahun);
+		$set_status_baca = $this->surat_masuk_suratku_model->set_status_baca($username, $params, $tahun);
 
 		
 
@@ -98,7 +111,7 @@ class Surat_masuk_suratku extends Admin_Controller {
 		
 	}
 
-	public function simpan_surat_masuk() {
+	public function simpan_surat_masuk($tahun=0) {
 		$simpan_surat = $this->surat_masuk_suratku_model->insert();
 		
 		$p = $this->input->post();
@@ -115,8 +128,14 @@ class Surat_masuk_suratku extends Admin_Controller {
 			'penerima_id_user' => $p['mdl_detil_surat_penerima_id_user']
 		];
 
+		if ($tahun == 0) {
+			$tahun = date('Y');
+		} else {
+			$tahun = $tahun;
+		}
+
 		$username = '003'.$kode_prov.$kode_kab.$kode_kec.$kode_desa;
-		$set_status_berinomor = $this->surat_masuk_suratku_model->set_status_berinomor($username, $params);
+		$set_status_berinomor = $this->surat_masuk_suratku_model->set_status_berinomor($username, $params, $tahun);
 
 		j($simpan_surat);
 		exit;

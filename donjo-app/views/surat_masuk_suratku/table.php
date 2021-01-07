@@ -25,6 +25,9 @@
                                                                 <button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("surat_masuk/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
                                                             </div>
                                                         </div>
+                                                        <div class="input-group input-group-sm pull-right">
+                                                            <?=form_dropdown('tahun', [''=>'-Pilih tahun masuk-','2021'=>'Surat Masuk Tahun 2021','2020'=>'Surat Masuk Tahun 2020'], '', 'id="tahun" onchange="return dt_surat();" class="form-control"');?>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -88,9 +91,15 @@
     dt_surat();
 
     function dt_surat() {
+        let tahun = $("#tahun").val();
+
+        let uri = "<?=base_url('index.php/surat_masuk_suratku/index_ajax');?>";
+        if (tahun == "2020") {
+            uri = "<?=base_url('index.php/surat_masuk_suratku/index_ajax/2020');?>";
+        }
         $.ajax({
             type: "GET",
-            url: "<?=base_url('index.php/surat_masuk_suratku/index_ajax');?>",
+            url: uri,
             beforeSend: function(){
                 $("#table_surat").html('<tr><td colspan="5"><i class="fa fa-spin fa-spinner"></i> Memuat...</td></tr>');
             },
@@ -141,10 +150,17 @@
         $("#mdl_detil_surat_penerima_id_instansi").val(id_instansi_penerima);
         $("#mdl_detil_surat_penerima_id_user").val(id_user_penerima);
         
+        let tahun = $("#tahun").val();
+
+        let uri = "<?=base_url('index.php/surat_masuk_suratku/detil_surat');?>";
+        if (tahun == "2020") {
+            uri = "<?=base_url('index.php/surat_masuk_suratku/detil_surat/2020');?>";
+        }
+
         $.ajax({
             type: "POST",
             data: {id_surat: id_surat, penerima_id_instansi: id_instansi_penerima, penerima_id_user: id_user_penerima},
-            url: "<?=base_url('index.php/surat_masuk_suratku/detil_surat');?>",
+            url: uri,
             success: function(r, textStatus, jqXHR) { 
                 let tgl = r.results.tgl_surat;
                 let pc_tgl = tgl.split('-');
@@ -201,10 +217,17 @@
     function simpan_nomor() {
         let data = $("#mdl_detil_surat_form").serialize();
 
+        let tahun = $("#tahun").val();
+
+        let uri = "<?=base_url('index.php/surat_masuk_suratku/simpan_surat_masuk');?>";
+        if (tahun == "2020") {
+            uri = "<?=base_url('index.php/surat_masuk_suratku/simpan_surat_masuk/2020');?>";
+        }
+
         $.ajax({
             type: "POST",
             data: data,
-            url: "<?=base_url('index.php/surat_masuk_suratku/simpan_surat_masuk');?>",
+            url: uri,
             beforeSend: function(){
                 $("#btn_simpan").attr("disabled", true);
             },

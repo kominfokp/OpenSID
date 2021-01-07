@@ -5,7 +5,8 @@ class Surat_masuk_suratku_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
-        $this->uri_suratku = 'http://192.168.167.14/index.php/surat_desa/';
+        // $this->base_uri_suratku = 'http://192.168.167.14/';
+        $this->uri_suratku = 'http://192.168.167.14/';
     }
 
     public function get_dashboard($username) {
@@ -32,14 +33,18 @@ class Surat_masuk_suratku_model extends CI_Model {
         return false;
     }
 
-    public function get_list_surat_masuk($username) {
+    public function get_list_surat_masuk($username, $tahun="") {
         // set post fields
         $post = [
             'username' => $username,
             'password' => $username,
         ];
 
-        $ch = curl_init($this->uri_suratku.'get_list_surat');
+        if ($tahun == "2021" || empty($tahun)) {
+            $ch = curl_init($this->uri_suratku.'index.php/surat_desa/get_list_surat');
+        } else if ($tahun == "2020") {
+            $ch = curl_init($this->uri_suratku.'2020/index.php/surat_desa/get_list_surat');
+        }
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
         $response = curl_exec($ch);
@@ -54,7 +59,7 @@ class Surat_masuk_suratku_model extends CI_Model {
         }
     }
 
-    public function get_list_surat_masuk_detil($username, $params) {
+    public function get_list_surat_masuk_detil($username, $params, $tahun="") {
         // set post fields
         $post = [
             'username' => $username,
@@ -63,8 +68,12 @@ class Surat_masuk_suratku_model extends CI_Model {
             'penerima_id_instansi'=>$params['penerima_id_instansi'],
             'penerima_id_user'=>$params['penerima_id_user'],
         ];
-
-        $ch = curl_init($this->uri_suratku.'get_detil_surat');
+        
+        if ($tahun == "2021" || empty($tahun)) {
+            $ch = curl_init($this->uri_suratku.'index.php/surat_desa/get_detil_surat');
+        } else if ($tahun == "2020") {
+            $ch = curl_init($this->uri_suratku.'2020/index.php/surat_desa/get_detil_surat');
+        }
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
         $response = curl_exec($ch);
@@ -79,7 +88,7 @@ class Surat_masuk_suratku_model extends CI_Model {
         }
     }
 
-    public function set_status_baca($username, $params) {
+    public function set_status_baca($username, $params, $tahun="") {
         // set post fields
         $post = [
             'username' => $username,
@@ -88,8 +97,14 @@ class Surat_masuk_suratku_model extends CI_Model {
             'penerima_id_instansi'=>$params['penerima_id_instansi'],
             'penerima_id_user'=>$params['penerima_id_user'],
         ];
+        
+        if ($tahun == "2021" || empty($tahun)) {
+            $ch = curl_init($this->uri_suratku.'index.php/surat_desa/set_status_baca');
+        } else if ($tahun == "2020") {
+            $ch = curl_init($this->uri_suratku.'2020/index.php/surat_desa/set_status_baca');
+        }
 
-        $ch = curl_init($this->uri_suratku.'set_status_baca');
+        // $ch = curl_init($this->uri_suratku.'set_status_baca');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
         $response = curl_exec($ch);
@@ -104,7 +119,7 @@ class Surat_masuk_suratku_model extends CI_Model {
         }
     }
 
-    public function set_status_berinomor($username, $params) {
+    public function set_status_berinomor($username, $params, $tahun="") {
         // set post fields
         $post = [
             'username' => $username,
@@ -113,8 +128,14 @@ class Surat_masuk_suratku_model extends CI_Model {
             'penerima_id_instansi'=>$params['penerima_id_instansi'],
             'penerima_id_user'=>$params['penerima_id_user'],
         ];
-
-        $ch = curl_init($this->uri_suratku.'set_status_berinomor');
+        
+        
+        if ($tahun == "2021" || empty($tahun)) {
+            $ch = curl_init($this->uri_suratku.'index.php/surat_desa/set_status_berinomor');
+        } else if ($tahun == "2020") {
+            $ch = curl_init($this->uri_suratku.'2020/index.php/surat_desa/set_status_berinomor');
+        }
+        // $ch = curl_init($this->uri_suratku.'set_status_berinomor');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
         $response = curl_exec($ch);
