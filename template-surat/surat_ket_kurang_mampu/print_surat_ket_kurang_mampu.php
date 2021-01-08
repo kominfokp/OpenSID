@@ -48,7 +48,7 @@
 						<tr><td>Agama</td><td>:</td><td><?= $data['agama']?></td></tr>
 						<tr><td>Pekerjaan</td><td>:</td><td><?= $data['pekerjaan']?></td></tr>
 						<tr><td>Kewarganegaraan </td><td>:</td><td><?= $data['warganegara']?></td></tr>
-						<tr><td>Alamat/ Tempat Tinggal</td><td>:</td><td>RT. <?= $data['no_rt']?> RW. <?= $data['no_rw']?> Pedukuhan <?= unpenetration(ununderscore($data['alamat_sekarang']))?> Desa <?= unpenetration($desa['nama_desa'])?> Kecamatan <?= unpenetration($desa['nama_kecamatan'])?> Kabupaten <?= unpenetration($desa['nama_kabupaten'])?></td></tr>
+						<tr><td>Alamat/ Tempat Tinggal</td><td>:</td><td>RT. <?= $data['no_rt']?>, RW. <?= $data['no_rw']?>, Pedukuhan <?= ununderscore(unpenetration($data['alamat_sekarang']))?>, <?= ucwords($this->setting->sebutan_desa)?> <?= unpenetration($desa['nama_desa'])?>, <?= ucwords($this->setting->sebutan_kecamatan_singkat)?> <?= unpenetration($desa['nama_kecamatan'])?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= unpenetration($desa['nama_kabupaten'])?></td></tr>
 							
 					</table>
 					<!-- <table width="100%">

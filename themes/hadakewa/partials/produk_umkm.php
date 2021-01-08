@@ -1,3 +1,4 @@
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
 <div class="artikel" id="<?php echo 'artikel-'.$single_artikel['judul']?>">
 	<h2 style="margin-top: 15px">Produk UMKM</h2>
 	<hr>
@@ -7,7 +8,7 @@
 			<?php echo ucwords($desa['nama_desa'])?> adalah sebagai berikut : 
 		</p>
 		
-		<div class="table-responsive">
+		<!-- <div class="table-responsive">
 			<table id="example1" class="table table-bordered table-striped">
 			<thead>
 			    <tr>
@@ -61,9 +62,9 @@
 			    <?php } ?> 
 			</tbody>
 			</table>
-		</div>
+		</div> -->
 
-		<!-- <?php foreach ($datalist as $result) {
+		<?php foreach ($datalist as $result) {
 		            	$nama = $result['nama'];
 		            	$nama_umkm = $result['nama_umkm'];
 		            	$berat = $result['berat'];
@@ -74,37 +75,58 @@
 		            	$telp = $result['telp'];
 		            	$gambar_produk = $result['gambar_produk'];
 		            	$detail_order = $result['detail_order']; ?>
-	    <div class="row" style="margin-left: 40px; margin-right: 40px; margin-bottom: 20px;">
+	    <div class="row" style="margin-left: 40px; margin-right: 40px; margin-bottom: 20px; box-shadow: 3px 3px 1px 3px #888888;">
 	        <div class="col-sm-6">
-	        <p style="text-align: center; font-weight: bold; background-color: #01cfb0; color: white; font-size: 30px;"><?php echo $nama;?></p>
-	        <center><img src="<?php echo $gambar_produk; ?>" style="width: 70%; box-shadow: 3px 3px 10px #01cfb0;"></center>
-	        <br>
-	        <p style="text-align: center; font-weight: bold; font-size: 30px;">Satuan <?php echo $value->jumlah;?> <?php echo $value->nm_satuan;?></p>
+		        <p style="text-align: center; font-weight: bold; background-color: #01cfb0; color: white; font-size: 20px; margin-top: 10px;"><?php echo $nama;?></p>
+		        <center><img src="<?php echo $gambar_produk; ?>" style="width: 70%;"></center>
+		        <br>
+		        <?php if(!empty($berat)){?>
+	        	<p style="text-align: center; font-weight: bold; font-size: 20px;">Berat <?php echo $berat;?> gram</p>
+		        <?php }else{?>
+		        <p style="text-align: center; font-weight: bold; font-size: 20px;">Berat -</p>
+		        <?php } ?>
+		        <p style="text-align: center; font-weight: bold; font-size: 20px;">Harga Rp <?php echo number_format($harga);?></p>
 	        </div>
-	       
 	        <div class="col-sm-6">
-	        <p style="text-align: center; font-weight: bold; background-color: #01cfb0; color: white; font-size: 30px;">Harga Pasar</p>
-	        <div class="row">
-	            <div class="col-sm-6">
-	            <p style="font-size: 30px;">Wates</p>
-	            <p style="font-size: 30px;">Sentolo</p>
-	            <p style="font-size: 30px;">Bendungan</p>
-	            <p style="font-size: 30px;">Temon</p>
-	            <p style="font-size: 30px;">Galur</p>
-	            <p style="font-weight: bold; font-size: 30px;">Rata-Rata</p>
-	            </div>
-	            <div class="col-sm-6">
-	            <p style="text-align: right; font-size: 30px;"><?php echo number_format($value->harga_wates);?></p>
-	            <p style="text-align: right; font-size: 30px;"><?php echo number_format($value->harga_sentolo);?></p>
-	            <p style="text-align: right; font-size: 30px;"><?php echo number_format($value->harga_bendungan);?></p>
-	            <p style="text-align: right; font-size: 30px;"><?php echo number_format($value->harga_temon);?></p>
-	            <p style="text-align: right; font-size: 30px;"><?php echo number_format($value->harga_galur);?></p>
-	            <p style="text-align: right; font-weight: bold; font-size: 30px;">Rp <?php echo number_format($value->rata_rata);?></p>
-	            </div>
-	        </div>
+	        	<p style="text-align: center; font-weight: bold; font-size: 25px; text-decoration: underline; padding-bottom: 10px;"><?php echo $nama_umkm;?></p>
+	        	<p style="text-align: center; font-weight: bold; font-size: 20px;">Kategori <i class='fas fa-arrow-right' style='font-size:20px; color: #01cfb0;'></i> <?php echo $kategori;?></p>
+	        	<p style="text-align: center; font-weight: bold; font-size: 20px;"><a href="http://<?php echo $website;?>"><?php echo $website;?></a></p>
+		        <?php if(!empty($telp)){?>
+	        	<p style="text-align: center; font-weight: bold; font-size: 20px;">Telp. <?php echo $telp;?></p>
+		        <?php }else{?>
+		        <p style="text-align: center; font-weight: bold; font-size: 20px;">Telp. -</p>
+		        <?php } ?>
+	        	<p style="text-align: center; padding-top: 10px;"><a class="btn btn-info" href="<?php echo $detail_order;?>" style="font-weight: bold; font-size: 20px;">Order >>></a></p>
 	        </div>
 	    </div>
-	    <?php } ?> -->
+	    <?php } ?>
+
+	    <?php if ($datalist AND $paging->num_rows > $paging->per_page): ?>
+		<div class="box-footer">
+			<div>Halaman <?= $p ?> dari <?= $paging->end_link ?></div>
+			<ul class="pagination pagination-sm no-margin">
+				<?php if ($paging->start_link): ?>
+					<li><a href="<?= site_url("first/".$paging_page."/$paging->start_link" . $paging->suffix) ?>" title="Halaman Pertama"><i class="fa fa-fast-backward"></i>&nbsp;</a></li>
+				<?php endif; ?>
+				<?php if ($paging->prev): ?>
+					<li><a href="<?= site_url("first/".$paging_page."/$paging->prev" . $paging->suffix) ?>" title="Halaman Sebelumnya"><i class="fa fa-backward"></i>&nbsp;</a></li>
+				<?php endif; ?>
+
+				<?php foreach ($pages as $i): ?>
+					<li <?= ($p == $i) ? 'class="active"' : "" ?>>
+						<a href="<?= site_url("first/".$paging_page."/$i" . $paging->suffix) ?>" title="Halaman <?= $i ?>"><?= $i ?></a>
+					</li>
+				<?php endforeach; ?>
+
+				<?php if ($paging->next): ?>
+					<li><a href="<?= site_url("first/".$paging_page."/$paging->next" . $paging->suffix) ?>" title="Halaman Selanjutnya"><i class="fa fa-forward"></i>&nbsp;</a></li>
+				<?php endif; ?>
+				<?php if ($paging->end_link): ?>
+					<li><a href="<?= site_url("first/".$paging_page."/$paging->end_link" . $paging->suffix) ?>" title="Halaman Terakhir"><i class="fa fa-fast-forward"></i>&nbsp;</a></li>
+				<?php endif; ?>
+			</ul>
+		</div>
+		<?php endif; ?>
 
 		<div class="form-group" style="clear:both;">
 			<ul id="pageshare" title="Bagikan ke teman anda" class="pagination">

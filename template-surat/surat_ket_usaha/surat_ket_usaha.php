@@ -35,7 +35,12 @@
 							<div class="form-group">
 								<label for="lokasi"  class="col-sm-3 control-label">Lokasi Usaha</label>
 								<div class="col-sm-8">
-									<textarea name="lokasi" class="form-control input-sm required" placeholder="Lokasi Usaha"></textarea>
+									<select class="form-control required input-sm" id="lokasi_usaha" name="lokasi_usaha">
+										<option value='' selected="selected">-- Pilih Lokasi--</option>
+										<option value='1'>Lokasi Sesuai KTP</option>
+										<option value='1'>Lokasi Baru</option>
+									</select>
+									<textarea name="lokasi" class="form-control input-sm" placeholder="Lokasi Usaha Disikan Jika Memasuka Lokasi Baru"></textarea>
 								</div>
 							</div>
 							<?php include("donjo-app/views/surat/form/tgl_berlaku.php"); ?>

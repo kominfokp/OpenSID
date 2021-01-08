@@ -850,7 +850,7 @@ class First extends Web_Controller {
 
 	}
 
-	public function get_data() {
+	public function get_data_all() {
         // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
         $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm';
 
@@ -867,15 +867,55 @@ class First extends Web_Controller {
         return $hasil;
   	}
 
-	public function produk_umkm()
+  	public function get_data() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_tirtarahayu';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+  	public function paging($p=1)
+	{
+		$ambil_data = $this->get_data_all();
+		// echo count($ambil_data); exit();
+        $data['datalist'] = json_decode($ambil_data, true);
+     	$jml = count($data['datalist']);
+
+		$this->load->library('paging');
+		$cfg['page'] = $p;
+		$cfg['per_page'] = $this->setting->web_artikel_per_page;
+		$cfg['num_rows'] = $jml;
+		$this->paging->init($cfg);
+
+		return $this->paging;
+	}
+
+	public function produk_umkm($p=1)
 	{
 		$data = $this->includes;
 		$this->_get_common_data($data);
-
-		$ambil_data = $this->get_data();
-		// echo j($ambil_data); exit();
+		$ambil_data = $this->get_data_all();
+		// echo count($ambil_data); exit();
         $data['datalist'] = json_decode($ambil_data, true);
-     
+
+     	$data['p'] = $p;
+		$data['paging'] = $this->paging($p);
+		$data['paging_page'] = 'produk_umkm';
+		$data['paging_range'] = 3;
+		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
+		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
+		$data['pages'] = range($data['start_paging'], $data['end_paging']);
+
 		$data['p'] = "produk_umkm";
 		$this->set_template('layouts/perangkat_desa.tpl.php');
 		$this->load->view($this->template,$data);
