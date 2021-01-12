@@ -77,26 +77,25 @@
 		            	$detail_order = $result['detail_order']; ?>
 	    <div class="row" style="margin-left: 40px; margin-right: 40px; margin-bottom: 20px; box-shadow: 3px 3px 1px 3px #888888;">
 	        <div class="col-sm-6">
-		        <p style="text-align: center; font-weight: bold; background-color: #01cfb0; color: white; font-size: 20px; margin-top: 10px;"><?php echo $nama;?></p>
+		        <p style="text-align: center; font-weight: bold; background-color: #01cfb0; color: white; font-size: 15px; margin-top: 10px;"><?php echo $nama;?></p>
 		        <center><img src="<?php echo $gambar_produk; ?>" style="width: 70%;"></center>
-		        <br>
 		        <?php if(!empty($berat)){?>
-	        	<p style="text-align: center; font-weight: bold; font-size: 20px;">Berat <?php echo $berat;?> gram</p>
+	        	<p style="text-align: center; font-weight: bold; font-size: 15px;">Berat <?php echo $berat;?> gram</p>
 		        <?php }else{?>
-		        <p style="text-align: center; font-weight: bold; font-size: 20px;">Berat -</p>
+		        <p style="text-align: center; font-weight: bold; font-size: 15px;">Berat -</p>
 		        <?php } ?>
-		        <p style="text-align: center; font-weight: bold; font-size: 20px;">Harga Rp <?php echo number_format($harga);?></p>
+		        <p style="text-align: center; font-weight: bold; font-size: 15px;">Harga Rp <?php echo number_format($harga);?></p>
 	        </div>
 	        <div class="col-sm-6">
-	        	<p style="text-align: center; font-weight: bold; font-size: 25px; text-decoration: underline; padding-bottom: 10px;"><?php echo $nama_umkm;?></p>
-	        	<p style="text-align: center; font-weight: bold; font-size: 20px;">Kategori <i class='fas fa-arrow-right' style='font-size:20px; color: #01cfb0;'></i> <?php echo $kategori;?></p>
-	        	<p style="text-align: center; font-weight: bold; font-size: 20px;"><a href="http://<?php echo $website;?>"><?php echo $website;?></a></p>
+	        	<p style="text-align: center; font-weight: bold; font-size: 15px; text-decoration: underline; padding-bottom: 10px; color: orange; margin-top: 10px;"><?php echo $nama_umkm;?></p>
+	        	<p style="text-align: center; font-weight: bold; font-size: 15px;">Kategori <i class='fas fa-arrow-right' style='font-size:20px; color: #01cfb0;'></i> <?php echo $kategori;?></p>
+	        	<p style="text-align: center; font-weight: bold; font-size: 15px;"><a href="http://<?php echo $website;?>"><?php echo $website;?></a></p>
 		        <?php if(!empty($telp)){?>
-	        	<p style="text-align: center; font-weight: bold; font-size: 20px;">Telp. <?php echo $telp;?></p>
+	        	<p style="text-align: center; font-weight: bold; font-size: 15px;">Telp. <?php echo $telp;?></p>
 		        <?php }else{?>
-		        <p style="text-align: center; font-weight: bold; font-size: 20px;">Telp. -</p>
+		        <p style="text-align: center; font-weight: bold; font-size: 15px;">Telp. -</p>
 		        <?php } ?>
-	        	<p style="text-align: center; padding-top: 10px;"><a class="btn btn-info" href="<?php echo $detail_order;?>" style="font-weight: bold; font-size: 20px;">Order >>></a></p>
+	        	<p style="text-align: center; padding-top: 10px;"><a class="btn btn-info" href="<?php echo $detail_order;?>" style="font-weight: bold; font-size: 15px;">Order >>></a></p>
 	        </div>
 	    </div>
 	    <?php } ?>

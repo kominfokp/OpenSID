@@ -900,13 +900,18 @@ class First extends Web_Controller {
 		return $this->paging;
 	}
 
+	public function get_produk_umkm(){
+		$ambil_data = $this->get_data_all();
+		// echo count($ambil_data); exit();
+        $datalist = json_decode($ambil_data, true);
+        
+        return $datalist;
+	}
+
 	public function produk_umkm($p=1)
 	{
 		$data = $this->includes;
 		$this->_get_common_data($data);
-		$ambil_data = $this->get_data_all();
-		// echo count($ambil_data); exit();
-        $data['datalist'] = json_decode($ambil_data, true);
 
      	$data['p'] = $p;
 		$data['paging'] = $this->paging($p);
@@ -915,6 +920,7 @@ class First extends Web_Controller {
 		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
 		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
 		$data['pages'] = range($data['start_paging'], $data['end_paging']);
+		$data['datalist'] = $this->get_produk_umkm($data['paging']->offset, $data['paging']->per_page);
 
 		$data['p'] = "produk_umkm";
 		$this->set_template('layouts/perangkat_desa.tpl.php');
