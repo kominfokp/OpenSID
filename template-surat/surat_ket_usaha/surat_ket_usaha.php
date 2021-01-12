@@ -40,9 +40,21 @@
 										<option value='1'>Lokasi Sesuai KTP</option>
 										<option value='1'>Lokasi Baru</option>
 									</select>
-									<textarea name="lokasi" class="form-control input-sm" placeholder="Lokasi Usaha Disikan Jika Memasuka Lokasi Baru"></textarea>
+									<textarea name="lokasi" class="form-control input-sm" placeholder="Lokasi Usaha Disikan Jika Memasukan Lokasi Baru"></textarea>
 								</div>
 							</div>
+							<div class="form-group">
+								<label for="berlaku_dari"  class="col-sm-3 control-label">Berdirinya Usaha</label>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm date">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input title="Pilih Tanggal" class="form-control input-sm datepicker required" name="tgl_berdiri" type="text"/>
+									</div>
+								</div>
+							</div>
+
 							<?php include("donjo-app/views/surat/form/tgl_berlaku.php"); ?>
 							<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
 						</form>

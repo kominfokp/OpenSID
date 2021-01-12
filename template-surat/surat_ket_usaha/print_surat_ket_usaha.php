@@ -38,9 +38,11 @@
 						</table>
 						<table width="100%">
 							<tr><td>Orang tersebut benar-benar memiliki usaha <?= $input['usaha']?> berlokasi di 
-								<?php if($input['lokasi_usaha'] == 1){?> RT. <?= $data['no_rt']?>, RW. <?= $data['no_rw']?>, Pedukuhan <?= ununderscore(unpenetration($data['alamat_sekarang']))?>, <?= ucwords($this->setting->sebutan_desa)?> <?= unpenetration($desa['nama_desa'])?>, <?= ucwords($this->setting->sebutan_kecamatan_singkat)?> <?= unpenetration($desa['nama_kecamatan'])?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= unpenetration($desa['nama_kabupaten'])?> 
-								<?php }else{?> <?= $input['lokasi']?>
-								<?php } ?>, berdiri sejak tanggal <?= $input['berlaku_dari']?> sampai <?= $input['berlaku_sampai']?>.</td></tr>
+								<?php if($input['lokasi_usaha'] == 1){?> RT. <?= $data['no_rt']?>, RW. <?= $data['no_rw']?>, Pedukuhan <?= ununderscore(unpenetration($data['alamat_sekarang']))?>, <?= ucwords($this->setting->sebutan_desa)?> <?= unpenetration($desa['nama_desa'])?>, <?= ucwords($this->setting->sebutan_kecamatan_singkat)?> <?= unpenetration($desa['nama_kecamatan'])?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= unpenetration($desa['nama_kabupaten'])?><?php }else{?><?= $input['lokasi']?>
+								<?php } ?>, berdiri sejak tanggal <?= $input['tgl_berdiri']?>.</td></tr>
+						</table>
+						<table width="100%">
+							<tr><td>Surat Ini berlaku dari tanggal <?= $input['berlaku_dari']?> sampai <?= $input['berlaku_sampai']?>.</td></tr>
 						</table>
 						<table width="100%">
 							<tr><td>Demikian surat keterangan ini kami buat untuk dapat dipergunakan sebagaimana mestinya. </td></tr>
