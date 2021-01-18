@@ -64,17 +64,17 @@
 			</table>
 		</div> -->
 
-		<?php foreach ($datalist as $result) {
-		            	$nama = $result['nama'];
-		            	$nama_umkm = $result['nama_umkm'];
-		            	$berat = $result['berat'];
-		            	$harga = $result['harga'];
-		            	$ket = $result['ket'];
-		            	$kategori = $result['kategori'];
-		            	$website = $result['website'];
-		            	$telp = $result['telp'];
-		            	$gambar_produk = $result['gambar_produk'];
-		            	$detail_order = $result['detail_order']; ?>
+		<?php foreach ($datalist as $result => $value) {
+		            	$nama = $value['nama'];
+		            	$nama_umkm = $value['nama_umkm'];
+		            	$berat = $value['berat'];
+		            	$harga = $value['harga'];
+		            	$ket = $value['ket'];
+		            	$kategori = $value['kategori'];
+		            	$website = $value['website'];
+		            	$telp = $value['telp'];
+		            	$gambar_produk = $value['gambar_produk'];
+		            	$detail_order = $value['detail_order']; ?>
 	    <div class="row" style="margin-left: 40px; margin-right: 40px; margin-bottom: 20px; box-shadow: 3px 3px 1px 3px #888888;">
 	        <div class="col-sm-6">
 		        <p style="text-align: center; font-weight: bold; background-color: #01cfb0; color: white; font-size: 15px; margin-top: 10px;"><?php echo $nama;?></p>
@@ -99,33 +99,9 @@
 	        </div>
 	    </div>
 	    <?php } ?>
-
-	    <?php if ($datalist AND $paging->num_rows > $paging->per_page): ?>
-		<div class="box-footer">
-			<div>Halaman <?= $p ?> dari <?= $paging->end_link ?></div>
-			<ul class="pagination pagination-sm no-margin">
-				<?php if ($paging->start_link): ?>
-					<li><a href="<?= site_url("first/".$paging_page."/$paging->start_link" . $paging->suffix) ?>" title="Halaman Pertama"><i class="fa fa-fast-backward"></i>&nbsp;</a></li>
-				<?php endif; ?>
-				<?php if ($paging->prev): ?>
-					<li><a href="<?= site_url("first/".$paging_page."/$paging->prev" . $paging->suffix) ?>" title="Halaman Sebelumnya"><i class="fa fa-backward"></i>&nbsp;</a></li>
-				<?php endif; ?>
-
-				<?php foreach ($pages as $i): ?>
-					<li <?= ($p == $i) ? 'class="active"' : "" ?>>
-						<a href="<?= site_url("first/".$paging_page."/$i" . $paging->suffix) ?>" title="Halaman <?= $i ?>"><?= $i ?></a>
-					</li>
-				<?php endforeach; ?>
-
-				<?php if ($paging->next): ?>
-					<li><a href="<?= site_url("first/".$paging_page."/$paging->next" . $paging->suffix) ?>" title="Halaman Selanjutnya"><i class="fa fa-forward"></i>&nbsp;</a></li>
-				<?php endif; ?>
-				<?php if ($paging->end_link): ?>
-					<li><a href="<?= site_url("first/".$paging_page."/$paging->end_link" . $paging->suffix) ?>" title="Halaman Terakhir"><i class="fa fa-fast-forward"></i>&nbsp;</a></li>
-				<?php endif; ?>
-			</ul>
-		</div>
-		<?php endif; ?>
+	    <?php for($x = 1; $x <= $total_pages; $x++): ?>
+		    <a href='produk_umkm?page=<?php echo $x; ?>' class='btn btn-default'><?php echo $x; ?></a>
+		<?php endfor; ?>
 
 		<div class="form-group" style="clear:both;">
 			<ul id="pageshare" title="Bagikan ke teman anda" class="pagination">

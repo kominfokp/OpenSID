@@ -884,43 +884,22 @@ class First extends Web_Controller {
         return $hasil;
   	}
 
-  	public function paging($p=1)
-	{
-		$ambil_data = $this->get_data_all();
-		// echo count($ambil_data); exit();
-        $data['datalist'] = json_decode($ambil_data, true);
-     	$jml = count($data['datalist']);
-
-		$this->load->library('paging');
-		$cfg['page'] = $p;
-		$cfg['per_page'] = $this->setting->web_artikel_per_page;
-		$cfg['num_rows'] = $jml;
-		$this->paging->init($cfg);
-
-		return $this->paging;
-	}
-
-	public function get_produk_umkm(){
-		$ambil_data = $this->get_data_all();
-		// echo count($ambil_data); exit();
-        $datalist = json_decode($ambil_data, true);
-        
-        return $datalist;
-	}
-
 	public function produk_umkm($p=1)
 	{
 		$data = $this->includes;
 		$this->_get_common_data($data);
 
-     	$data['p'] = $p;
-		$data['paging'] = $this->paging($p);
-		$data['paging_page'] = 'produk_umkm';
-		$data['paging_range'] = 3;
-		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
-		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
-		$data['pages'] = range($data['start_paging'], $data['end_paging']);
-		$data['datalist'] = $this->get_produk_umkm($data['paging']->offset, $data['paging']->per_page);
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_all();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
 
 		$data['p'] = "produk_umkm";
 		$this->set_template('layouts/perangkat_desa.tpl.php');

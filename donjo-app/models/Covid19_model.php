@@ -6,13 +6,22 @@ define("TUJUAN_MUDIK", serialize(array(
 	"Dll" => "4",
 )));
 
+// define("STATUS_COVID", serialize(array(
+// 	"Orang Dalam Pemantauan (ODP)" => "ODP",
+// 	"Pasien Dalam Pengawasan (PDP)" => "PDP",
+// 	"Orang Dalam Resiko (ODR)" => "ODR",
+// 	"Orang Tanpa Gejala (OTG)" => "OTG",
+// 	"Positif Covid-19" => "POSITIF",
+// 	"Dll" => "DLL",
+// )));
+
 define("STATUS_COVID", serialize(array(
-	"Orang Dalam Pemantauan (ODP)" => "ODP",
-	"Pasien Dalam Pengawasan (PDP)" => "PDP",
-	"Orang Dalam Resiko (ODR)" => "ODR",
-	"Orang Tanpa Gejala (OTG)" => "OTG",
-	"Positif Covid-19" => "POSITIF",
-	"Dll" => "DLL",
+	"SUSPEK" => "SUSPEK",
+	"PROBABLE" => "PROBABLE",
+	"KONFIRMASI" => "KONFIRMASI",
+	"DISCARDED" => "DISCARDED",
+	"SEMBUH" => "SEMBUH",
+	"MENINGGAL" => "MENINGGAL",
 )));
 
 $h_plus_array = array();
