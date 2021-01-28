@@ -38,7 +38,7 @@
 									<select class="form-control required input-sm" id="lokasi_usaha" name="lokasi_usaha">
 										<option value='' selected="selected">-- Pilih Lokasi--</option>
 										<option value='1'>Lokasi Sesuai KTP</option>
-										<option value='1'>Lokasi Baru</option>
+										<option value='2'>Lokasi Baru</option>
 									</select>
 									<textarea name="lokasi" class="form-control input-sm" placeholder="Lokasi Usaha Disikan Jika Memasukan Lokasi Baru"></textarea>
 								</div>

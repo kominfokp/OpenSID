@@ -38,8 +38,11 @@
 									<tr><td>Keperluan </td><td width="2%">:</td><td width="64%"><!-- Surat Keterangan ini dibuat untuk Keperluan --> <b><?php echo $input['keperluan']?></td></tr>
 								</table>
 								<table width="100%">
+									<?php if($input['status_warga'] == 1){ ?>
 									<tr><td>Orang tersebut diatas adalah benar-benar warga kami yang bertempat tinggal di RT. <?= $data['no_rt']?>, RW. <?= $data['no_rw']?>, Pedukuhan <?= ununderscore(unpenetration($data['alamat_sekarang']))?>, <?= ucwords($this->setting->sebutan_desa)?> <?= unpenetration($desa['nama_desa'])?>, <?= ucwords($this->setting->sebutan_kecamatan_singkat)?> <?= unpenetration($desa['nama_kecamatan'])?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= unpenetration($desa['nama_kabupaten'])?> tercatat dalam No. KK: <?= $data['no_kk']?> dengan NIK: <?= $data['nik']?>.</td></tr>
-									
+									<?php }else{ ?>
+									<tr><td>Orang tersebut diatas adalah bukan warga kami tetapi berdomisili di wilayah kami dengan bertempat tinggal di RT. <?= $data['no_rt']?>, RW. <?= $data['no_rw']?>, Pedukuhan <?= ununderscore(unpenetration($data['alamat_sekarang']))?>, <?= ucwords($this->setting->sebutan_desa)?> <?= unpenetration($desa['nama_desa'])?>, <?= ucwords($this->setting->sebutan_kecamatan_singkat)?> <?= unpenetration($desa['nama_kecamatan'])?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= unpenetration($desa['nama_kabupaten'])?> tercatat dalam No. KK: <?= $data['no_kk']?> dengan NIK: <?= $data['nik']?>.</td></tr>
+									<?php } ?>
 									<!-- <tr><td>Berlaku mulai </td><td>:</td><td><?= tgl_indo(tgl_indo_in($input['berlaku_dari']))?> sampai dengan  <?= tgl_indo(tgl_indo_in($input['berlaku_sampai']))?></td></tr> -->
 								</table>
 								<table width="100%">

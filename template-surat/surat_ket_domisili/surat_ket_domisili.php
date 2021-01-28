@@ -27,6 +27,16 @@
 							<?php	endif; ?>
 							<?php include("donjo-app/views/surat/form/nomor_surat.php"); ?>
 							<div class="form-group">
+								<label for="status_warga"  class="col-sm-3 control-label">Warga/Non Warga</label>
+								<div class="col-sm-4">
+									<select class="form-control required input-sm" id="status_warga" name="status_warga">
+										<option value='' selected="selected">-- Pilih --</option>
+										<option value='1'>Warga Asli</option>
+										<option value='2'>Non Warga</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
 								<label for="keperluan"  class="col-sm-3 control-label">Keperluan</label>
 								<div class="col-sm-8">
 									<textarea name="keperluan" class="form-control input-sm required" placeholder="Keperluan"></textarea>
