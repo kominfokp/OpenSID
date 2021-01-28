@@ -31,8 +31,8 @@
 						</tr>
 					</table>
 					<table width="100%">
-						<tr><td width="23%">Penghasilan Ayah</td><td width="3%">:</td><td width="64%"><b>Rp. <?= number_format($input['hasil_ayah'])?></td></tr>
-						<tr><td width="23%">Penghasilan Ibu</td><td width="3%">:</td><td width="64%"><b>Rp. <?= number_format($input['hasil_ibu'])?></td></tr>
+						<tr><td width="23%">Penghasilan Ayah</td><td width="3%">:</td><td width="64%"><b><?= $input['hasil_ayah']?></td></tr>
+						<tr><td width="23%">Penghasilan Ibu</td><td width="3%">:</td><td width="64%"><b><?= $input['hasil_ibu']?></td></tr>
 					</table>
 					<table width="100%">
 						<tr>
