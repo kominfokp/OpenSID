@@ -912,7 +912,7 @@ class First extends Web_Controller {
 		$this->_get_common_data($data);
 
 		$data['prokum'] = $this->db->query("SELECT *
-										FROM dokumen_hidup
+										FROM dokumen
 										WHERE kategori = 4")->result_array();
 		$data['p'] = "produk_hukum";
 
