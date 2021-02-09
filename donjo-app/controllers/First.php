@@ -924,7 +924,7 @@ class First extends Web_Controller {
 		$this->_get_common_data($data);
 
 		$data['prokum'] = $this->db->query("SELECT id,satuan
-										FROM dokumen_hidup
+										FROM dokumen
 										WHERE kategori = 4
 										AND id = ".$id )->result_array();
 		$data['p'] = "dokumen";
