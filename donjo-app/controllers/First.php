@@ -850,62 +850,6 @@ class First extends Web_Controller {
 
 	}
 
-	public function get_data_all() {
-        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
-        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm';
-
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-
-        $hasil = curl_exec($ch);
-        if ($hasil === false) {
-            echo curl_error($ch);
-        }
-        error_reporting(0);
-
-        return $hasil;
-  	}
-
-  	public function get_data() {
-        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
-        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_tirtarahayu';
-
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-
-        $hasil = curl_exec($ch);
-        if ($hasil === false) {
-            echo curl_error($ch);
-        }
-        error_reporting(0);
-
-        return $hasil;
-  	}
-
-	public function produk_umkm($p=1)
-	{
-		$data = $this->includes;
-		$this->_get_common_data($data);
-
-		//GET DATA PRODUK UMKM
-		$ambil_data = $this->get_data_all();
-        $datalist = json_decode($ambil_data, true);
-
-		// use get variable to paging number
-		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
-		$limit = 10; // five rows per page
-		$offset = ($page - 1) * $limit; // offset
-		$total_items = count($datalist); // total items
-		$data['total_pages'] = ceil($total_items / $limit);
-		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
-
-		$data['p'] = "produk_umkm";
-		$this->set_template('layouts/perangkat_desa.tpl.php');
-		$this->load->view($this->template,$data);
-	}
-
 	public function produkhukum()
 	{
 		$data = $this->includes;
@@ -1182,4 +1126,3591 @@ class First extends Web_Controller {
 		}
 	}
 
+
+// Mengambil data Produk UMKM dari http://umkm.kulonprogokab.go.id/ 
+// get data produk untuk semua kalurahan
+	public function get_data_all() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_tirtarahayu() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_tirtarahayu';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_tirtarahayu($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_tirtarahayu();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+	//get data untuk masing-masing kalurahan
+  	public function get_data_brosot() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_brosot';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_brosot($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_brosot();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+	//get data untuk masing-masing kalurahan
+  	public function get_data_kranggan() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_kranggan';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_kranggan($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_kranggan();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+	//get data untuk masing-masing kalurahan
+  	public function get_data_nomporejo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_nomporejo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_nomporejo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_nomporejo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+	//get data untuk masing-masing kalurahan
+  	public function get_data_banaran() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_banaran';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_banaran($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_banaran();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+	//get data untuk masing-masing kalurahan
+  	public function get_data_karangsewu() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_karangsewu';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_karangsewu($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_karangsewu();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+	//get data untuk masing-masing kalurahan
+  	public function get_data_purwosari() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_purwosari';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_purwosari($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_purwosari();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_pendoworejo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_pendoworejo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_pendoworejo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_pendoworejo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_giripurwo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_giripurwo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_giripurwo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_giripurwo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_jatimulyo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_jatimulyo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_jatimulyo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_jatimulyo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_banjaroyo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_banjaroyo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_banjaroyo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_banjaroyo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_banjarharjo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_banjarharjo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_banjarharjo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_banjarharjo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_banjarasri() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_banjarasri';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_banjarasri($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_banjarasri();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_banjararum() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_banjararum';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_banjararum($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_banjararum();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+//get data untuk masing-masing kalurahan
+  	public function get_data_hargotirto() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_hargotirto';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_hargotirto($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_hargotirto();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_hargowilis() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_hargowilis';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_hargowilis($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_hargowilis();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_kalirejo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_kalirejo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_kalirejo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_kalirejo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_hargorejo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_hargorejo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_hargorejo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_hargorejo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_hargomulyo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_hargomulyo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_hargomulyo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_hargomulyo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_bumirejo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_bumirejo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_bumirejo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_bumirejo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_wahyuharjo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_wahyuharjo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_wahyuharjo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_wahyuharjo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_jatirejo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_jatirejo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_jatirejo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_jatirejo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_sidorejo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_sidorejo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_sidorejo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_sidorejo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_gulurejo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_gulurejo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_gulurejo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_gulurejo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_ngentakrejo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_ngentakrejo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_ngentakrejo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_ngentakrejo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_kembang() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_kembang';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_kembang($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_kembang();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_jatisarono() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_jatisarono';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_jatisarono($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_jatisarono();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_tanjungharjo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_tanjungharjo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_tanjungharjo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_tanjungharjo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_wijimulyo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_wijimulyo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_wijimulyo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_wijimulyo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_banyuroto() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_banyuroto';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_banyuroto($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_banyuroto();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_donomulyo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_donomulyo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_donomulyo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_donomulyo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_gotakan() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_gotakan';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_gotakan($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_gotakan();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_cerme() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_cerme';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_cerme($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_cerme();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_krembangan() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_krembangan';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_krembangan($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_krembangan();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_tayuban() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_tayuban';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_tayuban($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_tayuban();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_panjatan() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_panjatan';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_panjatan($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_panjatan();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_depok() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_depok';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_depok($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_depok();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_kanoman() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_kanoman';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_kanoman($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_kanoman();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_bojong() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_bojong';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_bojong($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_bojong();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_garongan() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_garongan';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_garongan($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_garongan();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_pleret() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_pleret';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_pleret($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_pleret();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_bugel() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_bugel';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_bugel($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_bugel();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_sendangsari() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_sendangsari';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_sendangsari($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_sendangsari();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_margosari() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_margosari';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_margosari($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_margosari();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_pengasih() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_pengasih';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_pengasih($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_pengasih();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_kedungsari() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_kedungsari';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_kedungsari($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_kedungsari();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_karangsari() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_karangsari';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_karangsari($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_karangsari();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_tawangsari() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_tawangsari';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_tawangsari($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_tawangsari();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_sidomulyo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_sidomulyo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_sidomulyo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_sidomulyo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_ngargosari() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_ngargosari';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_ngargosari($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_ngargosari();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_pagerharjo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_pagerharjo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_pagerharjo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_pagerharjo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_gerbosari() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_gerbosari';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_gerbosari($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_gerbosari();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_sidoharjo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_sidoharjo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_sidoharjo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_sidoharjo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_banjarsari() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_banjarsari';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_banjarsari($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_banjarsari();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_kebonharjo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_kebonharjo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_kebonharjo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_kebonharjo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_purwoharjo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_purwoharjo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_purwoharjo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_purwoharjo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_banguncipto() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_banguncipto';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_banguncipto($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_banguncipto();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_sentolo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_sentolo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_sentolo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_sentolo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_kaliagung() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_kaliagung';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_kaliagung($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_kaliagung();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_salamrejo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_salamrejo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_salamrejo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_salamrejo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_sukoreno() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_sukoreno';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_sukoreno($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_sukoreno();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_tuksono() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_tuksono';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_tuksono($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_tuksono();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_demangrejo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_demangrejo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_demangrejo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_demangrejo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_srikayangan() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_srikayangan';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_srikayangan($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_srikayangan();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_karangwuluh() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_karangwuluh';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_karangwuluh($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_karangwuluh();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_temon_wetan() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_temon_wetan';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_temon_wetan($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_temon_wetan();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_temon_kulon() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_temon_kulon';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_temon_kulon($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_temon_kulon();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_kulur() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_kulur';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_kulur($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_kulur();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_kaligintung() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_kaligintung';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_kaligintung($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_kaligintung();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_janten() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_janten';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_janten($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_janten();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_kebonrejo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_kebonrejo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_kebonrejo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_kebonrejo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_demen() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_demen';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_demen($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_demen();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_kedundang() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_kedundang';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_kedundang($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_kedundang();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_kalidengen() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_kalidengen';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_kalidengen($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_kalidengen();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_plumbon() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_plumbon';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_plumbon($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_plumbon();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_glagah() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_glagah';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_glagah($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_glagah();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_palihan() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_palihan';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_palihan($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_palihan();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_sindutan() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_sindutan';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_sindutan($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_sindutan();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_jangkaran() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_jangkaran';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_jangkaran($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_jangkaran();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_bendungan() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_bendungan';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_bendungan($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_bendungan();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_giripeni() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_giripeni';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_giripeni($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_giripeni();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_triharjo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_triharjo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_triharjo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_triharjo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_wates() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_wates';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_wates($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_wates();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_ngestiharjo() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_ngestiharjo';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_ngestiharjo($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_ngestiharjo();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_kulwaru() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_kulwaru';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_kulwaru($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_kulwaru();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_sogan() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_sogan';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_sogan($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_sogan();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
+
+//get data untuk masing-masing kalurahan
+  	public function get_data_karangwuni() {
+        // $url = 'http://sidoharjo-kulonprogo.desa.id/index.php/apis/get_nik/' . $nik;
+        $url = 'http://umkm.kulonprogokab.go.id/index.php/front/api_produkumkm_karangwuni';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        $hasil = curl_exec($ch);
+        if ($hasil === false) {
+            echo curl_error($ch);
+        }
+        error_reporting(0);
+
+        return $hasil;
+  	}
+
+// menampilkan data produk umkm
+	public function produk_umkm_karangwuni($p=1)
+	{
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		//GET DATA PRODUK UMKM
+		$ambil_data = $this->get_data_karangwuni();
+        $datalist = json_decode($ambil_data, true);
+
+		// use get variable to paging number
+		$page = !isset($_GET['page']) ? 1 : $_GET['page'];
+		$limit = 10; // five rows per page
+		$offset = ($page - 1) * $limit; // offset
+		$total_items = count($datalist); // total items
+		$data['total_pages'] = ceil($total_items / $limit);
+		$data['datalist'] = array_splice($datalist, $offset, $limit); // splice them according to offset and limit
+
+		$data['p'] = "produk_umkm";
+		$this->set_template('layouts/perangkat_desa.tpl.php');
+		$this->load->view($this->template,$data);
+	}
 }
+
