@@ -49,13 +49,72 @@ class Covid19 extends Admin_Controller {
 
 		$data['list_penduduk'] = $this->covid19_model->get_penduduk_not_in_pemudik();
 
-		if (isset($_POST['terdata']))
+		// ===== ASLI
+		// if (isset($_POST['nik']))
+		// {
+		// 	$data['individu'] = $this->covid19_model->get_penduduk_by_id($_POST['nik']);
+		// }
+		// else
+		// {
+		// 	$data['individu'] = NULL;
+		// }
+		// =====
+
+		//by angg
+		//perubahan untuk validasi nik tidak mengambil dari tabel tweb_penduduk tetapi langsung ke api DUKCAPIL
+		if (!empty($_POST['nik']))
 		{
-			$data['individu'] = $this->covid19_model->get_penduduk_by_id($_POST['terdata']);
-		}
-		else
-		{
-			$data['individu'] = NULL;
+			$get_data_individu = get_penduduk($_POST['nik']);
+			if($get_data_individu){
+				$pemudik= $this->covid19_model->get_penduduk_by_id($_POST['nik']);
+				$data_individu = $get_data_individu['detil_nik'];
+				// echo var_dump($data_individu); exit();
+				// $get_data_individu = $this->surat_model->get_penduduk($_POST['nik']);
+				if (empty($data_individu)) {
+					$data['individu'] = [
+						'status_data'=> '',
+						'nama'=> ' - tidak ditemukan - ',
+						'tempatlahir'=> ' - tidak ditemukan - ',
+						'tanggallahir'=> ' - tidak ditemukan - ',
+						'umur'=> ' - tidak ditemukan - ',
+						'alamat_wilayah'=> ' - tidak ditemukan - ',
+						'pendidikan'=> ' - tidak ditemukan - ',
+						'warganegara'=> ' - tidak ditemukan - ',
+						'agama'=> ' - tidak ditemukan - ',
+						'id'=> ' - tidak ditemukan - ',
+						'no_kk'=> ' - tidak ditemukan - ',
+						'eksis'=> $_POST['nik'],
+					];
+				} else {
+					$data['pemudik'] = $pemudik;
+					$data['individu'] = $data_individu;
+					$data['individu']['eksis'] = $_POST['nik'];
+				}
+
+				
+			}else{
+
+				if (empty($get_data_individu)) {
+					$data['individu'] = [
+						'status_data'=> '',
+						'nama'=> ' - tidak ditemukan - ',
+						'tempatlahir'=> ' - tidak ditemukan - ',
+						'tanggallahir'=> ' - tidak ditemukan - ',
+						'umur'=> ' - tidak ditemukan - ',
+						'alamat_wilayah'=> ' - tidak ditemukan - ',
+						'pendidikan'=> ' - tidak ditemukan - ',
+						'warganegara'=> ' - tidak ditemukan - ',
+						'agama'=> ' - tidak ditemukan - ',
+						'id'=> ' - tidak ditemukan - ',
+						'no_kk'=> ' - tidak ditemukan - ',
+						'eksis'=> $_POST['nik'],
+					];
+				} else {
+					$data['individu'] = $get_data_individu;
+					$data['individu']['eksis'] = $_POST['nik'];
+				}
+			}
+
 		}
 
 		$data['select_tujuan_mudik'] = $this->covid19_model->list_tujuan_mudik();
@@ -93,7 +152,7 @@ class Covid19 extends Admin_Controller {
 
 	public function add_pemudik()
 	{
-		$this->covid19_model->add_pemudik($_POST);
+		$this->covid19_model->add_pemudik($_POST); echo $this->db->last_query(); exit();
 		redirect("covid19");
 	}
 

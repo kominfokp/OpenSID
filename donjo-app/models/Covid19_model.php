@@ -97,7 +97,7 @@ class Covid19_model extends CI_Model
 		return $retval;
 	}
 
-	public function get_penduduk_by_id($id)
+	public function get_penduduk_by_id($nik)
 	{
 		$this->db->select('u.id, u.nama, x.nama AS sex, u.id_kk, u.tempatlahir, u.tanggallahir, w.nama AS status_kawin, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, j.nama AS pekerjaan, u.nik, c.rt, c.rw, c.dusun, k.no_kk, k.alamat');
 		$this->db->select("(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
@@ -115,7 +115,7 @@ class Covid19_model extends CI_Model
 		$this->db->join('tweb_keluarga k', 'u.id_kk = k.id', 'left');
 		$this->db->join('tweb_penduduk_warganegara f', 'u.warganegara_id = f.id', 'left');
 
-		$this->db->where('u.id', $id);
+		$this->db->where('u.nik', $nik);
 
 		$query = $this->db->get();
 		$data  = $query->row_array();
