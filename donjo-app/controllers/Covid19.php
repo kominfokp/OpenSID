@@ -152,7 +152,7 @@ class Covid19 extends Admin_Controller {
 
 	public function add_pemudik()
 	{
-		$this->covid19_model->add_pemudik($_POST); echo $this->db->last_query(); exit();
+		$this->covid19_model->add_pemudik($_POST);
 		redirect("covid19");
 	}
 
