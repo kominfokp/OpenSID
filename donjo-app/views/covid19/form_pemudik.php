@@ -25,19 +25,26 @@
 									<h3 class="box-title">Tambahkan Warga Pemudik</h3>
 								</div>
 								<div class="box-body">
+									<!-- by angg
+									perubahan form validasi nik -->
+									<form action="" id="main" name="main" method="POST" class="form-horizontal">
+									<?php include("donjo-app/views/covid19/_cari_nik.php"); ?>
+									</form>
 									<form action="" id="main" name="main" method="POST"  class="form-horizontal">
 
 										<div class="form-group" >
-											<label class="col-sm-3 control-label required"  for="terdata">NIK / Nama</label>
+											<label class="col-sm-3 control-label required"  for="terdata"><!-- NIK / Nama --></label>
 											<div class="col-sm-4">
-												<select class="form-control select2 required" id="terdata" name="terdata"  onchange="formAction('main')" style="width: 100%;">
+												<!-- ===== ASLI -->
+												<!-- <select class="form-control select2 required" id="terdata" name="terdata"  onchange="formAction('main')" style="width: 100%;">
 													<option value="">-- Silakan Masukan NIK / Nama--</option>
 													<?php foreach ($list_penduduk as $item):
 														if (strlen($item["id"])>0): ?>
 															<option value="<?= $item['id']?>" <?php selected($individu['id'], $item['id']); ?>>Nama : <?= $item['nama']." - ".$item['info']?></option>
 														<?php endif;
 													endforeach; ?>
-												</select>
+												</select> -->
+												<!-- ===== -->
 											</div>
 											<div class="col-sm-4">
 												<a href="#" class="btn btn-social btn-block btn-success btn-sm" data-toggle="modal" data-target="#add-warga">
@@ -56,7 +63,13 @@
 											<div class="form-group">
 												<label  class="col-sm-3 control-label"></label>
 												<div class="col-sm-8">
-													 <input type="hidden" name="id_terdata" value="<?= $individu['id']?>" class="form-control input-sm required">
+													<!-- ===== ASLI -->
+													<!-- <input type="hidden" name="id_terdata" value="<?= $individu['id']?>" class="form-control input-sm required"> -->
+													<!-- ===== -->
+													
+													<!-- by angg
+													perubahan value id untuk data pemudik -->
+													<input type="hidden" name="id_terdata" value="<?= $pemudik['id']?>" class="form-control input-sm required">
 												 </div>
 											</div>
 											<?php if ($individu): ?>

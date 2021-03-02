@@ -13,7 +13,7 @@
 <div class="form-group">
 	<label for="keperluan"  class="col-sm-3 control-label">Alamat</label>
 	<div class="col-sm-8">
-		<input class="form-control input-sm" type="text" value="<?= $individu['alamat_wilayah']; ?>" disabled="">
+		<input class="form-control input-sm" type="text" value="<?= $individu['alamat']; ?>" disabled=""> <!-- by angg ->merubah alamat_wilayah menjadi alamat -->
 	</div>
 </div>
 <div class="form-group">
