@@ -152,17 +152,30 @@
 									<a href="<?=site_url('surat_masuk_suratku')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
-							
 							<div class="col-lg-6 col-xs-6">
+								<div class="small-box bg-gray">
+									<div class="inner">
+										<?php foreach ($rtm as $data): ?>
+											<h3><?=$data['jumlah']?></h3>
+										<?php endforeach; ?>
+										<p>Rumah Tangga</p>
+									</div>
+									<div class="icon">
+										<i class="ion ion-ios-home"></i>
+									</div>
+									<a href="<?=site_url('rtm/clear')?>" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
+								</div>
+							</div>
+							<!-- <div class="col-lg-6 col-xs-6">
 								<a class="btn btn-lg btn-success col-md-12" href="/simdes" target="_blank">
 									Aplikasi SIM-Des
 								</a>
-							</div>
+							</div> -->
 						</div>
 
 						<div class="row">
 							<div class="col-lg-6 col-xs-6">
-								<div class="small-box bg-aqua">
+								<div class="small-box bg-teal">
 									<div class="inner">
 										<?php foreach ($penduduk as $data): ?>
 											<h3><?=$data['jumlah']?></h3>
@@ -202,7 +215,7 @@
 									<a href="<?=site_url('keluar/clear')?>" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
-							<div class="col-lg-4 col-xs-4">
+							<div class="col-lg-6 col-xs-6">
 								<div class="small-box bg-red">
 									<div class="inner">
 										<?php foreach ($kelompok as $data): ?>
@@ -216,22 +229,9 @@
 									<a href="<?=site_url('kelompok/clear')?>" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
-							<div class="col-lg-4 col-xs-4">
-								<div class="small-box bg-gray">
-									<div class="inner">
-										<?php foreach ($rtm as $data): ?>
-											<h3><?=$data['jumlah']?></h3>
-										<?php endforeach; ?>
-										<p>Rumah Tangga</p>
-									</div>
-									<div class="icon">
-										<i class="ion ion-ios-home"></i>
-									</div>
-									<a href="<?=site_url('rtm/clear')?>" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
-								</div>
-							</div>
-							<div class="col-lg-4 col-xs-4">
-								<div class="small-box bg-yellow">
+							
+							<div class="col-lg-12 col-xs-12">
+								<div class="small-box bg-white" style="border: 0.3px solid gray;">
 									<div class="inner">
 										<h3><?=$bantuan['jumlah']?></h3>
 										<p><?=$bantuan['nama']?></p>
